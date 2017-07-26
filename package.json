@@ -1,0 +1,22 @@
+{
+  "name": "deten-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "author": "Christian Ruigrok",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-monaco-editor": "^0.8.1"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.10"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
