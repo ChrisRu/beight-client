@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import WebSocket from './WebSocket';
 import Editor from './Editor';
-
-const socket = new WebSocket('ws://localhost:8081');
-socket.listen(data => {
-  console.log(data);
-});
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Editor />
+        <div className="navigation">
+          <span className="title">DevWars</span>
+        </div>
+        <div className="editors">
+          <Editor uri="ws://localhost:8081" editable={true} height="100%" id="1" />
+        </div>
       </div>
     );
   }

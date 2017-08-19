@@ -1,0 +1,83 @@
+$black: #121212;
+$pink: #e91e63;
+$blue: #03a9f4;
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $black;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.navigation {
+  height: 2.8em;
+  background: $black;
+
+  .title {
+    font-weight: bold;
+    font-size: 1.3em;
+    line-height: 2.8rem;
+    padding: 0 1em;
+  }
+}
+
+.editors {
+  flex: 1;
+
+  .monaco-editor {
+    flex: 1;
+    height: auto !important;
+    width: auto !important;
+  }
+}
+
+.disconnected {
+  display: block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+}
+
+.animate-dots {
+  position: relative;
+  vertical-align: bottom;
+  display: inline-block;
+  width: 1px;
+  font-family: monospace;
+  overflow: hidden;
+  width: 24px;
+
+  &:after {
+    content: '';
+    display: inline-block;
+    top: 0;
+    right: 0;
+    position: absolute;
+    height: 100%;
+    animation: animate-dots 1.5s ease-in infinite;
+    background: black;
+  }
+}
+
+@keyframes animate-dots {
+  0% {
+    width: 26px;
+  }
+  50% {
+    width: 13px;
+  }
+  100% {
+    width: 0px;
+  }
+}
