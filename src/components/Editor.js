@@ -20,6 +20,9 @@ class Editor extends Component {
       this.setState({ connected: false });
     });
     this.state.socket.onConnect(() => {
+      if (this.props.stream) {
+        this.state.socket.post({ type: 'info', streams: [this.props.stream] });
+      }
       this.setState({ connected: true });
     });
   }
@@ -35,6 +38,7 @@ class Editor extends Component {
   };
 
   applyEdit = async data => {
+    console.log(data);
     if (data.fullValue !== undefined) {
       console.log(this.props.id, 'refresh');
       this.execute(() => {
@@ -44,7 +48,7 @@ class Editor extends Component {
     } else {
       console.log(data.changeId, this.state.lastChangeId);
       if (data.changeId - 1 !== this.state.lastChangeId) {
-        return this.state.socket.post({ type: 'refetch', stream: 1 });
+        return this.state.socket.post({ type: 'refetch', stream: this.props.stream });
       }
       console.log(this.props.id, 'update');
       this.execute(() => {
@@ -56,7 +60,7 @@ class Editor extends Component {
 
   onChange = async (value, data) => {
     console.log(this.props.id, 'change');
-    this.state.socket.post({ ...data, type: 'update', 'stream': 1 });
+    this.state.socket.post({ ...data, type: 'update', stream: this.props.stream });
     this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
   };
 

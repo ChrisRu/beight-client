@@ -21,27 +21,26 @@ class Ws {
   }
 
   createWebSocket() {
-    this.ws = new WebSocket('ws://localhost:8081');
+    this.ws = new WebSocket(this.uri);
 
     this.ws.addEventListener('open', () => {
-      this.post({ type: 'info', streams: [1] });
       this._connectBool(true);
     });
     this.ws.addEventListener('close', event => {
-      console.log('close');
       switch (event) {
         case 1000: {
           console.log('Regular close');
           break;
         }
         default: {
-          console.log('Reconnecting...');
           setTimeout(() => {
-            this.createWebSocket();
+            console.log('Trying to reconnect...');
+            // this.createWebSocket();
+            return;
           }, 3000);
         }
       }
-      this._connectBool(false);
+      this._connectBool(true);
     });
     this.ws.addEventListener('reconnected', () => this._connectBool(true));
     this.ws.addEventListener('end', () => this._connectBool(false));
