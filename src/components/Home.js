@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
   constructor() {
@@ -6,7 +7,6 @@ class Home extends Component {
     this.state = {
       items: []
     };
-    this.openGame = this.openGame.bind(this);
     this.getGames();
   }
 
@@ -16,19 +16,18 @@ class Home extends Component {
     });
   }
 
-  openGame(guid) {
-    console.log(guid);
-    this.props.update(guid);
-  }
-
-
   render() {
     return (
-      <div className="Dashboard">
-        {this.state.items.map(row =>
-          <button onClick={() => this.openGame(row.guid)} className="Dashboard-item">{row.guid}</button>
-        )
-        }
+      <div className="Dashboard container">
+        <div className="create">
+          <div className="create-blocks">
+            {this.state.items.map(row =>
+              <Link class="block" to={'/game/' + row.guid} className="Dashboard-item">
+                {row.guid}
+              </Link>
+            )}
+          </div>
+        </div>
       </div>
     );
   }

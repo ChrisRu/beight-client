@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Route, NavLink } from 'react-router-dom';
 import Editor from './Editor';
 import Dashboard from './Dashboard';
 import Home from './Home';
-
 
 class App extends Component {
   constructor() {
@@ -13,16 +13,7 @@ class App extends Component {
     this.updateValue = this.updateValue.bind(this);
   }
 
-  getView() {
-    return this.state.stream === null
-      ? <Home update={guid => this.updateValue(guid)} />
-      : <div className="editors">
-        <Editor uri="ws://localhost:8081" editable={true} height="100%" stream={this.state.stream} />
-      </div>;
-  }
-
   updateValue(guid) {
-    console.log(guid);
     this.setState({ stream: guid });
   }
 
@@ -30,9 +21,21 @@ class App extends Component {
     return (
       <div className="App">
         <div className="navigation">
-          <span className="title">DevWars</span>
+          <NavLink exact to="/" activeClassName="active">
+            <span className="title">DevWars</span>
+          </NavLink>
+          <NavLink to="/dashboard" activeClassName="active">
+            <span>Dashboard</span>
+          </NavLink>
         </div>
-        {this.getView()}
+        <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
+        <Route path="/dashboard/:type?" render={props => <Dashboard {...props} />} />
+        <Route
+          exact
+          path="/game/:guid"
+          render={props =>
+            <Editor {...props} uri="ws://localhost:8081" editable={true} height="100%" />}
+        />
       </div>
     );
   }

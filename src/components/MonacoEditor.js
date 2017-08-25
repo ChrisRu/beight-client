@@ -1,71 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class MonacoEditor extends Component {
+function noop() {}
+
+class MonacoEditor extends React.Component {
   constructor(props) {
     super(props);
-
-    this.currentValue = props.value;
-    this.editor = null;
-    this.state = {
-      preventTriggerChange: false
-    };
+    this.containerElement = undefined;
+    this.__current_value = props.value;
   }
 
   componentDidMount() {
     this.afterViewInit();
   }
 
+  componentDidUpdate(prevProps) {
+    const context = this.props.context || window;
+    if (this.props.value !== this.__current_value) {
+      // Always refer to the latest value
+      this.__current_value = this.props.value;
+      // Consider the situation of rendering 1+ times before the editor mounted
+      if (this.editor) {
+        this.__prevent_trigger_change_event = true;
+        this.editor.setValue(this.__current_value);
+        this.__prevent_trigger_change_event = false;
+      }
+    }
+    if (prevProps.language !== this.props.language) {
+      context.monaco.editor.setModelLanguage(this.editor.getModel(), this.props.language);
+    }
+  }
+
   componentWillUnmount() {
     this.destroyMonaco();
   }
 
-  componentDidUpdate(prevProps) {
-    const { language, context, value } = this.props;
-
-    if (value !== this.currentValue) {
-      this.currentValue = value;
-      if (this.editor !== null) {
-        this.setState({ preventTriggerChange: true });
-        this.editor.setValue(this.currentValue);
-        this.setState({ preventTriggerChange: false });
-      }
-    }
-    if (prevProps.language !== language) {
-      context.monaco.editor.setModelLanguage(this.editor.getModel(), language);
-    }
-  }
-
   editorWillMount(monaco) {
     const { editorWillMount } = this.props;
-
-    if (editorWillMount) {
-      editorWillMount(monaco);
-    }
+    editorWillMount(monaco);
   }
 
   editorDidMount(editor, monaco) {
-    const { editorDidMount } = this.props;
-
-    if (editorDidMount !== null) {
-      editorDidMount(editor, monaco);
-    }
-
+    this.props.editorDidMount(editor, monaco);
     editor.onDidChangeModelContent(event => {
-      const { onChange, readOnly } = this.props;
       const value = editor.getValue();
 
+      // Always refer to the latest value
+      this.__current_value = value;
+
       // Only invoking when user input changed
-      if (this.state.preventTriggerChange === false && onChange !== null && readOnly === false) {
-        onChange(value, event);
+      if (!this.__prevent_trigger_change_event) {
+        this.props.onChange(value, event);
       }
     });
   }
 
   afterViewInit() {
-    const { requireConfig, context } = this.props;
+    const context = this.props.context || window;
+    if (context.monaco !== undefined) {
+      this.initMonaco();
+      return;
+    }
+    const { requireConfig } = this.props;
     const loaderUrl = requireConfig.url || 'vs/loader.js';
     const onGotAmdLoader = () => {
+      if (context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__) {
+        // Do not use webpack
+        if (requireConfig.paths && requireConfig.paths.vs) {
+          context.require.config(requireConfig);
+        }
+      }
+
       // Load monaco
       context.require(['vs/editor/editor.main'], () => {
         this.initMonaco();
@@ -74,10 +79,10 @@ class MonacoEditor extends Component {
       // Call the delayed callbacks when AMD loader has been loaded
       if (context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__) {
         context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__ = false;
-        let loaderCallbacks = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__;
-        if (loaderCallbacks !== undefined && loaderCallbacks.length > 0) {
+        const loaderCallbacks = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__;
+        if (loaderCallbacks && loaderCallbacks.length) {
           let currentCallback = loaderCallbacks.shift();
-          while (currentCallback !== undefined) {
+          while (currentCallback) {
             currentCallback.fn.call(currentCallback.context);
             currentCallback = loaderCallbacks.shift();
           }
@@ -85,8 +90,18 @@ class MonacoEditor extends Component {
       }
     };
 
-    if (typeof context.require === 'undefined') {
-      var loaderScript = context.document.createElement('script');
+    // Load AMD loader if necessary
+    if (context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__) {
+      // We need to avoid loading multiple loader.js when there are multiple editors loading
+      // concurrently, delay to call callbacks except the first one
+      // eslint-disable-next-line max-len
+      context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ || [];
+      context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__.push({
+        context: this,
+        fn: onGotAmdLoader
+      });
+    } else if (typeof context.require === 'undefined') {
+      const loaderScript = context.document.createElement('script');
       loaderScript.type = 'text/javascript';
       loaderScript.src = loaderUrl;
       loaderScript.addEventListener('load', onGotAmdLoader);
@@ -98,51 +113,74 @@ class MonacoEditor extends Component {
   }
 
   initMonaco() {
-    const { value, defaultValue, language, theme, options, context, readOnly } = this.props;
-    const newValue = value !== null ? value : defaultValue;
-    const containerElement = this.refs.container;
-    if (typeof context.monaco !== 'undefined') {
+    const value = this.props.value !== null ? this.props.value : this.props.defaultValue;
+    const { language, theme, options } = this.props;
+    const context = this.props.context || window;
+    if (this.containerElement && typeof context.monaco !== 'undefined') {
+      // Before initializing monaco editor
       this.editorWillMount(context.monaco);
-      this.editor = context.monaco.editor.create(containerElement, {
-        value: newValue,
-        readOnly,
+      this.editor = context.monaco.editor.create(this.containerElement, {
+        value,
         language,
         ...options
       });
-      context.monaco.editor.setTheme(theme);
+      if (theme) {
+        context.monaco.editor.setTheme(theme);
+      }
+      // After initializing monaco editor
       this.editorDidMount(this.editor, context.monaco);
+      Object.keys(this.editor)
+      .forEach(key => {
+        if (typeof this.editor[key] === 'function' && key.startsWith('_') === false && !this[key]) {
+          console.log(key);
+          this[key] = this.editor[key];
+        }
+      });
     }
   }
 
-  destroyMonaco() {
-    if (this.editor) {
-      this.editor.dispose();
-      this.editor = null;
+  /*
+
+  setValue(value) {
+    if (typeof this.editor !== 'undefined') {
+      this.editor.setValue(value);
     }
   }
+
+  executeEdits(source, edits, endCursorState) {
+    if (typeof this.editor !== 'undefined') {
+      this.editor.executeEdits(source, edits, endCursorState);
+    }
+  }
+
+  executeCommands(source, commands) {
+    if (typeof this.editor !== 'undefined') {
+      this.editor.executeCommands(source, commands);
+    }
+  }
+
+  */
+
+  destroyMonaco() {
+    if (typeof this.editor !== 'undefined') {
+      this.editor.dispose();
+    }
+  }
+
+  assignRef = component => {
+    this.containerElement = component;
+  };
 
   render() {
     const { width, height } = this.props;
-    const fixedWidth = width.toString().includes('%') ? width : `${width}px`;
-    const fixedHeight = height.toString().includes('%') ? height : `${height}px`;
+    const fixedWidth = width.toString().indexOf('%') !== -1 ? width : `${width}px`;
+    const fixedHeight = height.toString().indexOf('%') !== -1 ? height : `${height}px`;
     const style = {
       width: fixedWidth,
       height: fixedHeight
     };
-    return <div ref="container" style={style} className="react-monaco-editor-container" />;
-  }
 
-  applyEdit(data) {
-    console.log(data.changes);
-    this.setState({ preventTriggerChange: true });
-    this.editor.executeEdits(data.sparkOrigin, data.changes);
-    this.setState({ preventTriggerChange: false });
-  }
-
-  setValue(data) {
-    this.setState({ preventTriggerChange: true });
-    this.editor.setValue(data);
-    this.setState({ preventTriggerChange: false });
+    return <div ref={this.assignRef} style={style} className="react-monaco-editor-container" />;
   }
 }
 
@@ -157,7 +195,8 @@ MonacoEditor.propTypes = {
   editorDidMount: PropTypes.func,
   editorWillMount: PropTypes.func,
   onChange: PropTypes.func,
-  requireConfig: PropTypes.object
+  requireConfig: PropTypes.object,
+  context: PropTypes.object // eslint-disable-line react/require-default-props
 };
 
 MonacoEditor.defaultProps = {
@@ -166,13 +205,12 @@ MonacoEditor.defaultProps = {
   value: null,
   defaultValue: '',
   language: 'javascript',
-  theme: 'vs-dark',
+  theme: null,
   options: {},
-  editorDidMount: null,
-  editorWillMount: null,
-  onChange: null,
-  requireConfig: {},
-  context: window
+  editorDidMount: noop,
+  editorWillMount: noop,
+  onChange: noop,
+  requireConfig: {}
 };
 
 export default MonacoEditor;

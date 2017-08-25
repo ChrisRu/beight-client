@@ -10,7 +10,8 @@ class Editor extends Component {
       editorMounted: false,
       executeOnMount: [],
       connected: false,
-      lastChangeId: null
+      lastChangeId: null,
+      stream: props.match.params.guid
     };
 
     this.state.socket.listen(data => {
@@ -20,8 +21,8 @@ class Editor extends Component {
       this.setState({ connected: false });
     });
     this.state.socket.onConnect(() => {
-      if (this.props.stream) {
-        this.state.socket.post({ type: 'info', streams: [this.props.stream] });
+      if (this.state.stream) {
+        this.state.socket.post({ type: 'info', streams: [this.state.stream] });
       }
       this.setState({ connected: true });
     });
@@ -38,33 +39,32 @@ class Editor extends Component {
   };
 
   applyEdit = async data => {
-    console.log(data);
     if (data.fullValue !== undefined) {
-      console.log(this.props.id, 'refresh');
+      console.log('data is full refresh');
       this.execute(() => {
-        this.editor.setValue(data.fullValue);
+        // this.editor.setValue(data.fullValue);
         this.setState({ lastChangeId: data.changeId });
       });
     } else {
       console.log(data.changeId, this.state.lastChangeId);
       if (data.changeId - 1 !== this.state.lastChangeId) {
-        return this.state.socket.post({ type: 'refetch', stream: this.props.stream });
+        return this.state.socket.post({ type: 'refetch', stream: this.state.stream });
       }
-      console.log(this.props.id, 'update');
+      console.log('data is update');
       this.execute(() => {
-        this.editor.applyEdit(data);
+        this.editor.executeEdits('a', data.changes);
         this.setState({ lastChangeId: data.changeId });
       });
     }
   };
 
   onChange = async (value, data) => {
-    console.log(this.props.id, 'change');
-    this.state.socket.post({ ...data, type: 'update', stream: this.props.stream });
+    console.log('editor value changed');
+    this.state.socket.post({ ...data, type: 'update', stream: this.state.stream });
     this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
   };
 
-  editorDidMount = (editor, monaco) => {
+  editorDidMount = editor => {
     this.state.executeOnMount.forEach(item => {
       item.method.apply(this, item.args);
     });
@@ -75,36 +75,28 @@ class Editor extends Component {
     editor.focus();
   };
 
+  assignRef = component => {
+    this.editor = component;
+  };
+
   render() {
     const options = {
       selectOnLineNumbers: true,
       tabSize: 2
     };
-    if (this.state.connected) {
-      return (
-        <MonacoEditor
-          ref={editor => {
-            this.editor = editor;
-          }}
-          className="monaco-editor"
-          language="javascript"
-          options={options}
-          onChange={this.onChange}
-          editorDidMount={this.editorDidMount}
-          readOnly={!this.props.editable}
-          height={this.props.height}
-          width={this.props.width}
-        />
-      );
-    } else {
-      return (
-        <span className="disconnected">
-          <h2>Whoops, you got disconnected :(</h2>
-          <span>Trying to reconnect</span>
-          <span className="animate-dots">...</span>
-        </span>
-      );
-    }
+    return (
+      <MonacoEditor
+        ref={this.assignRef}
+        value={this.state.value}
+        className="monaco-editor"
+        language="javascript"
+        options={options}
+        onChange={this.onChange}
+        editorDidMount={this.editorDidMount}
+        readOnly={!this.props.editable}
+        theme="vs-dark"
+      />
+    );
   }
 }
 
