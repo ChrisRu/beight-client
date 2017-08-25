@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MonacoEditor from './MonacoEditor';
+import MonacoEditor from 'react-monaco-editor';
 import WebSocket from './WebSocket';
 
 class Editor extends Component {
@@ -42,7 +42,7 @@ class Editor extends Component {
     if (data.fullValue !== undefined) {
       console.log('data is full refresh');
       this.execute(() => {
-        // this.editor.setValue(data.fullValue);
+        this.monaco.editor.setValue(data.fullValue);
         this.setState({ lastChangeId: data.changeId });
       });
     } else {
@@ -52,7 +52,7 @@ class Editor extends Component {
       }
       console.log('data is update');
       this.execute(() => {
-        this.editor.executeEdits('a', data.changes);
+        this.monaco.editor.executeEdits('a', data.changes);
         this.setState({ lastChangeId: data.changeId });
       });
     }
@@ -76,7 +76,7 @@ class Editor extends Component {
   };
 
   assignRef = component => {
-    this.editor = component;
+    this.monaco = component;
   };
 
   render() {
@@ -92,7 +92,7 @@ class Editor extends Component {
         language="javascript"
         options={options}
         onChange={this.onChange}
-        editorDidMount={this.editorDidMount}
+        editorDidMount={this.monacoDidMount}
         readOnly={!this.props.editable}
         theme="vs-dark"
       />

@@ -1,0 +1,49 @@
+.container {
+  padding: 0 3em;
+}
+
+.create {
+  background: $secondary-background;
+  border-radius: $radius;
+  padding: 0.5em 1em;
+  margin-top: 1em;
+}
+
+.big-buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+
+  .button {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    background:rgba(#121212, 0.2);
+    padding: 1em;
+    cursor: pointer;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    transition: transform 0.2s;
+    will-change: transform;
+    flex-basis: 50%;
+    margin: 0 1em 1.5em;
+
+    &:hover {
+      background: rgba(#121212, 0.4);
+      transform: translateY(-2px);
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    p {
+      margin: 0.5em 0 0;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}

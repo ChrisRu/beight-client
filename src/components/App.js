@@ -19,7 +19,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <div className="navigation">
           <NavLink exact to="/" activeClassName="active">
             <span className="title">DevWars</span>
