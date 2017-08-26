@@ -7,6 +7,76 @@ body {
   overflow: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Montserrat', sans-serif;
+}
+
+.margin {
+  margin: 2rem !important;
+}
+
+.margin-vertical {
+  margin: 2rem 0 !important;
+}
+
+.margin-horizontal {
+  margin: 0 2rem !important;
+}
+
+.pull-right {
+  float: right;
+}
+
+.button {
+  outline: none;
+  border: 0;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  background: rgba(#121212, 0.2);
+  padding: 1em;
+  cursor: pointer;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  transition: transform 0.2s;
+  will-change: transform;
+  flex-basis: 50%;
+  margin: 0 1em;
+  box-sizing: border-box;
+  border: 3px solid transparent;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.active {
+    border: 3px solid $blue;
+  }
+
+  &:not(.active):hover {
+    background: rgba(#121212, 0.4);
+    transform: translateY(-2px);
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  p {
+    margin: 0.5em 0 0;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 }

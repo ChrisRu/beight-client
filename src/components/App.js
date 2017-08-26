@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import Editor from './Editor';
-import Dashboard from './Dashboard';
+import Create from './Create';
 import Home from './Home';
 
 class App extends Component {
@@ -24,12 +24,12 @@ class App extends Component {
           <NavLink exact to="/" activeClassName="active">
             <span className="title">DevWars</span>
           </NavLink>
-          <NavLink to="/dashboard" activeClassName="active">
-            <span>Dashboard</span>
+          <NavLink to="/create" activeClassName="active">
+            <span>Create</span>
           </NavLink>
         </div>
         <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-        <Route path="/dashboard/:type?" render={props => <Dashboard {...props} />} />
+        <Route exact path="/create" render={props => <Create {...props} />} />
         <Route
           exact
           path="/game/:guid"
