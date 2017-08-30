@@ -9,6 +9,7 @@
   display: block;
   flex: 0 0 auto;
   pointer-events: auto;
+  width: 400px;
 
   &-wrapper {
     position: fixed;
@@ -38,7 +39,13 @@
     font-size: 0.9rem;
     transition: background-color 0.1s, box-shadow 0.1s;
 
-    &:hover {
+    &:disabled {
+      pointer-events: none;
+      cursor: default;
+      background-color: lighten($dark-blue, 15%);
+    }
+
+    &:not(:disabled):hover {
       transform: none;
       background-color: lighten($dark-blue, 5%);
       box-shadow: $shadow-hover;
