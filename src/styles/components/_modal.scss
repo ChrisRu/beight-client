@@ -1,0 +1,47 @@
+.modal {
+  position: relative;
+  background-color: #fff;
+  color: #121212;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 1em;
+  text-align: left;
+  display: block;
+  flex: 0 0 auto;
+  pointer-events: auto;
+
+  &-wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    text-align: center;
+  }
+
+  &-title {
+    margin: 0;
+  }
+
+  .button {
+    padding: 0.4rem 1rem;
+    background-color: $dark-blue;
+    float: right;
+    transition: background-color 0.1s;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.1s, box-shadow 0.1s;
+
+    &:hover {
+      transform: none;
+      background-color: lighten($dark-blue, 5%);
+      box-shadow: $shadow-hover;
+    }
+  }
+}

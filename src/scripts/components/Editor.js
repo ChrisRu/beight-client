@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import WebSocket from './WebSocket';
+import WebSocket from '../util/WebSocket';
 
 class Editor extends Component {
   constructor(props) {
@@ -11,7 +11,8 @@ class Editor extends Component {
       executeOnMount: [],
       connected: false,
       lastChangeId: null,
-      stream: props.match.params.guid
+      stream: props.match.params.guid,
+      failed: false
     };
 
     this.state.socket.listen(data => {
@@ -48,7 +49,7 @@ class Editor extends Component {
     } else {
       console.log(data.changeId, this.state.lastChangeId);
       if (data.changeId - 1 !== this.state.lastChangeId) {
-        return this.state.socket.post({ type: 'refetch', stream: this.state.stream });
+        return this.state.socket.post({ type: 'refetch' });
       }
       console.log('data is update');
       this.execute(() => {
@@ -80,23 +81,28 @@ class Editor extends Component {
   };
 
   render() {
-    const options = {
-      selectOnLineNumbers: true,
-      tabSize: 2
-    };
-    return (
-      <MonacoEditor
-        ref={this.assignRef}
-        value={this.state.value}
-        className="monaco-editor"
-        language="javascript"
-        options={options}
-        onChange={this.onChange}
-        editorDidMount={this.monacoDidMount}
-        readOnly={!this.props.editable}
-        theme="vs-dark"
-      />
-    );
+    if (this.state.connected === false) {
+      return <p>Connecting...</p>;
+    } else if (!this.state.stream) {
+      return <p>Not a valid stream.</p>;
+    } else {
+      return (
+        <MonacoEditor
+          ref={this.assignRef}
+          value={this.state.value}
+          className="monaco-editor"
+          language="javascript"
+          options={{
+            selectOnLineNumbers: true,
+            tabSize: 2
+          }}
+          onChange={this.onChange}
+          editorDidMount={this.monacoDidMount}
+          readOnly={!this.props.editable}
+          theme="vs-dark"
+        />
+      );
+    }
   }
 }
 

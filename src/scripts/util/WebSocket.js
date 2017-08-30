@@ -1,5 +1,3 @@
-import Promise from 'bluebird';
-
 class Ws {
   constructor(uri, options = {}) {
     this.connected = false;
