@@ -62,13 +62,13 @@ h6 {
     margin-right: 0;
   }
 
-  &.active {
-    border: 3px solid $blue;
-  }
-
   &:hover {
     background: rgba(#121212, 0.4);
     transform: translateY(-2px);
+  }
+
+  &.active {
+    border: 3px solid $blue;
   }
 
   h2 {
@@ -124,6 +124,10 @@ h6 {
   font-size: 0.9em;
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
+
+  &.error {
+    border: 1px solid $dark-red;
+  }
 }
 
 .checkbox {

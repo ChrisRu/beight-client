@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Modal from './Modal';
 import Checkbox from '../components/Checkbox';
 import { post } from '../util/http';
+import eventhub from '../util/eventhub';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -9,12 +10,13 @@ class LoginModal extends Component {
     this.state = {
       username: '',
       password: '',
-      remember: false
+      remember: false,
+      error: false
     };
   }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value, error: false });
   };
 
   handleToggle = event => {
@@ -30,15 +32,18 @@ class LoginModal extends Component {
   logIn = () => {
     const { username, password, remember } = this.state;
     return post('/login', { username, password, remember })
-      .then(data => console.log(data))
+      .then(data => {
+        eventhub.emit('authenticate', data.authenticated);
+        eventhub.emit('overlay:deactivate');
+      })
       .catch(error => {
-        console.error(error);
+        this.setState({ error: true });
       });
   };
 
   render() {
     return (
-      <Modal active={this.props.active}>
+      <Modal active={this.props.active} className={this.state.error ? 'error' : ''}>
         <div className="row">
           <h3 className="modal-title">Log In</h3>
         </div>
@@ -89,7 +94,7 @@ class LoginModal extends Component {
           </div>
           <div className="col-xs-5">
             <button
-              className="button"
+              className={'button' + (this.state.error ? ' error' : '')}
               disabled={!this.state.password || !this.state.username}
               type="submit"
               onClick={this.logIn}>

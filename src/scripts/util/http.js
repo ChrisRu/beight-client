@@ -10,7 +10,10 @@ export function checkStatus(response) {
 
 export function get(partialUrl) {
   const url = 'http://localhost:8080' + (partialUrl.startsWith('/') ? '' : '/') + partialUrl;
-  return fetch(url)
+  return fetch(url, {
+    method: 'GET',
+    credentials: 'include'
+  })
     .then(checkStatus)
     .then(data => data.json());
 }
@@ -22,6 +25,7 @@ export function post(partialUrl, body) {
     headers: {
       'Content-Type': 'application/json'
     },
+    credentials: 'include',
     body: JSON.stringify(body)
   })
     .then(checkStatus)

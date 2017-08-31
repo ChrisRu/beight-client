@@ -29,7 +29,8 @@ class Dashboard extends Component {
           filename: ''
         }
       },
-      type: '000'
+      type: '000',
+      hasSetType: false
     };
   }
 
@@ -50,7 +51,8 @@ class Dashboard extends Component {
           active: booleans[2] === '1'
         }
       },
-      type
+      type,
+      hasSetType: true
     }));
   };
 
@@ -160,12 +162,15 @@ class Dashboard extends Component {
               </button>
               <button
                 onClick={() => this.setType('000')}
-                className={'button ' + (['010', '111', null].includes(this.state.type) === false ? 'active' : '')}>
+                className={
+                  'button ' +
+                  (['010', '111'].includes(this.state.type) === false && this.state.hasSetType ? 'active' : '')
+                }>
                 <h2>Custom</h2>
                 <p>Create your own new gamemode!</p>
               </button>
             </div>
-            {this.state.languages && (
+            {this.state.hasSetType && (
               <div>
                 <h2>Languages</h2>
                 <div className="big-buttons">

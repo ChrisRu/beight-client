@@ -9,12 +9,14 @@ class SignupModal extends Component {
       username: '',
       password: '',
       verifyPassword: '',
+      samePassword: false,
       completed: false
     };
   }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    this.setState({ samePassword: this.state.password === this.state.verifyPassword });
     this.completed();
   };
 
@@ -30,13 +32,13 @@ class SignupModal extends Component {
       return post('/signup', { username, password })
         .then(data => console.log(data))
         .catch(error => {
-          console.error(error);
+          console.warn(error);
         });
     }
   };
 
   completed = () => {
-    const completed = this.state.username && this.state.password && this.state.password === this.state.verifyPassword;
+    const completed = this.state.username && this.state.password && this.state.samePassword;
     this.setState({ completed });
   };
 
@@ -92,7 +94,11 @@ class SignupModal extends Component {
           </div>
           <div className="col-xs-8">
             <input
-              className={'input' + (this.state.verifyPassword ? ' password-spacing' : '')}
+              className={
+                'input' +
+                (this.state.verifyPassword ? ' password-spacing' : '') +
+                (!this.state.samePassword ? ' error' : '')
+              }
               type="password"
               id="verifyPassword"
               name="verifyPassword"
