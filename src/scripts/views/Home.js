@@ -18,7 +18,7 @@ class Home extends Component {
         this.setState({ items });
       })
       .catch(error => {
-        this.setState({ notFoundText: 'Can\'t fetch games...' });
+        this.setState({ notFoundText: "Can't fetch games..." });
       });
   }
 
@@ -27,13 +27,15 @@ class Home extends Component {
       <div className="Dashboard container">
         <div className="create">
           <div className="big-buttons">
-            {this.state.items.length
-              ? this.state.items.map(row =>
-                  <Link className="button" to={'/game/' + row.guid}>
-                    {row.guid}
-                  </Link>
-                )
-              : <p>{this.state.notFoundText}</p>}
+            {this.state.items.length ? (
+              this.state.items.map(row => (
+                <Link className="button" to={{ pathname: '/game/' + row.guid, state: row }}>
+                  {row.guid}
+                </Link>
+              ))
+            ) : (
+              <p>{this.state.notFoundText}</p>
+            )}
           </div>
         </div>
       </div>

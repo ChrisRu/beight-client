@@ -1,10 +1,16 @@
 .editors {
-  flex: 1;
+  height: 100%;
+  width: 100%;
+  display: table;
+  table-layout: fixed;
 
-  .monaco-editor {
+  .editor {
+    display: table-cell;
+    height: 100%;
+  }
+
+  &-container {
     flex: 1;
-    height: auto !important;
-    width: auto !important;
   }
 }
 

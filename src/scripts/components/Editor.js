@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import WebSocket from '../util/WebSocket';
+import eventhub from '../util/eventhub';
 
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: new WebSocket(props.uri),
       editorMounted: false,
       executeOnMount: [],
       connected: false,
       lastChangeId: null,
-      stream: props.match.params.guid,
       failed: false
     };
 
-    this.state.socket.listen(data => {
+    props.socket.listen(data => {
       this.applyEdit(data);
     });
-    this.state.socket.onDisconnect(() => {
+    props.socket.onDisconnect(() => {
       this.setState({ connected: false });
     });
-    this.state.socket.onConnect(() => {
-      if (this.state.stream) {
-        this.state.socket.post({ type: 'info', streams: [this.state.stream] });
-      }
+    props.socket.onConnect(() => {
       this.setState({ connected: true });
     });
+
+    eventhub.on('editor-resize', this.resize);
   }
+
+  componentWillUnmount() {
+    eventhub.remove('editor-resize', this.resize);
+  }
+
+  resize = () => {
+    console.log('RESIZE');
+    if (this.monaco && this.monaco.editor) {
+      this.monaco.editor.layout();
+    }
+  };
 
   execute = (method, ...args) => {
     if (this.state.editorMounted) {
@@ -49,7 +57,7 @@ class Editor extends Component {
     } else {
       console.log(data.changeId, this.state.lastChangeId);
       if (data.changeId - 1 !== this.state.lastChangeId) {
-        return this.state.socket.post({ type: 'refetch' });
+        return this.props.socket.post({ type: 'refetch' });
       }
       console.log('data is update');
       this.execute(() => {
@@ -61,7 +69,7 @@ class Editor extends Component {
 
   onChange = async (value, data) => {
     console.log('editor value changed');
-    this.state.socket.post({ ...data, type: 'update', stream: this.state.stream });
+    this.props.socket.post({ ...data, type: 'update', stream: this.props.stream });
     this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
   };
 
@@ -81,12 +89,9 @@ class Editor extends Component {
   };
 
   render() {
-    if (this.state.connected === false) {
-      return <p>Connecting...</p>;
-    } else if (!this.state.stream) {
-      return <p>Not a valid stream.</p>;
-    } else {
-      return (
+    return (
+      <div className="editor">
+        {!this.state.connected && <p>Connecting...</p>}
         <MonacoEditor
           ref={this.assignRef}
           value={this.state.value}
@@ -94,15 +99,18 @@ class Editor extends Component {
           language="javascript"
           options={{
             selectOnLineNumbers: true,
-            tabSize: 2
+            tabSize: 2,
+            lineNumbers: 'on',
+            parameterHints: true
           }}
+          height={this.props.height}
+          width={this.props.width}
           onChange={this.onChange}
           editorDidMount={this.monacoDidMount}
-          readOnly={!this.props.editable}
-          theme="vs-dark"
+          theme="vs"
         />
-      );
-    }
+      </div>
+    );
   }
 }
 

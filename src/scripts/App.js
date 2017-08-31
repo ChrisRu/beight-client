@@ -3,7 +3,7 @@ import { Route, NavLink } from 'react-router-dom';
 import eventhub from './util/eventhub';
 import { post } from './util/http';
 import Home from './views/Home';
-import Editor from './components/Editor';
+import Game from './views/Game';
 import GameCreate from './views/GameCreate';
 import LoginModal from './modals/LoginModal';
 import SignupModal from './modals/SignupModal';
@@ -35,44 +35,16 @@ class App extends Component {
     });
   };
 
-  updateValue = guid => {
-    this.setState({ stream: guid });
-  };
-
   hideModal = () => {
     this.setState({ loginModal: false, signupModal: false, logoutModal: false });
   };
 
-  toggleLoginModal = event => {
-    this.setState(prevState => ({ loginModal: !prevState.loginModal }));
-    if (event !== undefined) {
-      if (this.state.loginModal) {
-        eventhub.emit('overlay:activate');
-      } else {
-        eventhub.emit('overlay:deactivate');
-      }
-    }
-  };
-
-  toggleSignupModal = event => {
-    this.setState(prevState => ({ signupModal: !prevState.signupModal }));
-    if (event !== undefined) {
-      if (this.state.signupModal) {
-        eventhub.emit('overlay:activate');
-      } else {
-        eventhub.emit('overlay:deactivate');
-      }
-    }
-  };
-
-  toggleLogoutModal = event => {
-    this.setState(prevState => ({ logoutModal: !prevState.logoutModal }));
-    if (event !== undefined) {
-      if (this.state.logoutModal) {
-        eventhub.emit('overlay:activate');
-      } else {
-        eventhub.emit('overlay:deactivate');
-      }
+  toggleModal = name => {
+    this.setState(prevState => ({ [name]: !prevState[name] }));
+    if (this.state[name]) {
+      eventhub.emit('overlay:activate');
+    } else {
+      eventhub.emit('overlay:deactivate');
     }
   };
 
@@ -88,19 +60,16 @@ class App extends Component {
             <NavLink to="/create-game">
               <span>Create Game</span>
             </NavLink>
-            <div class="pull-right">
-              <a role="button" onClick={this.toggleLogoutModal}>
+            <div className="pull-right">
+              <a role="button" onClick={() => this.toggleModal('logout')}>
                 <span>Log Out</span>
               </a>
             </div>
           </div>
           <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-          <Route
-            exact
-            path="/game/:guid"
-            render={props => <Editor {...props} uri="ws://localhost:8081" editable={true} height="100%" />}
-          />
-          <Route exact path="/create-game" render={props => <GameCreate {...props} />} />
+          <Route exact path="/game/:guid/:view?" component={Game} />
+          <Route exact path="/create-game" component={GameCreate} />
+
           <ConfirmModal
             active={this.state.logoutModal}
             confirm={this.logOut}
@@ -118,11 +87,17 @@ class App extends Component {
             <NavLink exact to="/">
               <span>Games</span>
             </NavLink>
-            <div class="pull-right">
-              <a role="button" onClick={this.toggleLoginModal} className={this.state.loginModal ? ' active' : ''}>
+            <div className="pull-right">
+              <a
+                role="button"
+                onClick={() => this.toggleModal('login')}
+                className={this.state.loginModal ? ' active' : ''}>
                 <span>Log In</span>
               </a>
-              <a role="button" onClick={this.toggleSignupModal} className={this.state.signupModal ? ' active' : ''}>
+              <a
+                role="button"
+                onClick={() => this.toggleModal('signup')}
+                className={this.state.signupModal ? ' active' : ''}>
                 <span>Sign Up</span>
               </a>
             </div>
@@ -130,11 +105,7 @@ class App extends Component {
             <SignupModal active={this.state.signupModal} />
           </div>
           <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-          <Route
-            exact
-            path="/game/:guid"
-            render={props => <Editor {...props} uri="ws://localhost:8081" editable={true} height="100%" />}
-          />
+          <Route exact path="/game/:guid/:view?" component={Game} />
         </div>
       );
     }

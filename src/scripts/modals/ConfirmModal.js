@@ -10,7 +10,7 @@ const ConfirmModal = props => (
     <div className="row">
       <p>{props.description}</p>
     </div>
-    <div class="row">
+    <div className="row">
       <div className="pull-right">
         <button
           className="button"
