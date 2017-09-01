@@ -132,7 +132,6 @@ class Dashboard extends Component {
 
     return post('/create', body)
       .then(data => {
-        console.log(data);
         this.props.history.push('/game/' + data.guid);
       })
       .catch(error => {

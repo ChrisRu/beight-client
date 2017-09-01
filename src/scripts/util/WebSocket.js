@@ -22,26 +22,33 @@ class Ws {
     this.ws = new WebSocket(this.uri);
 
     this.ws.addEventListener('open', () => {
+      console.log('Connected to WebSocket');
       this._connectBool(true);
     });
     this.ws.addEventListener('close', event => {
       switch (event) {
         case 1000: {
-          console.log('Regular close');
           break;
         }
         default: {
           setTimeout(() => {
             console.log('Trying to reconnect...');
-            // this.createWebSocket();
+            this.createWebSocket();
             return;
           }, 3000);
         }
       }
+      console.log('WebSocket connection closed');
       this._connectBool(true);
     });
-    this.ws.addEventListener('reconnected', () => this._connectBool(true));
-    this.ws.addEventListener('end', () => this._connectBool(false));
+    this.ws.addEventListener('reconnected', () => {
+      console.log('Reconnected to WebSocket');
+      this._connectBool(true)
+    });
+    this.ws.addEventListener('end', () => {
+      console.log('WebSocket connection ended');
+      this._connectBool(false)
+    });
 
     this.ws.addEventListener('message', message => {
       const data = JSON.parse(message.data);

@@ -69,7 +69,12 @@ class Editor extends Component {
 
   onChange = async (value, data) => {
     console.log('editor value changed');
-    this.props.socket.post({ ...data, type: 'update', stream: this.props.stream });
+    this.props.socket.post({
+      ...data,
+      type: 'update',
+      stream: this.props.stream,
+      game: this.props.game
+    });
     this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
   };
 

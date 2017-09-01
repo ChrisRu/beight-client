@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from './Modal';
 import { post } from '../util/http';
+import eventhub from '../util/eventhub';
 
 class SignupModal extends Component {
   constructor(props) {
@@ -27,10 +28,16 @@ class SignupModal extends Component {
   };
 
   signUp = () => {
-    if (this.completed()) {
+    if (this.state.completed) {
       const { username, password } = this.state;
       return post('/signup', { username, password })
-        .then(data => console.log(data))
+        .then(data => {
+          if (data.success === true) {
+            eventhub.emit('overlay:deactivate');
+          } else {
+            throw new Error('Signup failed');
+          }
+        })
         .catch(error => {
           console.warn(error);
         });

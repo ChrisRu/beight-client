@@ -18,7 +18,7 @@ class Dashboard extends Component {
 
     this.fetchGames().then(streams => {
       this.createSocket();
-      this.setState({ streams });
+      this.setState({ streams: streams || [] });
     });
 
     window.addEventListener('resize', this.resize);
@@ -41,7 +41,7 @@ class Dashboard extends Component {
         this.setState({ notFoundText: "Can't fetch game..." });
       });
     } else {
-      this.setState({ streams: this.props.location.state });
+      this.setState({ streams: this.props.location.state || [] });
       return Promise.resolve([]);
     }
   }
@@ -49,7 +49,11 @@ class Dashboard extends Component {
   createSocket() {
     this.setState({ socket: new Ws('ws://localhost:8081') });
     this.state.socket.onConnect(() => {
-      this.state.socket.post({ type: 'info', streams: this.state.streams });
+      this.state.socket.post({
+        type: 'info',
+        streams: this.state.streams,
+        game: this.props.match.params.guid
+      });
     });
   }
 
@@ -58,7 +62,13 @@ class Dashboard extends Component {
       <div className="editors-container">
         <div className="editors">
           {this.state.streams.map(stream => (
-            <Editor socket={this.state.socket} stream={stream.id} height="100%" width="100%" />
+            <Editor
+              socket={this.state.socket}
+              game={this.props.match.params.guid}
+              stream={stream.id}
+              height="100%"
+              width="100%"
+            />
           ))}
         </div>
       </div>
