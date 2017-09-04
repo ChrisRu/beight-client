@@ -8,20 +8,9 @@ class Editor extends Component {
     this.state = {
       editorMounted: false,
       executeOnMount: [],
-      connected: false,
       lastChangeId: null,
       failed: false
     };
-
-    props.socket.listen(data => {
-      this.applyEdit(data);
-    });
-    props.socket.onDisconnect(() => {
-      this.setState({ connected: false });
-    });
-    props.socket.onConnect(() => {
-      this.setState({ connected: true });
-    });
 
     eventhub.on('editor-resize', this.resize);
   }
@@ -31,7 +20,6 @@ class Editor extends Component {
   }
 
   resize = () => {
-    console.log('RESIZE');
     if (this.monaco && this.monaco.editor) {
       this.monaco.editor.layout();
     }
@@ -48,37 +36,46 @@ class Editor extends Component {
   };
 
   applyEdit = async data => {
-    if (data.fullValue !== undefined) {
+    if (data.f !== undefined) {
       console.log('data is full refresh');
-      this.execute(() => {
-        this.monaco.editor.setValue(data.fullValue);
-        this.setState({ lastChangeId: data.changeId });
-      });
-    } else {
-      console.log(data.changeId, this.state.lastChangeId);
-      if (data.changeId - 1 !== this.state.lastChangeId) {
-        return this.props.socket.post({ type: 'refetch' });
+      if (this.props.stream === data.s[0]) {
+        this.execute(() => {
+          this.monaco.editor.setValue(data.f);
+          this.setState({ lastChangeId: data.n, noUpdate: true });
+        });
       }
-      console.log('data is update');
+    } else {
+      if (data.n != null && data.n - 1 !== this.state.lastChangeId) {
+        return this.props.socket.post({
+          t: 'r',
+          g: this.props.game,
+          s: [this.props.stream]
+        });
+      }
       this.execute(() => {
-        this.monaco.editor.executeEdits('a', data.changes);
-        this.setState({ lastChangeId: data.changeId });
+        this.monaco.editor.executeEdits(data.o, data.c.changes);
+        this.setState({ lastChangeId: data.n, noUpdate: true });
       });
     }
   };
 
   onChange = async (value, data) => {
     console.log('editor value changed');
-    this.props.socket.post({
-      ...data,
-      type: 'update',
-      stream: this.props.stream,
-      game: this.props.game
-    });
-    this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
+    if (this.state.noUpdate === false) {
+      this.props.socket.post({
+        c: data,
+        t: 'u',
+        s: [this.props.stream],
+        g: this.props.game
+      });
+      this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
+    } else {
+      this.setState({ noUpdate: false });
+    }
   };
 
   editorDidMount = editor => {
+    console.log('MOUNT');
     this.state.executeOnMount.forEach(item => {
       item.method.apply(this, item.args);
     });
@@ -96,7 +93,7 @@ class Editor extends Component {
   render() {
     return (
       <div className="editor">
-        {!this.state.connected && <p>Connecting...</p>}
+        {!this.props.connected && <p>Connecting...</p>}
         <MonacoEditor
           ref={this.assignRef}
           value={this.state.value}
@@ -111,8 +108,8 @@ class Editor extends Component {
           height={this.props.height}
           width={this.props.width}
           onChange={this.onChange}
-          editorDidMount={this.monacoDidMount}
-          theme="vs"
+          editorDidMount={this.editorDidMount}
+          theme="vs-dark"
         />
       </div>
     );

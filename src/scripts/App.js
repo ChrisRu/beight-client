@@ -9,6 +9,7 @@ import LoginModal from './modals/LoginModal';
 import SignupModal from './modals/SignupModal';
 import ConfirmModal from './modals/ConfirmModal';
 import Overlay from './components/Overlay';
+import { LogIn, LogOut, UserPlus } from 'react-feather';
 
 class App extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class App extends Component {
 
   toggleModal = name => {
     name = name + 'Modal';
-    this.setState(prevState => ({ [name]: !prevState[name] }));
+    this.setState(state => ({ [name]: !state[name] }));
     if (this.state[name]) {
       eventhub.emit('overlay:activate');
     } else {
@@ -63,6 +64,7 @@ class App extends Component {
             </NavLink>
             <div className="pull-right">
               <a role="button" onClick={() => this.toggleModal('logout')}>
+                <LogOut class="icon" />
                 <span>Log Out</span>
               </a>
             </div>
@@ -93,12 +95,14 @@ class App extends Component {
                 role="button"
                 onClick={() => this.toggleModal('login')}
                 className={this.state.loginModal ? ' active' : ''}>
+                <LogIn class="icon" />
                 <span>Log In</span>
               </a>
               <a
                 role="button"
                 onClick={() => this.toggleModal('signup')}
                 className={this.state.signupModal ? ' active' : ''}>
+                <UserPlus class="icon" />
                 <span>Sign Up</span>
               </a>
             </div>

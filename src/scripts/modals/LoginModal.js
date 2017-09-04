@@ -3,6 +3,7 @@ import Modal from './Modal';
 import Checkbox from '../components/Checkbox';
 import { post } from '../util/http';
 import eventhub from '../util/eventhub';
+import { LogIn } from 'react-feather';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -45,7 +46,10 @@ class LoginModal extends Component {
     return (
       <Modal active={this.props.active} className={this.state.error ? 'error' : ''}>
         <div className="row">
-          <h3 className="modal-title">Log In</h3>
+          <h3 className="modal-title">
+            <LogIn class="icon" />
+            <span>Log In</span>
+          </h3>
         </div>
         <div className="row">
           <div className="col-xs-4">

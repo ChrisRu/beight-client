@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Modal from './Modal';
 import { post } from '../util/http';
 import eventhub from '../util/eventhub';
+import { UserPlus } from 'react-feather';
 
 class SignupModal extends Component {
   constructor(props) {
@@ -11,15 +12,28 @@ class SignupModal extends Component {
       password: '',
       verifyPassword: '',
       samePassword: false,
-      completed: false
+      completed: false,
+      invalidPassword: false
     };
   }
 
   handleChange = event => {
+    // Seperate calls so event target value is updated before checking requirements
     this.setState({ [event.target.name]: event.target.value });
-    this.setState({ samePassword: this.state.password === this.state.verifyPassword });
+    this.setState({
+      samePassword: this.validateVerifyPassword(),
+      invalidPassword: this.validatePassword()
+    });
     this.completed();
   };
+
+  validateVerifyPassword() {
+    return !this.state.verifyPassword || this.state.password === this.state.verifyPassword;
+  }
+
+  validatePassword() {
+    return !(this.state.password && this.state.password.length > 5);
+  }
 
   keyDown = event => {
     if (event.keyCode === 13) {
@@ -45,7 +59,7 @@ class SignupModal extends Component {
   };
 
   completed = () => {
-    const completed = this.state.username && this.state.password && this.state.samePassword;
+    const completed = this.state.username && !this.validatePassword() && this.validateVerifyPassword();
     this.setState({ completed });
   };
 
@@ -53,7 +67,10 @@ class SignupModal extends Component {
     return (
       <Modal active={this.props.active}>
         <div className="row">
-          <h3 className="modal-title">Sign Up</h3>
+          <h3 className="modal-title">
+            <UserPlus class="icon" />
+            <span>Sign Up</span>
+          </h3>
         </div>
         <div className="row">
           <div className="col-xs-4">
@@ -80,9 +97,13 @@ class SignupModal extends Component {
               Password
             </label>
           </div>
-          <div className="col-xs-8">
+          <div className="col-xs-8 relative">
             <input
-              className={'input' + (this.state.password ? ' password-spacing' : '')}
+              className={
+                'input' +
+                (this.state.password ? ' password-spacing' : '') +
+                (this.state.invalidPassword ? ' error' : '')
+              }
               type="password"
               id="password"
               name="password"
@@ -91,6 +112,11 @@ class SignupModal extends Component {
               onChange={this.handleChange}
               keyDown={this.keyDown}
             />
+            {this.state.invalidPassword && (
+              <div className="input-message error">
+                <p>Password should be at least 6 characters</p>
+              </div>
+            )}
           </div>
         </div>
         <div className="row">
@@ -99,12 +125,12 @@ class SignupModal extends Component {
               Verify Password
             </label>
           </div>
-          <div className="col-xs-8">
+          <div className="col-xs-8 relative">
             <input
               className={
                 'input' +
                 (this.state.verifyPassword ? ' password-spacing' : '') +
-                (!this.state.samePassword ? ' error' : '')
+                (!this.validateVerifyPassword() ? ' error' : '')
               }
               type="password"
               id="verifyPassword"
@@ -114,6 +140,11 @@ class SignupModal extends Component {
               onChange={this.handleChange}
               keyDown={this.keyDown}
             />
+            {!this.validateVerifyPassword() && (
+              <div className="input-message error">
+                <p>Passwords don't match</p>
+              </div>
+            )}
           </div>
         </div>
         <div className="row">

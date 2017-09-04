@@ -43,11 +43,11 @@ class Ws {
     });
     this.ws.addEventListener('reconnected', () => {
       console.log('Reconnected to WebSocket');
-      this._connectBool(true)
+      this._connectBool(true);
     });
     this.ws.addEventListener('end', () => {
       console.log('WebSocket connection ended');
-      this._connectBool(false)
+      this._connectBool(false);
     });
 
     this.ws.addEventListener('message', message => {
@@ -68,7 +68,7 @@ class Ws {
   }
 
   post(data) {
-    this.ws.send(JSON.stringify(data));
+    this.ws.send(JSON.stringify(data, null, 0));
     return this;
   }
 

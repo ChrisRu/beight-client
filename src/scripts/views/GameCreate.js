@@ -36,18 +36,18 @@ class Dashboard extends Component {
 
   setType = type => {
     const booleans = type.split('');
-    return this.setState(prevState => ({
+    return this.setState(state => ({
       languages: {
         HTML: {
-          ...prevState.languages.HTML,
+          ...state.languages.HTML,
           active: booleans[0] === '1'
         },
         CSS: {
-          ...prevState.languages.CSS,
+          ...state.languages.CSS,
           active: booleans[1] === '1'
         },
         JS: {
-          ...prevState.languages.JS,
+          ...state.languages.JS,
           active: booleans[2] === '1'
         }
       },
@@ -83,11 +83,11 @@ class Dashboard extends Component {
         console.error('Error while reading file');
       }
 
-      this.setState(prevState => ({
+      this.setState(state => ({
         languages: {
-          ...prevState.languages,
+          ...state.languages,
           [language]: {
-            ...prevState.languages[language],
+            ...state.languages[language],
             content: event.target.result,
             filename: input.target.files[0].name
           }
@@ -109,11 +109,11 @@ class Dashboard extends Component {
   };
 
   removeFile = language => {
-    this.setState(prevState => ({
+    this.setState(state => ({
       languages: {
-        ...prevState.languages,
+        ...state.languages,
         [language]: {
-          ...prevState.languages[language],
+          ...state.languages[language],
           content: '',
           filename: ''
         }

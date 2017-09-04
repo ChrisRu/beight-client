@@ -128,6 +128,22 @@ h6 {
   &.error {
     border: 1px solid $dark-red;
   }
+
+  &-message {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 15em;
+    background: $dark-red;
+    color: #fff;
+    font-size: 0.8em;
+
+    p {
+      margin: 0;
+      padding: 0.2em;
+      border-radius: $radius;
+    }
+  }
 }
 
 .checkbox {
@@ -209,9 +225,62 @@ h6 {
   }
 }
 
+.icon {
+  height: 1.2em;
+  vertical-align: middle;
+  margin-top: -0.3em;
+  margin-right: 0.5em;
+}
+
 @for $i from 1 through 12 {
   .col-xs-#{$i} {
     float: left;
     width: $i / 12 * 100%;
   }
+}
+
+.code-pink {
+  color: #F92672;
+}
+.code-orange {
+  color: #FD971F;
+}
+.code-light-orange {
+  color: #FFD569;
+}
+.code-yellow {
+  color: #E6DB74;
+}
+.code-green {
+  color: #A6E22E;
+}
+.code-dark-green {
+  color: #529B2F;
+}
+.code-blue {
+  color: #66D9EF;
+}
+.code-purple {
+  color: #AE81FF;
+}
+.code-brown {
+  color: #75715E;
+}
+.code-brown-gray {
+  color: #49483E;
+}
+.code-gray {
+  color: #888 !important;
+}
+.code-light-gray {
+  color: #CCC;
+}
+.code-dark-gray {
+  color: #282828;
+}
+.code-ghost-white {
+  color: #F8F8F0;
+}
+.code-light-ghost-white {
+  color: #F8F8F2;
 }
