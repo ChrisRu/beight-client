@@ -1,7 +1,7 @@
 {
   "name": "beight-client",
   "version": "1.0.0",
-  "description": "",
+  "description": "Beight client, the frontend of Beight",
   "main": "src/index.js",
   "author": "Christian Ruigrok",
   "license": "ISC",
@@ -64,6 +64,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "watch": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
