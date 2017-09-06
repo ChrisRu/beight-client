@@ -10,7 +10,7 @@ const Checkbox = props => (
       checked={props.checked}
       onChange={props.onChange}
     />
-    <label for={props.id} className="checkbox-label" />
+    <label htmlFor={props.id} className="checkbox-label" />
   </div>
 );
 

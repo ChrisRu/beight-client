@@ -186,7 +186,7 @@ class Dashboard extends Component {
                         onchange={event => this.createFileReader(event, language)}
                       />
                       {this.state.languages[language].content.length === 0 ? (
-                        <label for={language + '-file-input'} className="file-input-label">
+                        <label htmlFor={language + '-file-input'} className="file-input-label">
                           Choose File
                         </label>
                       ) : (

@@ -38,23 +38,23 @@ class Editor extends Component {
   applyEdit = async data => {
     if (data.f !== undefined) {
       console.log('data is full refresh');
-      if (this.props.stream === data.s[0]) {
+      if (this.props.stream === data.streams[0]) {
         this.execute(() => {
-          this.monaco.editor.setValue(data.f);
-          this.setState({ lastChangeId: data.n, noUpdate: true });
+          this.monaco.editor.setValue(data.full);
+          this.setState({ lastChangeId: data.number, noUpdate: true });
         });
       }
     } else {
       if (data.n != null && data.n - 1 !== this.state.lastChangeId) {
         return this.props.socket.post({
-          t: 'r',
-          g: this.props.game,
-          s: [this.props.stream]
+          type: 'fetch',
+          game: this.props.game,
+          streams: [this.props.stream]
         });
       }
       this.execute(() => {
-        this.monaco.editor.executeEdits(data.o, data.c.changes);
-        this.setState({ lastChangeId: data.n, noUpdate: true });
+        this.monaco.editor.executeEdits(data.origin, data.change.changes);
+        this.setState({ lastChangeId: data.number, noUpdate: true });
       });
     }
   };
@@ -63,10 +63,10 @@ class Editor extends Component {
     console.log('editor value changed');
     if (this.state.noUpdate === false) {
       this.props.socket.post({
-        c: data,
-        t: 'u',
-        s: [this.props.stream],
-        g: this.props.game
+        change: data,
+        type: 'change',
+        streams: [this.props.stream],
+        game: this.props.game
       });
       this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
     } else {

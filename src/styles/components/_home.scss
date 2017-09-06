@@ -1,3 +1,45 @@
 .Dashboard {
   flex: 1;
 }
+
+.home-title {
+  display: block;
+
+  h1 {
+    font-size: 3em;
+    margin: 10rem 0 0;
+  }
+
+  p {
+    font-size: 1.3em;
+    margin: 1rem 0 4rem;
+    display: inline-block;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    word-spacing: 4px;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 1px;
+      background: white;
+      width: 10rem;
+      vertical-align: middle;
+      margin: 0 1.5rem 0 2.5rem;
+    }
+  }
+}
+
+.background-code {
+  white-space: pre;
+  z-index: -10;
+  opacity: 0.5;
+  width: 50%;
+  padding: 3em;
+
+  code {
+    tab-size: 3;
+  }
+}

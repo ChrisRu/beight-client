@@ -51,7 +51,7 @@ class Dashboard extends Component {
   createSocket() {
     this.setState({ socket: new Ws('ws://localhost:8081') });
     this.state.socket.listen(data => {
-      this.editors[data.s[0]].applyEdit(data);
+      this.editors[data.streams[0]].applyEdit(data);
     });
     this.state.socket.onDisconnect(() => {
       this.setState({ connected: false });
@@ -59,9 +59,9 @@ class Dashboard extends Component {
     this.state.socket.onConnect(() => {
       this.setState({ connected: true });
       this.state.socket.post({
-        t: 'i',
-        s: this.state.streams.map(stream => stream.id),
-        g: this.props.match.params.guid
+        type: 'info',
+        streams: this.state.streams.map(stream => stream.id),
+        game: this.props.match.params.guid
       });
     });
   }
@@ -76,7 +76,7 @@ class Dashboard extends Component {
         <div className="editors">
           {this.state.streams.map(stream => (
             <Editor
-              ref={(component) => this.assignRef(component, stream.id)}
+              ref={component => this.assignRef(component, stream.id)}
               socket={this.state.socket}
               game={this.props.match.params.guid}
               stream={stream.id}

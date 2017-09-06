@@ -53,7 +53,7 @@ class LoginModal extends Component {
         </div>
         <div className="row">
           <div className="col-xs-4">
-            <label className="label" for="username">
+            <label className="label" htmlFor="username">
               Username
             </label>
           </div>
@@ -72,7 +72,7 @@ class LoginModal extends Component {
         </div>
         <div className="row">
           <div className="col-xs-4">
-            <label className="label" for="username">
+            <label className="label" htmlFor="username">
               Password
             </label>
           </div>
@@ -92,7 +92,7 @@ class LoginModal extends Component {
         <div className="row">
           <div className="col-xs-7">
             <Checkbox id="remember-me" name="remember" checked={this.state.remember} onChange={this.handleToggle} />
-            <label for="remember-me" className="label">
+            <label htmlFor="remember-me" className="label">
               Remember me?
             </label>
           </div>

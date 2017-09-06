@@ -3,12 +3,40 @@ import { Link } from 'react-router-dom';
 import { get } from '../util/http';
 import parseHTML from '../util/parseHtml';
 
-class Home extends Component {
+const markup = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <body>
+    <header>
+      <h1 class="color" color="blue red">hey</h1>
+      <p>hai</p>
+    </header>
+    <main>
+      <!--hey this is cool-->
+      <h1>oh boy</h1>
+      <div class="container">
+        <img src="./game.jpg" alt="game"/>
+      </div>
+    </main>
+  </body>
+</html>`.replace(/\t/gm, ' ');
+
+const Button = ({ row }) => (
+  <Link className="button" to={{ pathname: '/game/' + row.guid, state: row }}>
+    {row.guid}
+  </Link>
+);
+
+class Buttons extends Component {
   constructor() {
     super();
     this.state = {
       items: [],
-      notFoundText: 'No active games found...'
+      notFoundText: 'No active games found...',
+      markup: ''
     };
     this.getGames();
   }
@@ -17,11 +45,6 @@ class Home extends Component {
     get('/games')
       .then(items => {
         this.setState({ items });
-        /*
-        document.body.innerHTML = '<pre>' + parseHTML(
-          '<h1 class="color" color="blue red">hey</h1><p>hai</p><!--hey this is cool--><h1>oh boy</h1><!--<p color="red">asdfp</p>-->'
-        ) + '</pre>';
-        */
       })
       .catch(error => {
         this.setState({ notFoundText: "Can't fetch games..." });
@@ -30,21 +53,49 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="Dashboard container">
-        <div className="create">
-          <div className="big-buttons">
-            {this.state.items.length ? (
-              this.state.items.map(row => (
-                <Link className="button" to={{ pathname: '/game/' + row.guid, state: row }}>
-                  {row.guid}
-                </Link>
-              ))
-            ) : (
-              <p>{this.state.notFoundText}</p>
-            )}
-          </div>
-        </div>
+      <div className="big-buttons">
+        {this.state.items.length ? this.state.items.map(row => <Button row={row} />) : <p>{this.state.notFoundText}</p>}
       </div>
+    );
+  }
+}
+
+const Home = () => (
+  <div className="Dashboard container">
+    <div>
+      <div className="home-title">
+        <h1>Code Game Thingio</h1>
+        <p>Code with your Buds</p>
+      </div>
+      <div className="create">
+        <Buttons />
+      </div>
+    </div>
+    <div className="background-code">
+      <Code />
+    </div>
+  </div>
+);
+
+class Code extends Component {
+  constructor() {
+    super();
+    this.state = {
+      markup: ''
+    };
+    setInterval(() => {
+      this.setState(state => ({
+        markup: markup.slice(0, state.markup.length + 1)
+      }));
+    }, 50);
+  }
+  render() {
+    return (
+      <code
+        dangerouslySetInnerHTML={{
+          __html: parseHTML(this.state.markup)
+        }}
+      />
     );
   }
 }
