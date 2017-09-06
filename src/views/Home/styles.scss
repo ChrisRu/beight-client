@@ -41,5 +41,11 @@
 
   code {
     tab-size: 3;
+
+    > span:last-child:after {
+      display: inline;
+      content: '|';
+      color: red;
+    }
   }
 }

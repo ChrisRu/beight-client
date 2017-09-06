@@ -2,14 +2,7 @@
 @import 'libs/normalize';
 
 // Variables
-@import 'base/variables';
+@import 'variables';
 
 // Base
-@import 'base/base';
-
-// Components
-@import 'components/app';
-@import 'components/home';
-@import 'components/dashboard';
-@import 'components/editor';
-@import 'components/modal';
+@import 'base';

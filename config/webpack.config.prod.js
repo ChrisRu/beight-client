@@ -87,7 +87,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      'react': 'preact-compat',
+      react: 'preact-compat',
       'react-dom': 'preact-compat'
     },
     plugins: [
@@ -130,7 +130,18 @@ module.exports = {
       // "file" loader makes sure those assets end up in the `build` folder.
       // When you `import` an asset, you get its filename.
       {
-        exclude: [/\.html$/, /\.(js|jsx)$/, /\.css$/, /\.scss$/, /\.sass$/, /\.json$/, /\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        exclude: [
+          /\.html$/,
+          /\.(js|jsx)$/,
+          /\.css$/,
+          /\.scss$/,
+          /\.sass$/,
+          /\.json$/,
+          /\.bmp$/,
+          /\.gif$/,
+          /\.jpe?g$/,
+          /\.png$/
+        ],
         loader: require.resolve('file-loader'),
         options: {
           name: 'static/media/[name].[hash:8].[ext]'
@@ -245,7 +256,10 @@ module.exports = {
                   }
                 },
                 {
-                  loader: require.resolve('sass-loader')
+                  loader: require.resolve('sass-loader'),
+                  options: {
+                    data: '@import "' + path.resolve(__dirname, '..', 'src', 'styles', 'variables') + '";'
+                  }
                 }
               ]
             },

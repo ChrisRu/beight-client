@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import eventhub from '../util/eventhub';
+import eventhub from '@/util/eventhub';
 
 class Overlay extends Component {
   constructor(props) {

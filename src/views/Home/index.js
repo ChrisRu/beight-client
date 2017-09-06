@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { get } from '../util/http';
-import parseHTML from '../util/parseHtml';
+import { get } from '@/util/http';
+import parseHTML from '@/util/parseHtml';
+import './styles.scss';
 
 const markup = `
 <!DOCTYPE html>
@@ -81,9 +82,17 @@ class Code extends Component {
   constructor() {
     super();
     this.state = {
-      markup: ''
+      markup: '',
+      completed: false
     };
-    setInterval(() => {
+
+    const markupLength = markup.length;
+    const typeInterval = setInterval(() => {
+      if (this.state.markup.length === markupLength) {
+        this.setState({ completed: true });
+        clearTimeout(typeInterval);
+      }
+
       this.setState(state => ({
         markup: markup.slice(0, state.markup.length + 1)
       }));
@@ -92,6 +101,7 @@ class Code extends Component {
   render() {
     return (
       <code
+        class={this.state.completed && 'completed'}
         dangerouslySetInnerHTML={{
           __html: parseHTML(this.state.markup)
         }}

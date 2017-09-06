@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Modal from './Modal';
-import { post } from '../util/http';
-import eventhub from '../util/eventhub';
+import Modal from '../';
+import { post } from '@/util/http';
+import eventhub from '@/util/eventhub';
 import { UserPlus } from 'react-feather';
 
 class SignupModal extends Component {

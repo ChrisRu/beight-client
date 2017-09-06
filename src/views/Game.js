@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import Editor from '../components/Editor';
-import { get } from '../util/http';
-import Ws from '../util/WebSocket';
-import eventhub from '../util/eventhub';
+import { get } from '@/util/http';
+import Ws from '@/util/WebSocket';
+import eventhub from '@/util/eventhub';
+import Editor from '@/components/Editor';
 
 class Dashboard extends Component {
   constructor(props) {

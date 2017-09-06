@@ -1,13 +1,11 @@
-import 'whatwg-fetch';
-
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import App from './scripts/App';
-import registerServiceWorker from './scripts/util/registerServiceWorker';
-import { get } from './scripts/util/http';
-import eventhub from './scripts/util/eventhub';
-import './styles/master.scss';
+import registerServiceWorker from '@/util/registerServiceWorker';
+import { get } from '@/util/http';
+import eventhub from '@/util/eventhub';
+import App from '@/components/App';
+import '@/styles/master.scss';
 
 let authenticated = false;
 function authenticate(bool) {

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
-import eventhub from './util/eventhub';
-import { post } from './util/http';
-import Home from './views/Home';
-import Game from './views/Game';
-import GameCreate from './views/GameCreate';
-import LoginModal from './modals/LoginModal';
-import SignupModal from './modals/SignupModal';
-import ConfirmModal from './modals/ConfirmModal';
-import Overlay from './components/Overlay';
+import eventhub from '@/util/eventhub';
+import { post } from '@/util/http';
+import Home from '@/views/Home';
+import Game from '@/views/Game';
+import GameCreate from '@/views/GameCreate';
+import LoginModal from '@/modals/LoginModal';
+import SignupModal from '@/modals/SignupModal';
+import ConfirmModal from '@/modals/ConfirmModal';
+import Overlay from '@/components/Overlay';
 import { LogIn, LogOut, UserPlus } from 'react-feather';
+import '@/styles/_app.scss';
 
 class App extends Component {
   constructor(props) {
@@ -94,14 +95,14 @@ class App extends Component {
               <a
                 role="button"
                 onClick={() => this.toggleModal('login')}
-                class={this.state.loginModal ? ' active' : ''}>
+                class={this.state.loginModal && ' active'}>
                 <LogIn class="icon" />
                 <span>Log In</span>
               </a>
               <a
                 role="button"
                 onClick={() => this.toggleModal('signup')}
-                class={this.state.signupModal ? ' active' : ''}>
+                class={this.state.signupModal && ' active'}>
                 <UserPlus class="icon" />
                 <span>Sign Up</span>
               </a>

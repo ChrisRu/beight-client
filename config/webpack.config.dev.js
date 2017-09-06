@@ -89,7 +89,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      'react': 'preact-compat',
+      react: 'preact-compat',
       'react-dom': 'preact-compat'
     },
     plugins: [
@@ -241,7 +241,10 @@ module.exports = {
             }
           },
           {
-            loader: require.resolve('sass-loader')
+            loader: require.resolve('sass-loader'),
+            options: {
+              data: '@import "' + path.resolve(__dirname, '..', 'src', 'styles', 'variables') + '";'
+            }
           }
         ]
       }

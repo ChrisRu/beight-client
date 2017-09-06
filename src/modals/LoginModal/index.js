@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Modal from './Modal';
-import Checkbox from '../components/Checkbox';
-import { post } from '../util/http';
-import eventhub from '../util/eventhub';
+import Modal from '../';
+import Checkbox from '@/components/Checkbox';
+import { post } from '@/util/http';
+import eventhub from '@/util/eventhub';
 import { LogIn } from 'react-feather';
 
 class LoginModal extends Component {
@@ -44,7 +44,7 @@ class LoginModal extends Component {
 
   render() {
     return (
-      <Modal active={this.props.active} class={this.state.error ? 'error' : ''}>
+      <Modal active={this.props.active} class={this.state.error && 'error'}>
         <div class="row">
           <h3 class="modal-title">
             <LogIn class="icon" />

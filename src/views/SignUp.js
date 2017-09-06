@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { post } from '../util/http';
+import { post } from '@/util/http';
 
 class Login extends Component {
   constructor(props) {

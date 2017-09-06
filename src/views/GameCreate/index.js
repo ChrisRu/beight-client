@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { post } from '../util/http';
+import { post } from '@/util/http';
+import './styles.scss';
 
 class Dashboard extends Component {
   constructor(props) {
