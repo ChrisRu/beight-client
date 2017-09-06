@@ -92,12 +92,12 @@ class Editor extends Component {
 
   render() {
     return (
-      <div className="editor">
+      <div class="editor">
         {!this.props.connected && <p>Connecting...</p>}
         <MonacoEditor
           ref={this.assignRef}
           value={this.state.value}
-          className="monaco-editor"
+          class="monaco-editor"
           language="javascript"
           options={{
             selectOnLineNumbers: true,

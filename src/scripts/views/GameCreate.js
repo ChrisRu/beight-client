@@ -141,27 +141,27 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div class="container">
         <div>
           <h1>Create new game</h1>
-          <div className="container">
+          <div class="container">
             <h2>Presets</h2>
-            <div className="big-buttons">
+            <div class="big-buttons">
               <button
                 onClick={() => this.setType('111')}
-                className={'button ' + (this.state.type === '111' ? 'active' : '')}>
+                class={'button ' + (this.state.type === '111' ? 'active' : '')}>
                 <h2>Classic</h2>
                 <p>Play an intense 3v3, build an entire website with HTML, CSS and JavaScript. Communication is key.</p>
               </button>
               <button
                 onClick={() => this.setType('010')}
-                className={'button ' + (this.state.type === '010' ? 'active' : '')}>
+                class={'button ' + (this.state.type === '010' ? 'active' : '')}>
                 <h2>Zen Garden</h2>
                 <p>Play a 1v1 CSS battle, who's the better designer?</p>
               </button>
               <button
                 onClick={() => this.setType('000')}
-                className={
+                class={
                   'button ' +
                   (['010', '111'].includes(this.state.type) === false && this.state.hasSetType ? 'active' : '')
                 }>
@@ -172,32 +172,32 @@ class Dashboard extends Component {
             {this.state.hasSetType && (
               <div>
                 <h2>Languages</h2>
-                <div className="big-buttons">
+                <div class="big-buttons">
                   {Object.keys(this.state.languages).map((language, index) => (
                     <button
                       onClick={() => this.toggleLanguage(index)}
-                      className={'button ' + (this.state.languages[language].active ? 'active' : '')}>
+                      class={'button ' + (this.state.languages[language].active ? 'active' : '')}>
                       <h2>{this.state.languages[language].name}</h2>
                       <input
-                        className="file-input"
+                        class="file-input"
                         id={language + '-file-input'}
                         type="file"
                         accept={this.state.languages[language].extensions.join(', ')}
                         onchange={event => this.createFileReader(event, language)}
                       />
                       {this.state.languages[language].content.length === 0 ? (
-                        <label htmlFor={language + '-file-input'} className="file-input-label">
+                        <label htmlFor={language + '-file-input'} class="file-input-label">
                           Choose File
                         </label>
                       ) : (
-                        <button className="file-input-button" onClick={() => this.removeFile(language)}>
-                          Remove <span className="code">{this.state.languages[language].filename}</span>
+                        <button class="file-input-button" onClick={() => this.removeFile(language)}>
+                          Remove <span class="code">{this.state.languages[language].filename}</span>
                         </button>
                       )}
                     </button>
                   ))}
                 </div>
-                <button className="button pull-right margin-vertical" onClick={this.save}>
+                <button class="button pull-right margin-vertical" onClick={this.save}>
                   Create Game
                 </button>
               </div>

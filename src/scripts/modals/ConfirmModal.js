@@ -4,16 +4,16 @@ import eventhub from '../util/eventhub';
 
 const ConfirmModal = props => (
   <Modal active={props.active}>
-    <div className="row">
-      <h3 className="modal-title">{props.title}</h3>
+    <div class="row">
+      <h3 class="modal-title">{props.title}</h3>
     </div>
-    <div className="row">
+    <div class="row">
       <p>{props.description}</p>
     </div>
-    <div className="row">
-      <div className="pull-right">
+    <div class="row">
+      <div class="pull-right">
         <button
-          className="button"
+          class="button"
           onClick={() => {
             props.confirm();
             eventhub.emit('overlay:deactivate');

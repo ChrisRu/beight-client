@@ -53,16 +53,16 @@ class App extends Component {
   render() {
     if (this.props.authenticated) {
       return (
-        <div className="app">
+        <div class="app">
           <Overlay />
-          <div className="navigation">
+          <div class="navigation">
             <NavLink exact to="/">
               <span>Games</span>
             </NavLink>
             <NavLink to="/create-game">
               <span>Create Game</span>
             </NavLink>
-            <div className="pull-right">
+            <div class="pull-right">
               <a role="button" onClick={() => this.toggleModal('logout')}>
                 <LogOut class="icon" />
                 <span>Log Out</span>
@@ -84,24 +84,24 @@ class App extends Component {
       );
     } else {
       return (
-        <div className="app">
+        <div class="app">
           <Overlay />
-          <div className="navigation">
+          <div class="navigation">
             <NavLink exact to="/">
               <span>Games</span>
             </NavLink>
-            <div className="pull-right">
+            <div class="pull-right">
               <a
                 role="button"
                 onClick={() => this.toggleModal('login')}
-                className={this.state.loginModal ? ' active' : ''}>
+                class={this.state.loginModal ? ' active' : ''}>
                 <LogIn class="icon" />
                 <span>Log In</span>
               </a>
               <a
                 role="button"
                 onClick={() => this.toggleModal('signup')}
-                className={this.state.signupModal ? ' active' : ''}>
+                class={this.state.signupModal ? ' active' : ''}>
                 <UserPlus class="icon" />
                 <span>Sign Up</span>
               </a>

@@ -10,9 +10,9 @@ class Modal extends Component {
   render() {
     if (this.props.active) {
       return (
-        <div className={this.props.className + ' modal-wrapper'}>
-          <div className="modal">
-            <X className="icon-button pull-right" onClick={this.hideOverlay} />
+        <div class={this.props.className + ' modal-wrapper'}>
+          <div class="modal">
+            <X class="icon-button pull-right" onClick={this.hideOverlay} />
             {this.props.children}
           </div>
         </div>

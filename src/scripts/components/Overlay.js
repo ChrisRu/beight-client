@@ -39,7 +39,7 @@ class Overlay extends Component {
 
   render() {
     if (this.state.visible) {
-      return <div className="overlay" onClick={this.hideOverlay} />;
+      return <div class="overlay" onClick={this.hideOverlay} />;
     }
   }
 }

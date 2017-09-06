@@ -72,8 +72,8 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="editors-container">
-        <div className="editors">
+      <div class="editors-container">
+        <div class="editors">
           {this.state.streams.map(stream => (
             <Editor
               ref={component => this.assignRef(component, stream.id)}

@@ -66,21 +66,21 @@ class SignupModal extends Component {
   render() {
     return (
       <Modal active={this.props.active}>
-        <div className="row">
-          <h3 className="modal-title">
+        <div class="row">
+          <h3 class="modal-title">
             <UserPlus class="icon" />
             <span>Sign Up</span>
           </h3>
         </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <label className="label" htmlFor="username">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="label" htmlFor="username">
               Username
             </label>
           </div>
-          <div className="col-xs-8">
+          <div class="col-xs-8">
             <input
-              className="input"
+              class="input"
               type="text"
               id="username"
               name="username"
@@ -91,15 +91,15 @@ class SignupModal extends Component {
             />
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <label className="label" htmlFor="username">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="label" htmlFor="username">
               Password
             </label>
           </div>
-          <div className="col-xs-8 relative">
+          <div class="col-xs-8 relative">
             <input
-              className={
+              class={
                 'input' +
                 (this.state.password ? ' password-spacing' : '') +
                 (this.state.invalidPassword ? ' error' : '')
@@ -113,21 +113,21 @@ class SignupModal extends Component {
               keyDown={this.keyDown}
             />
             {this.state.invalidPassword && (
-              <div className="input-message error">
+              <div class="input-message error">
                 <p>Password should be at least 6 characters</p>
               </div>
             )}
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <label className="label" htmlFor="username">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="label" htmlFor="username">
               Verify Password
             </label>
           </div>
-          <div className="col-xs-8 relative">
+          <div class="col-xs-8 relative">
             <input
-              className={
+              class={
                 'input' +
                 (this.state.verifyPassword ? ' password-spacing' : '') +
                 (!this.validateVerifyPassword() ? ' error' : '')
@@ -141,15 +141,15 @@ class SignupModal extends Component {
               keyDown={this.keyDown}
             />
             {!this.validateVerifyPassword() && (
-              <div className="input-message error">
+              <div class="input-message error">
                 <p>Passwords don't match</p>
               </div>
             )}
           </div>
         </div>
-        <div className="row">
-          <div className="pull-right">
-            <button className="button" disabled={!this.state.completed} type="submit" onClick={this.signUp}>
+        <div class="row">
+          <div class="pull-right">
+            <button class="button" disabled={!this.state.completed} type="submit" onClick={this.signUp}>
               Sign Up
             </button>
           </div>

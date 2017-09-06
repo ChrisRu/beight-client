@@ -25,7 +25,7 @@ const markup = `
 </html>`.replace(/\t/gm, ' ');
 
 const Button = ({ row }) => (
-  <Link className="button" to={{ pathname: '/game/' + row.guid, state: row }}>
+  <Link class="button" to={{ pathname: '/game/' + row.guid, state: row }}>
     {row.guid}
   </Link>
 );
@@ -53,7 +53,7 @@ class Buttons extends Component {
 
   render() {
     return (
-      <div className="big-buttons">
+      <div class="big-buttons">
         {this.state.items.length ? this.state.items.map(row => <Button row={row} />) : <p>{this.state.notFoundText}</p>}
       </div>
     );
@@ -61,17 +61,17 @@ class Buttons extends Component {
 }
 
 const Home = () => (
-  <div className="Dashboard container">
+  <div class="Dashboard container">
     <div>
-      <div className="home-title">
+      <div class="home-title">
         <h1>Code Game Thingio</h1>
         <p>Code with your Buds</p>
       </div>
-      <div className="create">
+      <div class="create">
         <Buttons />
       </div>
     </div>
-    <div className="background-code">
+    <div class="background-code">
       <Code />
     </div>
   </div>

@@ -44,22 +44,22 @@ class LoginModal extends Component {
 
   render() {
     return (
-      <Modal active={this.props.active} className={this.state.error ? 'error' : ''}>
-        <div className="row">
-          <h3 className="modal-title">
+      <Modal active={this.props.active} class={this.state.error ? 'error' : ''}>
+        <div class="row">
+          <h3 class="modal-title">
             <LogIn class="icon" />
             <span>Log In</span>
           </h3>
         </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <label className="label" htmlFor="username">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="label" htmlFor="username">
               Username
             </label>
           </div>
-          <div className="col-xs-8">
+          <div class="col-xs-8">
             <input
-              className="input"
+              class="input"
               type="text"
               id="username"
               name="username"
@@ -70,15 +70,15 @@ class LoginModal extends Component {
             />
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-4">
-            <label className="label" htmlFor="username">
+        <div class="row">
+          <div class="col-xs-4">
+            <label class="label" htmlFor="username">
               Password
             </label>
           </div>
-          <div className="col-xs-8">
+          <div class="col-xs-8">
             <input
-              className={'input' + (this.state.password ? ' password-spacing' : '')}
+              class={'input' + (this.state.password ? ' password-spacing' : '')}
               type="password"
               id="password"
               name="password"
@@ -89,16 +89,16 @@ class LoginModal extends Component {
             />
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-7">
+        <div class="row">
+          <div class="col-xs-7">
             <Checkbox id="remember-me" name="remember" checked={this.state.remember} onChange={this.handleToggle} />
-            <label htmlFor="remember-me" className="label">
+            <label htmlFor="remember-me" class="label">
               Remember me?
             </label>
           </div>
-          <div className="col-xs-5">
+          <div class="col-xs-5">
             <button
-              className={'button' + (this.state.error ? ' error' : '')}
+              class={'button' + (this.state.error ? ' error' : '')}
               disabled={!this.state.password || !this.state.username}
               type="submit"
               onClick={this.logIn}>

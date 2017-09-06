@@ -1,16 +1,16 @@
 import React from 'react';
 
 const Checkbox = props => (
-  <div className="checkbox-wrapper">
+  <div class="checkbox-wrapper">
     <input
       id={props.id}
       type="checkbox"
       name={props.name}
-      className="checkbox"
+      class="checkbox"
       checked={props.checked}
       onChange={props.onChange}
     />
-    <label htmlFor={props.id} className="checkbox-label" />
+    <label htmlFor={props.id} class="checkbox-label" />
   </div>
 );
 
