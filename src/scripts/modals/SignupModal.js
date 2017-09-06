@@ -74,7 +74,7 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" htmlFor="username">
+            <label class="label" for="username">
               Username
             </label>
           </div>
@@ -93,7 +93,7 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" htmlFor="username">
+            <label class="label" for="username">
               Password
             </label>
           </div>
@@ -121,7 +121,7 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" htmlFor="username">
+            <label class="label" for="username">
               Verify Password
             </label>
           </div>
