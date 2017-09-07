@@ -4,7 +4,7 @@
   "description": "Beight client, the frontend of Beight",
   "main": "src/index.js",
   "author": "Christian Ruigrok",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "autoprefixer": "7.1.1",
     "babel-core": "6.25.0",
