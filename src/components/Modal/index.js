@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { X } from 'react-feather';
-import eventhub from '@/util/eventhub';
+import eventhub from '@/services/eventhub';
 import './styles.scss';
 
 class Modal extends Component {

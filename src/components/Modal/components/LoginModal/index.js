@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Modal from '../';
-import Checkbox from '@/components/Checkbox';
-import { post } from '@/util/http';
-import eventhub from '@/util/eventhub';
 import { LogIn } from 'react-feather';
+import eventhub from '@/services/eventhub';
+import { post } from '@/services/http';
+import Modal from '@/components/Modal';
+import Checkbox from '@/components/Checkbox';
 
 class LoginModal extends Component {
   constructor(props) {

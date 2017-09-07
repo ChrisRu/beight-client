@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import eventhub from '@/util/eventhub';
+import eventhub from '@/services/eventhub';
 import './styles.scss';
 
 class Editor extends Component {

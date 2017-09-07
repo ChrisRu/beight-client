@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
-import eventhub from '@/util/eventhub';
-import { post } from '@/util/http';
-import Home from '@/views/Home';
-import Game from '@/views/Game';
-import GameCreate from '@/views/GameCreate';
-import LoginModal from '@/modals/LoginModal';
-import SignupModal from '@/modals/SignupModal';
-import ConfirmModal from '@/modals/ConfirmModal';
+import eventhub from '@/services/eventhub';
+import { post } from '@/services/http';
+import Home from '@/scenes/Home';
+import Game from '@/scenes/GameView';
+import GameCreate from '@/scenes/GameCreate';
+import LoginModal from '@/components/Modal/components/LoginModal';
+import SignupModal from '@/components/Modal/components/SignupModal';
+import ConfirmModal from '@/components/Modal/components/ConfirmModal';
 import Overlay from '@/components/Overlay';
 import { LogIn, LogOut, UserPlus } from 'react-feather';
-import '@/styles/_app.scss';
+import './styles.scss';
 
 class App extends Component {
   constructor(props) {
