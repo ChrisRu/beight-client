@@ -5,7 +5,7 @@ import registerServiceWorker from '@/services/registerServiceWorker';
 import { get } from '@/services/http';
 import eventhub from '@/services/eventhub';
 import App from '@/components/App';
-import '@/styles/master.scss';
+import './styles/index.scss';
 
 let authenticated = false;
 function authenticate(bool) {
