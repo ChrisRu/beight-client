@@ -10,7 +10,8 @@ class Editor extends Component {
       editorMounted: false,
       executeOnMount: [],
       lastChangeId: null,
-      failed: false
+      failed: false,
+      noUpdate: false
     };
 
     eventhub.on('editor-resize', this.resize);
@@ -41,7 +42,7 @@ class Editor extends Component {
       console.log('data is full refresh');
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {
-          this.setState({ lastChangeId: data.number, noUpdate: true });
+          this.setState({ lastChangeId: data.number, noUpdate: false });
           this.monaco.editor.setValue(data.full);
         });
       }
