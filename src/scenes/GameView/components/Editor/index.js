@@ -37,16 +37,16 @@ class Editor extends Component {
   };
 
   applyEdit = async data => {
-    if (data.f !== undefined) {
+    if (data.full !== undefined) {
       console.log('data is full refresh');
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {
-          this.monaco.editor.setValue(data.full);
           this.setState({ lastChangeId: data.number, noUpdate: true });
+          this.monaco.editor.setValue(data.full);
         });
       }
     } else {
-      if (data.n != null && data.n - 1 !== this.state.lastChangeId) {
+      if (data.number != null && data.number - 1 !== this.state.lastChangeId) {
         return this.props.socket.post({
           type: 'fetch',
           game: this.props.game,
@@ -54,8 +54,8 @@ class Editor extends Component {
         });
       }
       this.execute(() => {
-        this.monaco.editor.executeEdits(data.origin, data.change.changes);
         this.setState({ lastChangeId: data.number, noUpdate: true });
+        this.monaco.editor.executeEdits(data.origin, data.change.changes);
       });
     }
   };

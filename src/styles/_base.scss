@@ -114,38 +114,6 @@ h6 {
   padding-right: 1rem;
 }
 
-.input {
-  outline: none;
-  border: 1px solid #ccc;
-  display: inline-block;
-  width: 100%;
-  border-radius: $radius;
-  padding: 0.5rem;
-  font-size: 0.9em;
-  box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
-
-  &.error {
-    border: 1px solid $dark-red;
-  }
-
-  &-message {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    width: 15em;
-    background: $dark-red;
-    color: #fff;
-    font-size: 0.8em;
-
-    p {
-      margin: 0;
-      padding: 0.2em;
-      border-radius: $radius;
-    }
-  }
-}
-
 .password-spacing {
   letter-spacing: 2px;
 }

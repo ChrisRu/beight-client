@@ -4,10 +4,10 @@ import Buttons from './components/Buttons';
 import './styles.scss';
 
 const Home = () => (
-  <div class="Dashboard container">
-    <div>
+  <div class="home container">
+    <div class="home-inner">
       <div class="home-title">
-        <h1>Code Game Thingio</h1>
+        <h1>DevWars Beight</h1>
         <p>Code with your Buds</p>
       </div>
       <div class="create">

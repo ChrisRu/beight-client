@@ -1,5 +1,15 @@
-.Dashboard {
+.container.home {
+  display: flex;
   flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-left: -10em;
+  margin-right: 0;
+}
+
+.home-inner {
+  display: block;
+  width: 30em;
 }
 
 .home-title {
@@ -7,7 +17,7 @@
 
   h1 {
     font-size: 3em;
-    margin: 10rem 0 0;
+    margin: 0;
   }
 
   p {

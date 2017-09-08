@@ -58,7 +58,7 @@ class App extends Component {
           <Overlay />
           <div class="navigation">
             <NavLink exact to="/">
-              <span>Games</span>
+              <span>Beight</span>
             </NavLink>
             <NavLink to="/create-game">
               <span>Create Game</span>
@@ -89,7 +89,7 @@ class App extends Component {
           <Overlay />
           <div class="navigation">
             <NavLink exact to="/">
-              <span>Games</span>
+              <span>Beight</span>
             </NavLink>
             <div class="pull-right">
               <a

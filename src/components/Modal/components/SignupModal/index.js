@@ -3,6 +3,7 @@ import { UserPlus } from 'react-feather';
 import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
 import Modal from '@/components/Modal';
+import Input from '@/components/Input';
 
 class SignupModal extends Component {
   constructor(props) {
@@ -79,9 +80,7 @@ class SignupModal extends Component {
             </label>
           </div>
           <div class="col-xs-8">
-            <input
-              class="input"
-              type="text"
+            <Input
               id="username"
               name="username"
               placeholder="username"
@@ -98,12 +97,7 @@ class SignupModal extends Component {
             </label>
           </div>
           <div class="col-xs-8 relative">
-            <input
-              class={
-                'input' +
-                (this.state.password ? ' password-spacing' : '') +
-                (this.state.invalidPassword ? ' error' : '')
-              }
+            <Input
               type="password"
               id="password"
               name="password"
@@ -111,12 +105,13 @@ class SignupModal extends Component {
               value={this.state.password}
               onChange={this.handleChange}
               keyDown={this.keyDown}
+              rules={[
+                {
+                  rule: 'Password should be at least 6 characters',
+                  method: value => value && value.length < 6
+                }
+              ]}
             />
-            {this.state.invalidPassword && (
-              <div class="input-message error">
-                <p>Password should be at least 6 characters</p>
-              </div>
-            )}
           </div>
         </div>
         <div class="row">
@@ -126,12 +121,7 @@ class SignupModal extends Component {
             </label>
           </div>
           <div class="col-xs-8 relative">
-            <input
-              class={
-                'input' +
-                (this.state.verifyPassword ? ' password-spacing' : '') +
-                (!this.validateVerifyPassword() ? ' error' : '')
-              }
+            <Input
               type="password"
               id="verifyPassword"
               name="verifyPassword"
@@ -139,12 +129,13 @@ class SignupModal extends Component {
               value={this.state.verifyPassword}
               onChange={this.handleChange}
               keyDown={this.keyDown}
+              rules={[
+                {
+                  rule: "Passwords don't match",
+                  method: value => value && value !== this.state.password
+                }
+              ]}
             />
-            {!this.validateVerifyPassword() && (
-              <div class="input-message error">
-                <p>Passwords don't match</p>
-              </div>
-            )}
           </div>
         </div>
         <div class="row">

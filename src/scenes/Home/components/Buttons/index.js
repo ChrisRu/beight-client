@@ -26,7 +26,11 @@ class Buttons extends Component {
   render() {
     return (
       <div class="big-buttons">
-        {this.state.items.length ? this.state.items.map(row => <Button row={row} />) : <p>{this.state.notFoundText}</p>}
+        {this.state.items.length ? (
+          this.state.items.map(row => <Button row={row} />)
+        ) : (
+          <p>{this.state.notFoundText}</p>
+        )}
       </div>
     );
   }
