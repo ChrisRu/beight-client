@@ -42,7 +42,7 @@ class Editor extends Component {
       console.log('data is full refresh');
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {
-          this.setState({ lastChangeId: data.number, noUpdate: false });
+          this.setState({ lastChangeId: data.number, noUpdate: (this.state.lastChangeId !== null) });
           this.monaco.editor.setValue(data.full);
         });
       }
@@ -77,7 +77,6 @@ class Editor extends Component {
   };
 
   editorDidMount = editor => {
-    console.log('MOUNT');
     this.state.executeOnMount.forEach(item => {
       item.method.apply(this, item.args);
     });
