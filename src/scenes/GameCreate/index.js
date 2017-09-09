@@ -147,7 +147,7 @@ class Dashboard extends Component {
           <h1>Create new game</h1>
           <div class="container">
             <h2>Presets</h2>
-            <div class="big-buttons">
+            <div class="create-buttons">
               <button
                 onClick={() => this.setType('111')}
                 class={'button ' + (this.state.type === '111' ? 'active' : '')}>
@@ -173,7 +173,7 @@ class Dashboard extends Component {
             {this.state.hasSetType && (
               <div>
                 <h2>Languages</h2>
-                <div class="big-buttons">
+                <div class="create-buttons">
                   {Object.keys(this.state.languages).map((language, index) => (
                     <button
                       onClick={() => this.toggleLanguage(index)}

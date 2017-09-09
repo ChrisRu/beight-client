@@ -5,14 +5,12 @@
   margin-right: auto;
 }
 
-.big-buttons {
+.create-buttons {
+  display: flex;
+  flex-flow: row nowrap;
+
   .button {
-    display: inline-block;
-    width: 8em;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
+    flex-basis: 100%;
   }
 }
 
