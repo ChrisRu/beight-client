@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
 import Home from '@/scenes/Home';
@@ -34,6 +34,7 @@ class App extends Component {
       const { authenticated } = data;
       eventhub.emit('authenticate', authenticated);
       this.setState({ logoutModal: false });
+      this.props.history.push('/');
     });
   };
 
@@ -118,4 +119,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
