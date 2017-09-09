@@ -22,7 +22,6 @@ class Editor extends Component {
   }
 
   onChange = async (value, data) => {
-    console.log('editor value changed');
     if (this.state.noUpdate === false) {
       this.props.socket.post({
         change: data,
@@ -38,7 +37,6 @@ class Editor extends Component {
 
   applyEdit = async data => {
     if (data.full !== undefined) {
-      console.log('data is full refresh');
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {
           this.setState({ lastChangeId: data.number, noUpdate: this.state.lastChangeId !== null });
@@ -52,6 +50,7 @@ class Editor extends Component {
           game: this.props.game,
           streams: [this.props.stream]
         });
+        return;
       }
       this.execute(() => {
         this.setState({ lastChangeId: data.number, noUpdate: true });
@@ -99,10 +98,8 @@ class Editor extends Component {
           ref={this.assignRef}
           value={this.state.value}
           class="monaco-editor"
-          language="javascript"
+          language={this.props.language}
           options={{
-            selectOnLineNumbers: true,
-            tabSize: 2,
             lineNumbers: 'on',
             parameterHints: true
           }}

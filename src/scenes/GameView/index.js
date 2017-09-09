@@ -79,6 +79,7 @@ class Dashboard extends Component {
               socket={this.state.socket}
               game={this.props.match.params.guid}
               stream={stream.id}
+              language={stream.language ? stream.language.name : 'javascript'}
               connected={this.state.connected}
               height="100%"
               width="100%"

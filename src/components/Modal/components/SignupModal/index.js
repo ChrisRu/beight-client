@@ -52,9 +52,6 @@ class SignupModal extends Component {
           } else {
             throw new Error('Signup failed');
           }
-        })
-        .catch(error => {
-          console.warn(error);
         });
     }
     return Promise.reject("Signup hasn't been completed yet");
