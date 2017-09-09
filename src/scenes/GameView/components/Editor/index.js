@@ -21,9 +21,42 @@ class Editor extends Component {
     eventhub.remove('editor-resize', this.resize);
   }
 
-  resize = () => {
-    if (this.monaco && this.monaco.editor) {
-      this.monaco.editor.layout();
+  onChange = async (value, data) => {
+    console.log('editor value changed');
+    if (this.state.noUpdate === false) {
+      this.props.socket.post({
+        change: data,
+        type: 'change',
+        streams: [this.props.stream],
+        game: this.props.game
+      });
+      this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
+    } else {
+      this.setState({ noUpdate: false });
+    }
+  };
+
+  applyEdit = async data => {
+    if (data.full !== undefined) {
+      console.log('data is full refresh');
+      if (this.props.stream === data.streams[0]) {
+        this.execute(() => {
+          this.setState({ lastChangeId: data.number, noUpdate: this.state.lastChangeId !== null });
+          this.monaco.editor.setValue(data.full);
+        });
+      }
+    } else {
+      if (data.number != null && data.number - 1 !== this.state.lastChangeId) {
+        this.props.socket.post({
+          type: 'fetch',
+          game: this.props.game,
+          streams: [this.props.stream]
+        });
+      }
+      this.execute(() => {
+        this.setState({ lastChangeId: data.number, noUpdate: true });
+        this.monaco.editor.executeEdits(data.origin, data.change.changes);
+      });
     }
   };
 
@@ -37,42 +70,9 @@ class Editor extends Component {
     }
   };
 
-  applyEdit = async data => {
-    if (data.full !== undefined) {
-      console.log('data is full refresh');
-      if (this.props.stream === data.streams[0]) {
-        this.execute(() => {
-          this.setState({ lastChangeId: data.number, noUpdate: (this.state.lastChangeId !== null) });
-          this.monaco.editor.setValue(data.full);
-        });
-      }
-    } else {
-      if (data.number != null && data.number - 1 !== this.state.lastChangeId) {
-        return this.props.socket.post({
-          type: 'fetch',
-          game: this.props.game,
-          streams: [this.props.stream]
-        });
-      }
-      this.execute(() => {
-        this.setState({ lastChangeId: data.number, noUpdate: true });
-        this.monaco.editor.executeEdits(data.origin, data.change.changes);
-      });
-    }
-  };
-
-  onChange = async (value, data) => {
-    console.log('editor value changed');
-    if (this.state.noUpdate === false) {
-      this.props.socket.post({
-        change: data,
-        type: 'change',
-        streams: [this.props.stream],
-        game: this.props.game
-      });
-      this.setState(state => ({ lastChangeId: state.lastChangeId + 1 }));
-    } else {
-      this.setState({ noUpdate: false });
+  resize = () => {
+    if (this.monaco && this.monaco.editor) {
+      this.monaco.editor.layout();
     }
   };
 

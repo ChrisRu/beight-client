@@ -26,7 +26,7 @@ class Code extends Component {
     return (
       <code
         class={this.state.completed && 'completed'}
-        dangerouslySetInnerHTML={{
+        dangerouslySetInnerHTML={{ // eslint-disable-line react/no-danger
           __html: parseHTML(this.state.markup)
         }}
       />

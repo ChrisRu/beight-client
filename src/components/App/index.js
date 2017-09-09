@@ -30,22 +30,21 @@ class App extends Component {
     eventhub.remove('overlay:deactivated', this.hideModal);
   }
 
-  logOut = () => {
-    return post('/logout').then(data => {
+  logOut = () =>
+    post('/logout').then(data => {
       const { authenticated } = data;
       eventhub.emit('authenticate', authenticated);
       this.setState({ logoutModal: false });
       this.props.history.push('/');
     });
-  };
 
   hideModal = () => {
     this.setState({ loginModal: false, signupModal: false, logoutModal: false });
   };
 
   toggleModal = name => {
-    name = name + 'Modal';
-    this.setState(state => ({ [name]: !state[name] }));
+    const modalName = `${name}Modal`;
+    this.setState(state => ({ [modalName]: !state[modalName] }));
     if (this.state[name]) {
       eventhub.emit('overlay:activate');
     } else {
@@ -66,7 +65,7 @@ class App extends Component {
               <span>Create Game</span>
             </NavLink>
             <div class="pull-right">
-              <a role="button" onClick={() => this.toggleModal('logout')}>
+              <a role="button" tabIndex={0} onClick={() => this.toggleModal('logout')}>
                 <LogOut class="icon" />
                 <span>Log Out</span>
               </a>
@@ -89,37 +88,46 @@ class App extends Component {
           />
         </div>
       );
-    } else {
-      return (
-        <div class="app">
-          <Overlay />
-          <div class="navigation">
-            <NavLink exact to="/">
-              <span>Beight</span>
-            </NavLink>
-            <div class="pull-right">
-              <a role="button" onClick={() => this.toggleModal('login')} class={this.state.loginModal && ' active'}>
-                <LogIn class="icon" />
-                <span>Log In</span>
-              </a>
-              <a role="button" onClick={() => this.toggleModal('signup')} class={this.state.signupModal && ' active'}>
-                <UserPlus class="icon" />
-                <span>Sign Up</span>
-              </a>
-            </div>
-          </div>
-
-          <Switch>
-            <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-            <Route exact path="/game/:guid/:view?" component={Game} />
-            <Route component={NotFound} />
-          </Switch>
-
-          <LoginModal active={this.state.loginModal} />
-          <SignupModal active={this.state.signupModal} />
-        </div>
-      );
     }
+    return (
+      <div class="app">
+        <Overlay />
+        <div class="navigation">
+          <NavLink exact to="/">
+            <span>Beight</span>
+          </NavLink>
+          <div class="pull-right">
+            <a
+              role="button"
+              tabIndex={0}
+              onClick={() => this.toggleModal('login')}
+              class={this.state.loginModal && ' active'}
+            >
+              <LogIn class="icon" />
+              <span>Log In</span>
+            </a>
+            <a
+              role="button"
+              tabIndex={0}
+              onClick={() => this.toggleModal('signup')}
+              class={this.state.signupModal && ' active'}
+            >
+              <UserPlus class="icon" />
+              <span>Sign Up</span>
+            </a>
+          </div>
+        </div>
+
+        <Switch>
+          <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
+          <Route exact path="/game/:guid/:view?" component={Game} />
+          <Route component={NotFound} />
+        </Switch>
+
+        <LoginModal active={this.state.loginModal} />
+        <SignupModal active={this.state.signupModal} />
+      </div>
+    );
   }
 }
 

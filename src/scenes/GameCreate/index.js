@@ -57,11 +57,10 @@ class Dashboard extends Component {
     }));
   };
 
-  getAllExtensions = () => {
-    return Object.values(this.state.languages)
+  getAllExtensions = () =>
+    Object.values(this.state.languages)
       .reduce((prev, language) => prev.concat(language.extensions), [])
       .join(', ');
-  };
 
   toggleLanguage = index => {
     const { type } = this.state;
@@ -133,7 +132,7 @@ class Dashboard extends Component {
 
     return post('/create', body)
       .then(data => {
-        this.props.history.push('/game/' + data.guid);
+        this.props.history.push(`/game/${data.guid}`);
       })
       .catch(error => {
         console.error(`Can't create game: ${error}`);
@@ -150,22 +149,28 @@ class Dashboard extends Component {
             <div class="create-buttons">
               <button
                 onClick={() => this.setType('111')}
-                class={'button ' + (this.state.type === '111' ? 'active' : '')}>
+                class={`button ${this.state.type === '111' ? 'active' : ''}`}
+              >
                 <h2>Classic</h2>
-                <p>Play an intense 3v3, build an entire website with HTML, CSS and JavaScript. Communication is key.</p>
+                <p>
+                  Play an intense 3v3, build an entire website with HTML, CSS and JavaScript.
+                  Communication is key.
+                </p>
               </button>
               <button
                 onClick={() => this.setType('010')}
-                class={'button ' + (this.state.type === '010' ? 'active' : '')}>
+                class={`button ${this.state.type === '010' ? 'active' : ''}`}
+              >
                 <h2>Zen Garden</h2>
-                <p>Play a 1v1 CSS battle, who's the better designer?</p>
+                <p>Play a 1v1 CSS battle, who is the better designer?</p>
               </button>
               <button
                 onClick={() => this.setType('000')}
-                class={
-                  'button ' +
-                  (['010', '111'].includes(this.state.type) === false && this.state.hasSetType ? 'active' : '')
-                }>
+                class={`button
+                  ${['010', '111'].includes(this.state.type) === false && this.state.hasSetType
+                    ? 'active'
+                    : ''}`}
+              >
                 <h2>Custom</h2>
                 <p>Create your own new gamemode!</p>
               </button>
@@ -177,17 +182,18 @@ class Dashboard extends Component {
                   {Object.keys(this.state.languages).map((language, index) => (
                     <button
                       onClick={() => this.toggleLanguage(index)}
-                      class={'button ' + (this.state.languages[language].active ? 'active' : '')}>
+                      class={`button ${this.state.languages[language].active ? 'active' : ''}`}
+                    >
                       <h2>{this.state.languages[language].name}</h2>
                       <input
                         class="file-input"
-                        id={language + '-file-input'}
+                        id={`${language}-file-input`}
                         type="file"
                         accept={this.state.languages[language].extensions.join(', ')}
                         onchange={event => this.createFileReader(event, language)}
                       />
                       {this.state.languages[language].content.length === 0 ? (
-                        <label for={language + '-file-input'} class="file-input-label">
+                        <label htmlFor={`${language}-file-input`} class="file-input-label">
                           Choose File
                         </label>
                       ) : (

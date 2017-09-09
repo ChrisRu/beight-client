@@ -15,7 +15,7 @@ export function formatXML(xml) {
   xml
     .replace(/(>)(<)(\/*)/g, '$1\r\n$2$3')
     .split('\r\n')
-    .forEach((node, index) => {
+    .forEach(node => {
       let indent = 0;
 
       if (!node.match(/.+<\/\w[^>]*>$/) && node.match(/^<\w([^>]*[^/])?>.*$/)) {
@@ -28,7 +28,7 @@ export function formatXML(xml) {
         }
       }
 
-      formatted += '\t'.repeat(pad) + node + '\r\n';
+      formatted += `${'\t'.repeat(pad) + node}\r\n`;
       pad += indent;
     });
 
@@ -36,9 +36,7 @@ export function formatXML(xml) {
 }
 
 export function sanitizeXML(xml) {
-  return xml.replace(/[<>"'`&=]/g, char => {
-    return ENTITY_MAP[char];
-  });
+  return xml.replace(/[<>"'`&=]/g, char => ENTITY_MAP[char]);
 }
 
 export function colorizeXML(xml) {
@@ -48,7 +46,10 @@ export function colorizeXML(xml) {
     .replace(/&lt;!--(.+?)--&gt;/gm, '<span class="code-gray">&lt;!--$1--&gt;</span>')
     // Highlight HTML properties
     // After ' ' and until '=',
-    .replace(/((&lt;\w+\s)|(&quot;\s))(.+?)(?=&#61;&quot;)/gm, '$1<span class="code-green">$4</span>')
+    .replace(
+      /((&lt;\w+\s)|(&quot;\s))(.+?)(?=&#61;&quot;)/gm,
+      '$1<span class="code-green">$4</span>'
+    )
     // Highlight HTML quotes
     // Between quotes
     .replace(/&#61;&quot;(.+?)&quot;/gm, '&#61;<span class="code-yellow">&quot;$1&quot;</span>')
@@ -56,7 +57,7 @@ export function colorizeXML(xml) {
     // Between html tags
     .replace(/&lt;(\/)?(\w+)(?=&gt;|\s)/gm, '&lt;$1<span class="code-pink">$2</span>');
 
-  return '<span class="code-ghost-white">' + parsedCode + '</span>';
+  return `<span class="code-ghost-white">${parsedCode}</span>`;
 }
 
 export function beautifyXML(xml) {

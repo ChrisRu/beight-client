@@ -18,3 +18,5 @@ export const markup = `
     </main>
   </body>
 </html>`.replace(/\t/gm, ' ');
+
+export default markup;

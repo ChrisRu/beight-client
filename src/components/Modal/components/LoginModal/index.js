@@ -37,7 +37,7 @@ class LoginModal extends Component {
         eventhub.emit('authenticate', data.authenticated);
         eventhub.emit('overlay:deactivate');
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({ error: true });
       });
   };
@@ -53,7 +53,7 @@ class LoginModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" for="username">
+            <label class="label" htmlFor="username">
               Username
             </label>
           </div>
@@ -72,13 +72,13 @@ class LoginModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" for="username">
+            <label class="label" htmlFor="username">
               Password
             </label>
           </div>
           <div class="col-xs-8">
             <input
-              class={'input' + (this.state.password ? ' password-spacing' : '')}
+              class={`input${this.state.password ? ' password-spacing' : ''}`}
               type="password"
               id="password"
               name="password"
@@ -91,17 +91,23 @@ class LoginModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-7">
-            <Checkbox id="remember-me" name="remember" checked={this.state.remember} onChange={this.handleToggle} />
-            <label for="remember-me" class="label">
+            <Checkbox
+              id="remember-me"
+              name="remember"
+              checked={this.state.remember}
+              onChange={this.handleToggle}
+            />
+            <label htmlFor="remember-me" class="label">
               Remember me?
             </label>
           </div>
           <div class="col-xs-5">
             <button
-              class={'button' + (this.state.error ? ' error' : '')}
+              class={`button${this.state.error ? ' error' : ''}`}
               disabled={!this.state.password || !this.state.username}
               type="submit"
-              onClick={this.logIn}>
+              onClick={this.logIn}
+            >
               Log In
             </button>
           </div>

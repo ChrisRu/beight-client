@@ -4,21 +4,21 @@ class Eventhub {
   }
 
   on(string, handler) {
-    this.testHandler(handler);
+    Eventhub.testHandler(handler);
     this.listeners = this.listeners.concat({ string, handler });
     return this;
   }
 
   onAll(handler) {
-    this.testHandler(handler);
+    Eventhub.testHandler(handler);
     this.listeners = this.listeners.concat({ string: -1, handler });
     return this;
   }
 
   once(string, handler) {
-    this.testHandler(handler);
+    Eventhub.testHandler(handler);
     this.on(string, () => {
-      this.exec(handler);
+      Eventhub.exec(handler);
       this.remove(string);
     });
     return this;
@@ -37,15 +37,15 @@ class Eventhub {
   emit(string, ...args) {
     this.listeners
       .filter(listener => listener.string === string || listener.string === -1)
-      .forEach(listener => this.exec(listener.handler, args));
+      .forEach(listener => Eventhub.exec(listener.handler, args));
     return this;
   }
 
-  exec(handler, args) {
-    handler.apply(null, args);
+  static exec(handler, args) {
+    handler(...args);
   }
 
-  testHandler(handler) {
+  static testHandler(handler) {
     if (typeof handler !== 'function') {
       throw new Error(`Event handler can't be of type '${typeof handler}'`);
     }

@@ -33,7 +33,7 @@ class Input extends Component {
     <div>
       <input
         {...this.props}
-        class={'input ' + (!this.state.isValid ? '' : ' error')}
+        class={`input ${!this.state.isValid ? '' : ' error'}`}
         type={this.props.type || 'text'}
         value={this.state.value}
         onChange={this.handleChange}
@@ -41,7 +41,7 @@ class Input extends Component {
       {this.state.rules.map(
         rule =>
           rule.method(this.state.value) && (
-            <label for={this.props.id} class="input-message error">
+            <label htmlFor={this.props.id} class="input-message error">
               <p>{rule.rule}</p>
             </label>
           )

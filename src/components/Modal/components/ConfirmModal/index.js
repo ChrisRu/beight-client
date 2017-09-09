@@ -17,7 +17,8 @@ const ConfirmModal = props => (
           onClick={() => {
             props.confirm();
             eventhub.emit('overlay:deactivate');
-          }}>
+          }}
+        >
           {props.confirmText}
         </button>
       </div>

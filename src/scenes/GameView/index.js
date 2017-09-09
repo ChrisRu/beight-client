@@ -39,13 +39,12 @@ class Dashboard extends Component {
 
   fetchGames() {
     if (this.props.state === undefined) {
-      return get('/games/' + this.props.match.params.guid).catch(error => {
+      return get(`/games/${this.props.match.params.guid}`).catch(() => {
         this.setState({ notFoundText: "Can't fetch game..." });
       });
-    } else {
-      this.setState({ streams: this.props.location.state || [] });
-      return Promise.resolve([]);
     }
+    this.setState({ streams: this.props.location.state || [] });
+    return Promise.resolve([]);
   }
 
   createSocket() {

@@ -18,7 +18,7 @@ class Buttons extends Component {
       .then(items => {
         this.setState({ items });
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({ notFoundText: "Can't fetch games..." });
       });
   }

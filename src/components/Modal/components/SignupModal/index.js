@@ -57,10 +57,12 @@ class SignupModal extends Component {
           console.warn(error);
         });
     }
+    return Promise.reject("Signup hasn't been completed yet");
   };
 
   completed = () => {
-    const completed = this.state.username && !this.validatePassword() && this.validateVerifyPassword();
+    const completed =
+      this.state.username && !this.validatePassword() && this.validateVerifyPassword();
     this.setState({ completed });
   };
 
@@ -75,7 +77,7 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" for="username">
+            <label class="label" htmlFor="username">
               Username
             </label>
           </div>
@@ -92,7 +94,7 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" for="username">
+            <label class="label" htmlFor="username">
               Password
             </label>
           </div>
@@ -116,7 +118,7 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="col-xs-4">
-            <label class="label" for="username">
+            <label class="label" htmlFor="username">
               Verify Password
             </label>
           </div>
@@ -140,7 +142,12 @@ class SignupModal extends Component {
         </div>
         <div class="row">
           <div class="pull-right">
-            <button class="button" disabled={!this.state.completed} type="submit" onClick={this.signUp}>
+            <button
+              class="button"
+              disabled={!this.state.completed}
+              type="submit"
+              onClick={this.signUp}
+            >
               Sign Up
             </button>
           </div>
