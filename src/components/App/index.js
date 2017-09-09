@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Route, NavLink, withRouter } from 'react-router-dom';
+import { Route, Switch, NavLink, withRouter } from 'react-router-dom';
 import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
 import Home from '@/scenes/Home';
 import Game from '@/scenes/GameView';
 import GameCreate from '@/scenes/GameCreate';
+import NotFound from '@/scenes/NotFound';
 import LoginModal from '@/components/Modal/components/LoginModal';
 import SignupModal from '@/components/Modal/components/SignupModal';
 import ConfirmModal from '@/components/Modal/components/ConfirmModal';
@@ -71,9 +72,13 @@ class App extends Component {
               </a>
             </div>
           </div>
-          <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-          <Route exact path="/game/:guid/:view?" component={Game} />
-          <Route exact path="/create-game" component={GameCreate} />
+
+          <Switch>
+            <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
+            <Route exact path="/game/:guid/:view?" component={Game} />
+            <Route exact path="/create-game" component={GameCreate} />
+            <Route component={NotFound} />
+          </Switch>
 
           <ConfirmModal
             active={this.state.logoutModal}
@@ -93,26 +98,25 @@ class App extends Component {
               <span>Beight</span>
             </NavLink>
             <div class="pull-right">
-              <a
-                role="button"
-                onClick={() => this.toggleModal('login')}
-                class={this.state.loginModal && ' active'}>
+              <a role="button" onClick={() => this.toggleModal('login')} class={this.state.loginModal && ' active'}>
                 <LogIn class="icon" />
                 <span>Log In</span>
               </a>
-              <a
-                role="button"
-                onClick={() => this.toggleModal('signup')}
-                class={this.state.signupModal && ' active'}>
+              <a role="button" onClick={() => this.toggleModal('signup')} class={this.state.signupModal && ' active'}>
                 <UserPlus class="icon" />
                 <span>Sign Up</span>
               </a>
             </div>
-            <LoginModal active={this.state.loginModal} />
-            <SignupModal active={this.state.signupModal} />
           </div>
-          <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-          <Route exact path="/game/:guid/:view?" component={Game} />
+
+          <Switch>
+            <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
+            <Route exact path="/game/:guid/:view?" component={Game} />
+            <Route component={NotFound} />
+          </Switch>
+
+          <LoginModal active={this.state.loginModal} />
+          <SignupModal active={this.state.signupModal} />
         </div>
       );
     }

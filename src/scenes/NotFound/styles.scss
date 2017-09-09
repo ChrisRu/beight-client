@@ -1,0 +1,331 @@
+.title-margin-top {
+  margin-top: 2rem;
+}
+
+$cactus-color: #618b8d;
+$desert-color: #ed7755;
+$mountain-color: #563f31;
+$cloud-color: #fff;
+$sun-color: #fcee56;
+
+.notfound-title {
+  display: block;
+  transform: translateX(40%);
+  z-index: 1000;
+  position: relative;
+  text-align: center;
+}
+
+.dead-bush {
+  position: absolute;
+  bottom: 10%;
+  left: -3em;
+  z-index: 50;
+  width: 3em;
+  height: 3em;
+  background: burlywood;
+  border-radius: 50%;
+  transform: translate(0, 0);
+  animation: float 5s 3s ease infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  5% {
+    transform: translate(0, 28px);
+  }
+  25% {
+    transform: translate(25vw, 0);
+  }
+  75% {
+    transform: translate(75vw, -18px);
+  }
+  100% {
+    transform: translate(110vw, 0);
+  }
+}
+
+.sun {
+  position: absolute;
+  bottom: 57%;
+  left: 5%;
+  width: 10em;
+  height: 10em;
+  border-radius: 50%;
+  background: $sun-color;
+}
+
+.big-mountain {
+  position: absolute;
+  bottom: 40%;
+  left: 0;
+  right: 0;
+  height: 50%;
+  z-index: 10;
+
+  div:nth-child(1) {
+    position: absolute;
+    background: $desert-color;
+    height: 50%;
+    width: 15%;
+    bottom: 0;
+
+    &:before {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -80%;
+      top: -60%;
+      width: 60%;
+      height: 60%;
+      background: transparent;
+      border-top: 10em solid transparent;
+      border-bottom: 10em solid transparent;
+      border-right: 20em solid $desert-color;
+    }
+  }
+
+  div:nth-child(2) {
+    position: absolute;
+    background: $desert-color;
+    height: 80%;
+    width: 40%;
+    bottom: 0;
+    left: 27%;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 100%;
+      top: 0;
+      width: 60%;
+      height: 60%;
+      background: transparent;
+      border-top: 20em solid transparent;
+      border-bottom: 10em solid transparent;
+      border-left: 40em solid $desert-color;
+    }
+  }
+
+  div:nth-child(3) {
+    position: absolute;
+    background: $desert-color;
+    height: 20%;
+    width: 40%;
+    bottom: 0;
+    left: 60%;
+  }
+
+  div:nth-child(4) {
+    position: absolute;
+    bottom: 80%;
+    left: 30%;
+    background: $desert-color;
+    width: 8em;
+    height: 30%;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+  }
+
+  div:nth-child(5) {
+    position: absolute;
+    bottom: 80%;
+    left: 36%;
+    background: $desert-color;
+    width: 8em;
+    height: 15%;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+  }
+}
+
+.mountain {
+  position: absolute;
+  bottom: 30%;
+  left: 0;
+  right: 0;
+  height: 50%;
+  z-index: 20;
+
+  div:nth-child(1) {
+    position: absolute;
+    background: $mountain-color;
+    height: 50%;
+    width: 30%;
+    bottom: 0;
+
+    &:before {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      top: -60%;
+      width: 60%;
+      height: 60%;
+      background: transparent;
+      border-top: 10em solid transparent;
+      border-bottom: 10em solid transparent;
+      border-right: 20em solid $mountain-color;
+    }
+  }
+
+  div:nth-child(2) {
+    position: absolute;
+    background: $mountain-color;
+    height: 80%;
+    width: 30%;
+    bottom: 0;
+    left: 30%;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 100%;
+      top: 0;
+      width: 60%;
+      height: 60%;
+      background: transparent;
+      border-top: 20em solid transparent;
+      border-bottom: 10em solid transparent;
+      border-left: 40em solid $mountain-color;
+    }
+  }
+
+  div:nth-child(3) {
+    position: absolute;
+    background: $mountain-color;
+    height: 20%;
+    width: 40%;
+    bottom: 0;
+    left: 60%;
+  }
+}
+
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(175deg, $desert-color, darken($desert-color, 8%));
+  z-index: 30;
+
+  .cactus:nth-child(1) {
+    left: 60%;
+    top: -9.5em;
+  }
+
+  .cactus:nth-child(2) {
+    left: 20%;
+    top: -8.5em;
+  }
+
+  .cactus:nth-child(3) {
+    left: 90%;
+    top: -3.9em;
+  }
+}
+
+.cactus {
+  position: relative;
+  left: 60%;
+  animation: wave 5s 0s ease infinite;
+
+  div {
+    position: absolute;
+  }
+
+  div:nth-child(1) {
+    background: $cactus-color;
+    height: 10em;
+    width: 1.1em;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+  }
+
+  div:nth-child(2) {
+    width: 1em;
+    height: 3em;
+    background: $cactus-color;
+    left: -2em;
+    top: 1.5em;
+    border-bottom-left-radius: 5em;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 1em;
+      height: 1em;
+      left: 1em;
+      top: 2em;
+      background: $cactus-color;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 1.5em;
+      left: 1em;
+      width: 0.5em;
+      height: 0.5em;
+      background-image: radial-gradient(circle at 100% 0, rgba(204, 0, 0, 0) 0.5em, $cactus-color 0.4em);
+    }
+  }
+
+  div:nth-child(3) {
+    width: 1em;
+    height: 5em;
+    background: $cactus-color;
+    left: 1.7em;
+    top: 3em;
+    border-bottom-right-radius: 5em;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 1em;
+      height: 1em;
+      left: -1em;
+      top: 4em;
+      background: $cactus-color;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 3.5em;
+      left: -0.5em;
+      width: 0.5em;
+      height: 0.5em;
+      background-image: radial-gradient(circle at 0 0, rgba(204, 0, 0, 0) 0.5em, $cactus-color 0.4em);
+    }
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: skew(0, 0);
+  }
+  25% {
+    transform: skew(-3deg, 0deg) translateX(10px);
+  }
+  50% {
+    transform: skew(0, 0);
+  }
+  75% {
+    transform: skew(-3deg, 0deg) translateX(10px);
+  }
+  100% {
+    transform: skew(0, 0);
+  }
+}
