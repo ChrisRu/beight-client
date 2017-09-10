@@ -125,8 +125,6 @@ class Dashboard extends Component {
     const body = Object.values(this.state.languages).map(item => ({
       content: item.content,
       active: item.active,
-      // TODO: fix this
-      language: 3,
       name: item.name
     }));
 

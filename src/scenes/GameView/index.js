@@ -50,7 +50,10 @@ class Dashboard extends Component {
   createSocket() {
     this.setState({ socket: new Ws('ws://localhost:8081') });
     this.state.socket.listen(data => {
-      this.editors[data.streams[0]].applyEdit(data);
+      const streamId = data.streams[0];
+      if (this.editors[streamId]) {
+        this.editors[streamId].applyEdit(data);
+      }
     });
     this.state.socket.onDisconnect(() => {
       this.setState({ connected: false });
@@ -79,7 +82,7 @@ class Dashboard extends Component {
               socket={this.state.socket}
               game={this.props.match.params.guid}
               stream={stream.id}
-              language={stream.language ? stream.language.name : 'javascript'}
+              language={stream.language ? stream.language.languageName : 'javascript'}
               connected={this.state.connected}
               height="100%"
               width="100%"

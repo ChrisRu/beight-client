@@ -18,6 +18,7 @@ class Editor extends Component {
   }
 
   componentWillUnmount() {
+    this.setState({ noUpdate: true, value: '' });
     eventhub.remove('editor-resize', this.resize);
   }
 
@@ -36,6 +37,7 @@ class Editor extends Component {
   };
 
   applyEdit = async data => {
+    console.log(data);
     if (data.full !== undefined) {
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {
@@ -43,15 +45,13 @@ class Editor extends Component {
           this.monaco.editor.setValue(data.full);
         });
       }
+    } else if (data.number != null && data.number - 1 !== this.state.lastChangeId) {
+      this.props.socket.post({
+        type: 'fetch',
+        game: this.props.game,
+        streams: [this.props.stream]
+      });
     } else {
-      if (data.number != null && data.number - 1 !== this.state.lastChangeId) {
-        this.props.socket.post({
-          type: 'fetch',
-          game: this.props.game,
-          streams: [this.props.stream]
-        });
-        return;
-      }
       this.execute(() => {
         this.setState({ lastChangeId: data.number, noUpdate: true });
         this.monaco.editor.executeEdits(data.origin, data.change.changes);
@@ -75,7 +75,7 @@ class Editor extends Component {
     }
   };
 
-  editorDidMount = editor => {
+  editorDidMount = () => {
     this.state.executeOnMount.forEach(item => {
       item.method.apply(this, item.args);
     });
@@ -83,7 +83,6 @@ class Editor extends Component {
       executeOnMount: [],
       editorMounted: true
     });
-    editor.focus();
   };
 
   assignRef = component => {
