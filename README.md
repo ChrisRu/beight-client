@@ -1,9 +1,25 @@
 # Beight Client
 A collaborative web editor built with Preact and Monaco Editor.
-It works together with the Beight Core, the backend.
+This is the frontend for the Beight application. If you want the full experience, go to https://github.com/ChrisRu/beight-core and install the backend/API.
 
 # License
 This application is MIT licensed
+
+# Setup
+
+1. Install the node modules
+
+      `npm install`
+
+2. Done :)
+
+# Running
+
+1. Start the development server
+
+      `npm run dev`
+
+2. The application should start after a few seconds. Press CTRL+C to exit.
 
 # Collaboration
 
