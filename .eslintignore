@@ -1,4 +1,6 @@
 config
 public
 scripts
+build
+dist
 node_modules
