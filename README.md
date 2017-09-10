@@ -17,7 +17,7 @@ This application is MIT licensed
 
 1. Start the development server
 
-      `npm run dev`
+      `npm run watch`
 
 2. The application should start after a few seconds. Press CTRL+C to exit.
 
