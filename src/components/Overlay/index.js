@@ -39,10 +39,8 @@ class Overlay extends Component {
   };
 
   render() {
-    if (this.state.visible) {
-      return <div role="button" tabIndex={-1} class="overlay" onClick={this.hideOverlay} />;
-    }
-    return null;
+    const className = `overlay ${this.state.visible ? '' : 'hidden'}`;
+    return <div role="button" tabIndex={-1} class={className} onClick={this.hideOverlay} />;
   }
 }
 

@@ -11,6 +11,24 @@
 
   .button {
     flex-basis: 100%;
+    margin: 0 1em;
+
+    &.active {
+      border: 3px solid $blue;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    p {
+      margin: 0.5em 0 0;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
   }
 }
 

@@ -80,6 +80,7 @@ class App extends Component {
           </Switch>
 
           <ConfirmModal
+            icon={<LogOut class="icon" />}
             active={this.state.logoutModal}
             confirm={this.logOut}
             confirmText="Log Out"

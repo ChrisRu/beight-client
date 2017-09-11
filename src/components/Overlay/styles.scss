@@ -5,6 +5,14 @@
   bottom: 0;
   right: 0;
   cursor: pointer;
-  background: rgba(#000, 0.4);
+  background-color: rgba(#000, 0.7);
   z-index: 50;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+  outline: none;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 }

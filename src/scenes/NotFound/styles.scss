@@ -25,7 +25,7 @@ $sun-color: #fcee56;
   height: 3em;
   border-radius: 50%;
   animation: float 5s 3s ease infinite;
-  background: darken($mountain-color, 5%);
+  background-color: darken($mountain-color, 5%);
 }
 
 .sun {
@@ -35,7 +35,7 @@ $sun-color: #fcee56;
   width: 10em;
   height: 10em;
   border-radius: 50%;
-  background: $sun-color;
+  background-color: $sun-color;
 }
 
 .big-mountain {
@@ -48,7 +48,7 @@ $sun-color: #fcee56;
 
   div:nth-child(1) {
     position: absolute;
-    background: $desert-color;
+    background-color: $desert-color;
     height: 50%;
     width: 15%;
     bottom: 0;
@@ -62,7 +62,7 @@ $sun-color: #fcee56;
       top: -60%;
       width: 60%;
       height: 60%;
-      background: transparent;
+      background-color: transparent;
       border-top: 10em solid transparent;
       border-bottom: 10em solid transparent;
       border-right: 20em solid $desert-color;
@@ -71,7 +71,7 @@ $sun-color: #fcee56;
 
   div:nth-child(2) {
     position: absolute;
-    background: $desert-color;
+    background-color: $desert-color;
     height: 80%;
     width: 40%;
     bottom: 0;
@@ -85,7 +85,7 @@ $sun-color: #fcee56;
       top: 0;
       width: 60%;
       height: 60%;
-      background: transparent;
+      background-color: transparent;
       border-top: 20em solid transparent;
       border-bottom: 10em solid transparent;
       border-left: 40em solid $desert-color;
@@ -94,7 +94,7 @@ $sun-color: #fcee56;
 
   div:nth-child(3) {
     position: absolute;
-    background: $desert-color;
+    background-color: $desert-color;
     height: 20%;
     width: 40%;
     bottom: 0;
@@ -105,7 +105,7 @@ $sun-color: #fcee56;
     position: absolute;
     bottom: 80%;
     left: 30%;
-    background: $desert-color;
+    background-color: $desert-color;
     width: 8em;
     height: 30%;
     border-top-left-radius: 2em;
@@ -116,7 +116,7 @@ $sun-color: #fcee56;
     position: absolute;
     bottom: 80%;
     left: 36%;
-    background: $desert-color;
+    background-color: $desert-color;
     width: 8em;
     height: 15%;
     border-top-left-radius: 2em;
@@ -134,7 +134,7 @@ $sun-color: #fcee56;
 
   div:nth-child(1) {
     position: absolute;
-    background: $mountain-color;
+    background-color: $mountain-color;
     height: 50%;
     width: 30%;
     bottom: 0;
@@ -148,7 +148,7 @@ $sun-color: #fcee56;
       top: -60%;
       width: 60%;
       height: 60%;
-      background: transparent;
+      background-color: transparent;
       border-top: 10em solid transparent;
       border-bottom: 10em solid transparent;
       border-right: 20em solid $mountain-color;
@@ -157,7 +157,7 @@ $sun-color: #fcee56;
 
   div:nth-child(2) {
     position: absolute;
-    background: $mountain-color;
+    background-color: $mountain-color;
     height: 80%;
     width: 30%;
     bottom: 0;
@@ -171,7 +171,7 @@ $sun-color: #fcee56;
       top: 0;
       width: 60%;
       height: 60%;
-      background: transparent;
+      background-color: transparent;
       border-top: 20em solid transparent;
       border-bottom: 10em solid transparent;
       border-left: 40em solid $mountain-color;
@@ -180,7 +180,7 @@ $sun-color: #fcee56;
 
   div:nth-child(3) {
     position: absolute;
-    background: $mountain-color;
+    background-color: $mountain-color;
     height: 20%;
     width: 40%;
     bottom: 0;
@@ -223,7 +223,7 @@ $sun-color: #fcee56;
   }
 
   div:nth-child(1) {
-    background: $cactus-color;
+    background-color: $cactus-color;
     height: 10em;
     width: 1.1em;
     border-top-left-radius: 2em;
@@ -233,7 +233,7 @@ $sun-color: #fcee56;
   div:nth-child(2) {
     width: 1em;
     height: 3em;
-    background: $cactus-color;
+    background-color: $cactus-color;
     left: -2em;
     top: 1.5em;
     border-bottom-left-radius: 5em;
@@ -247,7 +247,7 @@ $sun-color: #fcee56;
       height: 1em;
       left: 1em;
       top: 2em;
-      background: $cactus-color;
+      background-color: $cactus-color;
     }
 
     &:before {
@@ -264,7 +264,7 @@ $sun-color: #fcee56;
   div:nth-child(3) {
     width: 1em;
     height: 5em;
-    background: $cactus-color;
+    background-color: $cactus-color;
     left: 1.7em;
     top: 3em;
     border-bottom-right-radius: 5em;
@@ -278,7 +278,7 @@ $sun-color: #fcee56;
       height: 1em;
       left: -1em;
       top: 4em;
-      background: $cactus-color;
+      background-color: $cactus-color;
     }
 
     &:before {
