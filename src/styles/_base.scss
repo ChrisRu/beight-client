@@ -193,3 +193,25 @@ h6 {
 .code-light-ghost-white {
   color: #F8F8F2;
 }
+
+.fade-out {
+  animation: fade-out 0.1s ease-out forwards;
+}
+
+.fade-in {
+  animation: fade-out 0.1s ease-in forwards alternate-reverse;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}

@@ -12,8 +12,15 @@ class LoginModal extends Component {
       username: '',
       password: '',
       remember: false,
-      error: false
+      error: false,
+      success: false
     };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.active !== this.props.active) {
+      this.setState({ error: false, success: false });
+    }
   }
 
   handleChange = event => {
@@ -34,17 +41,23 @@ class LoginModal extends Component {
     const { username, password, remember } = this.state;
     return post('/login', { username, password, remember })
       .then(data => {
-        eventhub.emit('authenticate', data.authenticated);
-        eventhub.emit('overlay:deactivate');
+        this.setState({ success: data.success });
+        setTimeout(() => {
+          eventhub.emit('authenticate', data.success);
+          eventhub.emit('overlay:deactivate');
+        }, 100);
       })
       .catch(() => {
+        eventhub.emit('authenticate', false);
         this.setState({ error: true });
       });
   };
 
   render() {
+    const statusClass = `${this.state.error ? 'error' : ''} ${this.state.success ? 'success fade-out' : ''}`;
+
     return (
-      <Modal active={this.props.active} class={this.state.error && 'error'}>
+      <Modal active={this.props.active} class={statusClass}>
         <div class="row">
           <h3 class="modal-title">
             <LogIn class="icon" />
@@ -103,7 +116,7 @@ class LoginModal extends Component {
           </div>
           <div class="col-xs-5">
             <button
-              class={`button${this.state.error ? ' error' : ''}`}
+              class={`button ${statusClass}`}
               disabled={!this.state.password || !this.state.username}
               type="submit"
               onClick={this.logIn}
