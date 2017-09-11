@@ -45,7 +45,7 @@ class App extends Component {
   toggleModal = name => {
     const modalName = `${name}Modal`;
     this.setState(state => ({ [modalName]: !state[modalName] }));
-    if (this.state[name]) {
+    if (this.state[modalName]) {
       eventhub.emit('overlay:activate');
     } else {
       eventhub.emit('overlay:deactivate');
