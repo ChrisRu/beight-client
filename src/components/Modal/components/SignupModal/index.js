@@ -12,29 +12,15 @@ class SignupModal extends Component {
       username: '',
       password: '',
       verifyPassword: '',
-      samePassword: false,
-      completed: false,
-      invalidPassword: false
+      error: false,
+      success: false,
+      completed: false
     };
   }
 
   handleChange = event => {
-    // Seperate calls so event target value is updated before checking requirements
-    this.setState({ [event.target.name]: event.target.value });
-    this.setState({
-      samePassword: this.validateVerifyPassword(),
-      invalidPassword: this.validatePassword()
-    });
-    this.completed();
+    this.setState({ [event.target.name]: event.target.value, error: false });
   };
-
-  validateVerifyPassword() {
-    return !this.state.verifyPassword || this.state.password === this.state.verifyPassword;
-  }
-
-  validatePassword() {
-    return !(this.state.password && this.state.password.length > 5);
-  }
 
   keyDown = event => {
     if (event.keyCode === 13) {
@@ -43,29 +29,40 @@ class SignupModal extends Component {
   };
 
   signUp = () => {
-    if (this.state.completed) {
-      const { username, password } = this.state;
-      return post('/signup', { username, password })
-        .then(data => {
-          if (data.success === true) {
-            eventhub.emit('overlay:deactivate');
-          } else {
-            throw new Error('Signup failed');
-          }
-        });
+    this.setState({ completed: true });
+    eventhub.emit('input:verify');
+    if (this.state.completed === false) {
+      this.setState({ error: true });
+      return;
     }
-    return Promise.reject("Signup hasn't been completed yet");
+
+    const { username, password } = this.state;
+    post('/signup', { username, password })
+      .then(data => {
+        if (data.success === true) {
+          this.setState({ success: true });
+          eventhub.emit('overlay:deactivate');
+        } else {
+          throw new Error('Create account failed');
+        }
+      })
+      .catch(() => {
+        this.setState({ error: true });
+      });
   };
 
-  completed = () => {
-    const completed =
-      this.state.username && !this.validatePassword() && this.validateVerifyPassword();
-    this.setState({ completed });
+  verify = bool => {
+    if (bool === false) {
+      this.setState({ completed: false });
+    }
   };
 
   render() {
+    const { error, success } = this.state;
+    const statusClass = `${error ? 'error' : ''} ${success ? 'success fade-out' : ''}`;
+
     return (
-      <Modal active={this.props.active}>
+      <Modal active={this.props.active} class={statusClass}>
         <div class="row">
           <h3 class="modal-title">
             <UserPlus class="icon" />
@@ -85,7 +82,7 @@ class SignupModal extends Component {
               placeholder="username"
               value={this.state.username}
               onChange={this.handleChange}
-              keyDown={this.keyDown}
+              onKeyDown={this.keyDown}
             />
           </div>
         </div>
@@ -103,11 +100,12 @@ class SignupModal extends Component {
               placeholder="password"
               value={this.state.password}
               onChange={this.handleChange}
-              keyDown={this.keyDown}
+              onVerify={this.verify}
+              onKeyDown={this.keyDown}
               rules={[
                 {
                   rule: 'Password should be at least 6 characters',
-                  method: value => value && value.length < 6
+                  method: value => value && value.length > 5
                 }
               ]}
             />
@@ -127,24 +125,24 @@ class SignupModal extends Component {
               placeholder="verify password"
               value={this.state.verifyPassword}
               onChange={this.handleChange}
-              keyDown={this.keyDown}
+              onVerify={this.verify}
+              onKeyDown={this.keyDown}
               rules={[
                 {
+                  rule: 'Verify password can\'t be empty',
+                  method: value => value
+                },
+                {
                   rule: "Passwords don't match",
-                  method: value => value && value !== this.state.password
+                  method: value => value === this.state.password
                 }
               ]}
             />
           </div>
         </div>
-        <div class="row">
+        <div class="row modal-bottom">
           <div class="pull-right">
-            <button
-              class="button"
-              disabled={!this.state.completed}
-              type="submit"
-              onClick={this.signUp}
-            >
+            <button class="button" type="submit" onClick={this.signUp}>
               Sign Up
             </button>
           </div>

@@ -15,17 +15,23 @@
 
   &-message {
     position: absolute;
-    top: 0;
-    left: 100%;
+    left: calc(100% + 0.5rem);
     width: 15em;
     background-color: $dark-red;
-    color: #fff;
+    color: $white;
     font-size: 0.8em;
+    border-radius: $radius;
+    margin: 0;
+    box-shadow: $shadow;
+    z-index: 5;
 
     p {
       margin: 0;
-      padding: 0.2em;
-      border-radius: $radius;
+      padding: 0.7em;
     }
+  }
+
+  &-wrapper {
+    position: relative;
   }
 }

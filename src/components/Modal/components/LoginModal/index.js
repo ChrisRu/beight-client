@@ -4,6 +4,7 @@ import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
 import Modal from '@/components/Modal';
 import Checkbox from '@/components/Checkbox';
+import Input from '@/components/Input';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class LoginModal extends Component {
       password: '',
       remember: false,
       error: false,
-      success: false
+      success: false,
+      completed: false
     };
   }
 
@@ -31,6 +33,12 @@ class LoginModal extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
+  handleVerify = bool => {
+    if (bool === false) {
+      this.setState({ completed: false });
+    }
+  };
+
   keyDown = event => {
     if (event.keyCode === 13) {
       this.logIn();
@@ -38,23 +46,32 @@ class LoginModal extends Component {
   };
 
   logIn = () => {
+    this.setState({ completed: true });
+    eventhub.emit('input:verify');
+    if (this.state.completed === false) {
+      this.setState({ error: true });
+      return;
+    }
+
     const { username, password, remember } = this.state;
-    return post('/login', { username, password, remember })
+    post('/login', { username, password, remember })
       .then(data => {
-        this.setState({ success: data.success });
-        setTimeout(() => {
-          eventhub.emit('authenticate', data.success);
+        if (data.success === true) {
+          this.setState({ success: true });
+          eventhub.emit('authenticate', true);
           eventhub.emit('overlay:deactivate');
-        }, 100);
+        } else {
+          throw new Error('Login failed');
+        }
       })
       .catch(() => {
-        eventhub.emit('authenticate', false);
         this.setState({ error: true });
       });
   };
 
   render() {
-    const statusClass = `${this.state.error ? 'error' : ''} ${this.state.success ? 'success fade-out' : ''}`;
+    const { error, success } = this.state;
+    const statusClass = `${error ? 'error' : ''} ${success ? 'success fade-out' : ''}`;
 
     return (
       <Modal active={this.props.active} class={statusClass}>
@@ -65,13 +82,13 @@ class LoginModal extends Component {
           </h3>
         </div>
         <div class="row">
-          <div class="col-xs-4">
+          <div class="col-xs-3">
             <label class="label" htmlFor="username">
               Username
             </label>
           </div>
-          <div class="col-xs-8">
-            <input
+          <div class="col-xs-9">
+            <Input
               class="input"
               type="text"
               id="username"
@@ -79,18 +96,25 @@ class LoginModal extends Component {
               placeholder="username"
               value={this.state.username}
               onChange={this.handleChange}
-              keyDown={this.keyDown}
+              onVerify={this.handleVerify}
+              onKeyDown={this.keyDown}
+              rules={[
+                {
+                  rule: "Username field can't be empty",
+                  method: value => value.length > 0
+                }
+              ]}
             />
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-4">
+          <div class="col-xs-3">
             <label class="label" htmlFor="username">
               Password
             </label>
           </div>
-          <div class="col-xs-8">
-            <input
+          <div class="col-xs-9">
+            <Input
               class={`input${this.state.password ? ' password-spacing' : ''}`}
               type="password"
               id="password"
@@ -98,12 +122,19 @@ class LoginModal extends Component {
               placeholder="password"
               value={this.state.password}
               onChange={this.handleChange}
-              keyDown={this.keyDown}
+              onVerify={this.handleVerify}
+              onKeyDown={this.keyDown}
+              rules={[
+                {
+                  rule: "Password field can't be empty",
+                  method: value => value.length > 0
+                }
+              ]}
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-7">
+        <div class="row modal-bottom">
+          <div class="col-xs-9">
             <Checkbox
               id="remember-me"
               name="remember"
@@ -114,13 +145,8 @@ class LoginModal extends Component {
               Remember me?
             </label>
           </div>
-          <div class="col-xs-5">
-            <button
-              class={`button ${statusClass}`}
-              disabled={!this.state.password || !this.state.username}
-              type="submit"
-              onClick={this.logIn}
-            >
+          <div class="pull-right">
+            <button class={`button ${statusClass}`} type="submit" onClick={this.logIn}>
               Log In
             </button>
           </div>

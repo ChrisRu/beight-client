@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import eventhub from '@/services/eventhub';
 import './styles.scss';
 
 class Input extends Component {
@@ -8,52 +9,59 @@ class Input extends Component {
 
     this.state = {
       isPassword: props.type && props.type.type === 'password',
-      isValid: false,
+      isValid: true,
       value: '',
       focus: false,
       rules
     };
+
+    eventhub.on('input:verify', this.verify);
+  }
+
+  componentWillUnmount() {
+    eventhub.remove('input:verify', this.verify);
   }
 
   handleChange = event => {
     const { value } = event.target;
-    this.setState({ value });
+    this.setState({ value, isValid: true });
 
     if (this.props.onChange) {
-      const newEvent = event;
-      newEvent.isValid = this.state.isValid;
-      this.props.onChange.call(null, newEvent);
+      this.props.onChange(event);
     }
   };
 
-  verify = event => {
-    const { value } = event.target;
-
-    const isValid = !this.state.rules.every(rule => rule.method(value));
+  verify = () => {
+    const isValid = this.state.rules.every(rule => rule.method(this.state.value));
     this.setState({ isValid, focus: false });
+
+    if (this.props.onVerify) {
+      this.props.onVerify(isValid);
+    }
   };
 
   render() {
-    const inputClass = `input ${!this.state.focus && this.state.isValid ? '' : ' error'}`;
+    const inputClass = `input ${this.state.isValid ? '' : ' error'}`;
     return (
-      <div>
+      <div class="input-wrapper">
         <input
           {...this.props}
           class={inputClass}
           type={this.props.type || 'text'}
           value={this.state.value}
+          onKeyDown={this.props.onKeyDown}
           onChange={this.handleChange}
           onBlur={this.verify}
           onFocus={() => this.setState({ focus: true })}
         />
-        {this.state.rules.map(
-          rule =>
-            rule.method(this.state.value) && (
-              <label htmlFor={this.props.id} class="input-message error">
-                <p>{rule.rule}</p>
-              </label>
-            )
-        )}
+        {!this.state.isValid && this.state.rules.map(
+            rule =>
+              !rule.method(this.state.value) && (
+                <label htmlFor={this.props.id} class="input-message error">
+                  <p>{rule.rule}</p>
+                </label>
+              )
+          )}
       </div>
     );
   }
