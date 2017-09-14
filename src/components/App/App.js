@@ -60,10 +60,10 @@ class App extends Component {
           <Overlay />
           <div class="navigation">
             <NavLink tabIndex={0} role="link" exact to="/">
-              <span>Beight</span>
+              <span tabIndex={-1}>Beight</span>
             </NavLink>
             <NavLink tabIndex={0} role="link" to="/games/create">
-              <span>Create Game</span>
+              <span tabIndex={-1}>Create Game</span>
             </NavLink>
             <div class="pull-right">
               <a
@@ -72,8 +72,10 @@ class App extends Component {
                 onClick={() => this.toggleModal('logout')}
                 onKeyPress={handleEnter(() => this.toggleModal('logout'))}
               >
-                <LogOut class="icon" />
-                <span>Log Out</span>
+                <span tabIndex={-1}>
+                  <LogOut class="icon" />
+                  <span>Log Out</span>
+                </span>
               </a>
             </div>
           </div>
@@ -101,7 +103,7 @@ class App extends Component {
         <Overlay />
         <div class="navigation">
           <NavLink exact to="/">
-            <span>Beight</span>
+            <span tabIndex={-1}>Beight</span>
           </NavLink>
           <div class="pull-right">
             <a
@@ -111,8 +113,10 @@ class App extends Component {
               onKeyPress={handleEnter(() => this.toggleModal('login'))}
               class={this.state.loginModal && ' active'}
             >
-              <LogIn class="icon" />
-              <span>Log In</span>
+              <span tabIndex={-1}>
+                <LogIn class="icon" />
+                <span>Log In</span>
+              </span>
             </a>
             <a
               role="button"
@@ -121,8 +125,10 @@ class App extends Component {
               onKeyPress={handleEnter(() => this.toggleModal('signup'))}
               class={this.state.signupModal && ' active'}
             >
-              <UserPlus class="icon" />
-              <span>Sign Up</span>
+              <span tabIndex={-1}>
+                <UserPlus class="icon" />
+                <span>Sign Up</span>
+              </span>
             </a>
           </div>
         </div>

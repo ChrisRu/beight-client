@@ -10,38 +10,46 @@
   position: relative;
 
   a {
-    font-size: 1em;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 3.2rem;
-    padding: 0.5em 1.1em;
-    color: rgba(255, 255, 255, 0.5);
-    text-decoration: none;
-    box-sizing: border-box;
-    cursor: pointer;
     outline: none;
-    position: relative;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+    display: inline-block;
+    margin: 0 1em;
 
-    &.active,
-    &:hover {
+    > span {
+      font-size: 1em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 3.2rem;
+      box-sizing: border-box;
+      cursor: pointer;
+      outline: none;
+      position: relative;
+      display: block;
+
+      &:hover {
+        color: $white;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0.2em;
+        height: 1px;
+        background-color: $blue;
+        width: 100%;
+        transition: opacity 0.1s;
+        opacity: 0;
+      }
+    }
+
+    &.active {
       color: $white;
     }
 
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: 0.2em;
-      left: 1em;
-      height: 1px;
-      background-color: $blue;
-      width: calc(100% - 2em);
-      transition: opacity 0.1s;
-      opacity: 0;
-    }
-
-    &:focus:after,
-    &:active:after {
+    &:focus > span:after {
       opacity: 1;
     }
   }
