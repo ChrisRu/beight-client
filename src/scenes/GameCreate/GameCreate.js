@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { post } from '@/services/http';
+import Languages from './components/Languages/Languages';
+import Presets from './components/Presets/Presets';
 import './GameCreate.scss';
 
 class GameCreate extends Component {
@@ -123,10 +125,9 @@ class GameCreate extends Component {
       name: item.name
     }));
 
-    return post('/games/create', body)
-      .then(data => {
-        this.props.history.push(`/game/${data.guid}`);
-      });
+    return post('/games/create', body).then(data => {
+      this.props.history.push(`/game/${data.guid}`);
+    });
   };
 
   render() {
@@ -135,70 +136,22 @@ class GameCreate extends Component {
         <div>
           <h1>Create new game</h1>
           <div class="container">
-            <h2>Presets</h2>
-            <div class="create-buttons">
-              <button
-                onClick={() => this.setType('111')}
-                class={`button ${this.state.type === '111' ? 'active' : ''}`}
-              >
-                <h2>Classic</h2>
-                <p>
-                  Play an intense 3v3, build an entire website with HTML, CSS and JavaScript.
-                  Communication is key.
-                </p>
-              </button>
-              <button
-                onClick={() => this.setType('010')}
-                class={`button ${this.state.type === '010' ? 'active' : ''}`}
-              >
-                <h2>Zen Garden</h2>
-                <p>Play a 1v1 CSS battle, who is the better designer?</p>
-              </button>
-              <button
-                onClick={() => this.setType('000')}
-                class={`button
-                  ${['010', '111'].includes(this.state.type) === false && this.state.hasSetType
-                    ? 'active'
-                    : ''}`}
-              >
-                <h2>Custom</h2>
-                <p>Create your own new gamemode!</p>
-              </button>
-            </div>
+            <Presets
+              setType={this.setType}
+              type={this.state.type}
+              hasSetType={this.state.hasSetType}
+            />
             {this.state.hasSetType && (
-              <div>
-                <h2>Languages</h2>
-                <div class="create-buttons">
-                  {Object.keys(this.state.languages).map((language, index) => (
-                    <button
-                      onClick={() => this.toggleLanguage(index)}
-                      class={`button ${this.state.languages[language].active ? 'active' : ''}`}
-                    >
-                      <h2>{this.state.languages[language].name}</h2>
-                      <input
-                        class="file-input"
-                        id={`${language}-file-input`}
-                        type="file"
-                        accept={this.state.languages[language].extensions.join(', ')}
-                        onchange={event => this.createFileReader(event, language)}
-                      />
-                      {this.state.languages[language].content.length === 0 ? (
-                        <label htmlFor={`${language}-file-input`} class="file-input-label">
-                          Choose File
-                        </label>
-                      ) : (
-                        <button class="file-input-button" onClick={() => this.removeFile(language)}>
-                          Remove <span class="code">{this.state.languages[language].filename}</span>
-                        </button>
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <button class="button create-button pull-right" onClick={this.save}>
-                  Create Game
-                </button>
-              </div>
+              <Languages
+                languages={this.state.languages}
+                toggleLanguage={this.toggleLanguage}
+                createFileReader={this.createFileReader}
+                removeFile={this.removeFile}
+              />
             )}
+            <button class="button create-button pull-right" onClick={this.save}>
+              Create Game
+            </button>
           </div>
         </div>
       </div>
