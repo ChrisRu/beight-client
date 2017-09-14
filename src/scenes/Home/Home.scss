@@ -68,5 +68,9 @@
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
+
+    &:focus {
+      border: 1px solid $blue;
+    }
   }
 }

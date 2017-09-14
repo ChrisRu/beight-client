@@ -52,7 +52,6 @@
   }
 
   &-bottom.row {
-    // background: #f1f3f6;
     margin-top: 1rem;
   }
 
@@ -109,7 +108,7 @@
       color: inherit;
 
       &:hover {
-        background: darken(#fff, 5%);
+        background-color: darken(#fff, 5%);
       }
     }
   }

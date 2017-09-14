@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, NavLink, withRouter } from 'react-router-dom';
 import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
+import { handleEnter } from '@/services/accessibility';
 import Home from '@/scenes/Home/Home';
 import Game from '@/scenes/GameView/GameView';
 import GameCreate from '@/scenes/GameCreate/GameCreate';
@@ -58,14 +59,19 @@ class App extends Component {
         <div class="app">
           <Overlay />
           <div class="navigation">
-            <NavLink exact to="/">
+            <NavLink tabIndex={0} role="link" exact to="/">
               <span>Beight</span>
             </NavLink>
-            <NavLink to="/games/create">
+            <NavLink tabIndex={0} role="link" to="/games/create">
               <span>Create Game</span>
             </NavLink>
             <div class="pull-right">
-              <a role="button" tabIndex={0} onClick={() => this.toggleModal('logout')}>
+              <a
+                role="link"
+                tabIndex={0}
+                onClick={() => this.toggleModal('logout')}
+                onKeyPress={handleEnter(() => this.toggleModal('logout'))}
+              >
                 <LogOut class="icon" />
                 <span>Log Out</span>
               </a>
@@ -102,6 +108,7 @@ class App extends Component {
               role="button"
               tabIndex={0}
               onClick={() => this.toggleModal('login')}
+              onKeyPress={handleEnter(() => this.toggleModal('login'))}
               class={this.state.loginModal && ' active'}
             >
               <LogIn class="icon" />
@@ -111,6 +118,7 @@ class App extends Component {
               role="button"
               tabIndex={0}
               onClick={() => this.toggleModal('signup')}
+              onKeyPress={handleEnter(() => this.toggleModal('signup'))}
               class={this.state.signupModal && ' active'}
             >
               <UserPlus class="icon" />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { post } from '@/services/http';
+import { handleEnter } from '@/services/accessibility';
 import Languages from './components/Languages/Languages';
 import Presets from './components/Presets/Presets';
 import './GameCreate.scss';
@@ -39,7 +40,7 @@ class GameCreate extends Component {
 
   setType = type => {
     const booleans = type.split('');
-    return this.setState(state => ({
+    this.setState(state => ({
       languages: {
         HTML: {
           ...state.languages.HTML,
@@ -57,6 +58,10 @@ class GameCreate extends Component {
       type,
       hasSetType: true
     }));
+
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
   };
 
   getAllExtensions = () =>
@@ -142,16 +147,23 @@ class GameCreate extends Component {
               hasSetType={this.state.hasSetType}
             />
             {this.state.hasSetType && (
-              <Languages
-                languages={this.state.languages}
-                toggleLanguage={this.toggleLanguage}
-                createFileReader={this.createFileReader}
-                removeFile={this.removeFile}
-              />
+              <div>
+                <Languages
+                  languages={this.state.languages}
+                  toggleLanguage={this.toggleLanguage}
+                  createFileReader={this.createFileReader}
+                  removeFile={this.removeFile}
+                />
+                <button
+                  class="button create-button pull-right"
+                  tabIndex={0}
+                  onKeyPress={handleEnter(this.save)}
+                  onClick={this.save}
+                >
+                  Create Game
+                </button>
+              </div>
             )}
-            <button class="button create-button pull-right" onClick={this.save}>
-              Create Game
-            </button>
           </div>
         </div>
       </div>

@@ -7,6 +7,21 @@
 
 .button.create-button {
   margin: 2rem 1rem 0 0;
+  font-family: $font-body;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 0.75em 1em;
+  background-color: $blue;
+
+  &:focus,
+  &:hover {
+    background-color: darken($blue, 5%);
+  }
+
+  &:active {
+    background-color: darken($blue, 10%);
+  }
 }
 
 .create-buttons {
@@ -32,6 +47,10 @@
     a {
       color: $white;
       text-decoration: none;
+    }
+
+    &:focus {
+      background-color: rgba($white, 0.2);
     }
   }
 }

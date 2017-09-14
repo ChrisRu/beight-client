@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: $primary-background;
-  font-family: 'Lato', sans-serif;
+  font-family: $font-body;
   font-size: 18px;
   color: $white;
   overflow: hidden;
@@ -14,7 +14,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $font-title;
 }
 
 .relative {
@@ -60,7 +60,7 @@ h6 {
   cursor: pointer;
   border-radius: $radius;
   box-shadow: $shadow;
-  transition: transform 0.1s;
+  transition: transform 0.1s, background-color 0.1s, border-color 0.1s;
   will-change: transform;
   margin: 0;
   box-sizing: border-box;
@@ -69,10 +69,11 @@ h6 {
   &:hover {
     background-color: rgba($white, 0.1);
     transform: translateY(-2px);
+    box-shadow: $shadow-hover;
   }
 
   &:active {
-    outline: medium unset;
+    box-shadow: $shadow-active !important;
   }
 }
 

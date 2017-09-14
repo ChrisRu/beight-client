@@ -7,7 +7,7 @@
   padding: 0.5rem;
   font-size: 0.9em;
   box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
+  font-family: $font-body;
 
   &.error {
     border: 1px solid $dark-red;
