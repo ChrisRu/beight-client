@@ -24,10 +24,19 @@ class Dashboard extends Component {
     });
 
     window.addEventListener('resize', this.resize);
+    window.addEventListener('beforeunload', this.close);
   }
 
   componentWillUnmount() {
+    this.close();
     window.removeEventListener('resize', this.resize);
+    window.removeEventListener('beforeunload', this.close);
+  }
+
+  close() {
+    if (this.state.socket) {
+      this.state.socket.close();
+    }
   }
 
   resize() {

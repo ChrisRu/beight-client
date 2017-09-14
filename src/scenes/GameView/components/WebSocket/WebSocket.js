@@ -90,6 +90,10 @@ class Ws {
     return this;
   }
 
+  close() {
+    this.ws.close();
+  }
+
   get id() {
     return new Promise((resolve, reject) => {
       if (!this.connected) {
