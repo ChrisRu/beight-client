@@ -44,7 +44,7 @@ class Dashboard extends Component {
       });
     }
     this.setState({ streams: this.props.location.state || [] });
-    return Promise.resolve([]);
+    return Promise.resolve(this.state.streams);
   }
 
   createSocket() {
