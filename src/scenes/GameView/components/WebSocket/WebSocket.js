@@ -13,6 +13,7 @@ class Ws {
         retries: 100
       }
     };
+    this.reconnectTimeout = null;
     this.options = Object.assign(this.options, options);
 
     this.createWebSocket();
@@ -30,12 +31,12 @@ class Ws {
       this.connectBool(true);
     });
     this.ws.addEventListener('close', event => {
-      switch (event) {
+      switch (event.code) {
         case 1000: {
           break;
         }
         default: {
-          setTimeout(() => {
+          this.reconnectTimeout = setTimeout(() => {
             Ws.log('Trying to reconnect...');
             this.createWebSocket();
           }, 3000);
@@ -92,6 +93,10 @@ class Ws {
 
   close() {
     this.ws.close();
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+      this.reconnectTimeout = null;
+    }
   }
 
   get id() {
