@@ -55,7 +55,7 @@ h6 {
   color: $white;
   text-decoration: none;
   display: block;
-  background-color: rgba($white-title, 0.2);
+  background-color: rgba($white, 0.05);
   padding: 1em;
   cursor: pointer;
   border-radius: $radius;
@@ -67,7 +67,7 @@ h6 {
   border: 3px solid transparent;
 
   &:hover {
-    background-color: rgba($white-title, 0.4);
+    background-color: rgba($white, 0.1);
     transform: translateY(-2px);
   }
 

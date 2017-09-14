@@ -1,6 +1,6 @@
 import React from 'react';
 import eventhub from '@/services/eventhub';
-import Modal from '@/components/Modal';
+import Modal from '@/components/Modal/Modal';
 
 const ConfirmModal = props => (
   <Modal active={props.active}>

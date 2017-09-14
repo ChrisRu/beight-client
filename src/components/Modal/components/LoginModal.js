@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { LogIn } from 'react-feather';
 import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
-import Modal from '@/components/Modal';
-import Checkbox from '@/components/Checkbox';
-import Input from '@/components/Input';
+import Modal from '@/components/Modal/Modal';
+import Checkbox from '@/components/Checkbox/Checkbox';
+import Input from '@/components/Input/Input';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class LoginModal extends Component {
     }
 
     const { username, password, remember } = this.state;
-    post('/login', { username, password, remember })
+    post('/auth/login', { username, password, remember })
       .then(data => {
         if (data.success === true) {
           this.setState({ success: true });
@@ -101,7 +101,7 @@ class LoginModal extends Component {
               rules={[
                 {
                   rule: "Username field can't be empty",
-                  method: value => value.length > 0
+                  method: value => value && value.length > 0
                 }
               ]}
             />
@@ -127,7 +127,7 @@ class LoginModal extends Component {
               rules={[
                 {
                   rule: "Password field can't be empty",
-                  method: value => value.length > 0
+                  method: value => value && value.length > 0
                 }
               ]}
             />

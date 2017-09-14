@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import eventhub from '@/services/eventhub';
-import './styles.scss';
+import './Input.scss';
 
 class Input extends Component {
   constructor(props) {
     super(props);
-    const rules = this.props.rules || [];
 
     this.state = {
       isPassword: props.type && props.type.type === 'password',
       isValid: true,
       value: '',
-      focus: false,
-      rules
+      focus: false
     };
 
     eventhub.on('input:verify', this.verify);
@@ -21,6 +19,11 @@ class Input extends Component {
   componentWillUnmount() {
     eventhub.remove('input:verify', this.verify);
   }
+
+  getRules = () =>
+    Promise.all(
+      (this.props.rules || []).map(rule => Promise.resolve(rule.method(this.state.value)))
+    );
 
   handleChange = event => {
     const { value } = event.target;
@@ -31,8 +34,10 @@ class Input extends Component {
     }
   };
 
-  verify = () => {
-    const isValid = this.state.rules.every(rule => rule.method(this.state.value));
+  verify = async () => {
+    const results = await this.getRules();
+
+    const isValid = results.every(result => !!result);
     this.setState({ isValid, focus: false });
 
     if (this.props.onVerify) {
@@ -54,7 +59,8 @@ class Input extends Component {
           onBlur={this.verify}
           onFocus={() => this.setState({ focus: true })}
         />
-        {!this.state.isValid && this.state.rules.map(
+        {!this.state.isValid &&
+          this.state.unmetRules.map(
             rule =>
               !rule.method(this.state.value) && (
                 <label htmlFor={this.props.id} class="input-message error">

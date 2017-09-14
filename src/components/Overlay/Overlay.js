@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import eventhub from '@/services/eventhub';
-import './styles.scss';
+import './Overlay.scss';
 
 class Overlay extends Component {
   constructor(props) {

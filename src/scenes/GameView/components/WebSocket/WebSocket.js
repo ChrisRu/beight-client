@@ -18,11 +18,15 @@ class Ws {
     this.createWebSocket();
   }
 
+  static log(message) {
+    console.log(`[WS]: ${message}`); // eslint-disable-line no-console
+  }
+
   createWebSocket() {
     this.ws = new WebSocket(this.uri);
 
     this.ws.addEventListener('open', () => {
-      console.log('Connected to WebSocket');
+      Ws.log('Connected to WebSocket');
       this.connectBool(true);
     });
     this.ws.addEventListener('close', event => {
@@ -32,20 +36,20 @@ class Ws {
         }
         default: {
           setTimeout(() => {
-            console.log('Trying to reconnect...');
+            Ws.log('Trying to reconnect...');
             this.createWebSocket();
           }, 3000);
         }
       }
-      console.log('WebSocket connection closed');
+      Ws.log('WebSocket connection closed');
       this.connectBool(true);
     });
     this.ws.addEventListener('reconnected', () => {
-      console.log('Reconnected to WebSocket');
+      Ws.log('Reconnected to WebSocket');
       this.connectBool(true);
     });
     this.ws.addEventListener('end', () => {
-      console.log('WebSocket connection ended');
+      Ws.log('WebSocket connection ended');
       this.connectBool(false);
     });
 

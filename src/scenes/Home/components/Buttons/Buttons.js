@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { get } from '@/services/http';
-import Button from './components/Button';
+import Button from './components/Button/Button';
 
 class Buttons extends Component {
   constructor() {

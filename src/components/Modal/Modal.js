@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { X } from 'react-feather';
 import eventhub from '@/services/eventhub';
-import './styles.scss';
+import './Modal.scss';
 
 class Modal extends Component {
   constructor(props) {

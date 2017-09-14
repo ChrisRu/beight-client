@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import eventhub from '@/services/eventhub';
-import './styles.scss';
+import './Editor.scss';
 
 class Editor extends Component {
   constructor(props) {
@@ -37,7 +37,6 @@ class Editor extends Component {
   };
 
   applyEdit = async data => {
-    console.log(data);
     if (data.full !== undefined) {
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import Code from './components/Code';
-import Buttons from './components/Buttons';
-import './styles.scss';
+import Code from './components/Code/Code';
+import Buttons from './components/Buttons/Buttons';
+import './Home.scss';
 
 const Home = () => (
   <div class="home container">

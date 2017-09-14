@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss';
+import './Checkbox.scss';
 
 const Checkbox = props => (
   <div class="checkbox-wrapper">

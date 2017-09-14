@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { UserPlus } from 'react-feather';
 import eventhub from '@/services/eventhub';
-import { post } from '@/services/http';
-import Modal from '@/components/Modal';
-import Input from '@/components/Input';
+import { post, get } from '@/services/http';
+import Modal from '@/components/Modal/Modal';
+import Input from '@/components/Input/Input';
 
 class SignupModal extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class SignupModal extends Component {
     }
 
     const { username, password } = this.state;
-    post('/signup', { username, password })
+    post('/auth/signup', { username, password })
       .then(data => {
         if (data.success === true) {
           this.setState({ success: true });
@@ -82,7 +82,24 @@ class SignupModal extends Component {
               placeholder="username"
               value={this.state.username}
               onChange={this.handleChange}
+              onVerify={this.verify}
               onKeyDown={this.keyDown}
+              rules={[
+                {
+                  rule: 'Username should be at least 4 characters',
+                  method: value => value && value.length > 3
+                },
+                {
+                  rule: 'Username is already taken',
+                  method: async value => {
+                    if (value) {
+                      const user = await get(`/exists/username/${value}`);
+                      return user.exists === false;
+                    }
+                    return false;
+                  }
+                }
+              ]}
             />
           </div>
         </div>

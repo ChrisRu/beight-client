@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Route, Switch, NavLink, withRouter } from 'react-router-dom';
 import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
-import Home from '@/scenes/Home';
-import Game from '@/scenes/GameView';
-import GameCreate from '@/scenes/GameCreate';
-import NotFound from '@/scenes/NotFound';
+import Home from '@/scenes/Home/Home';
+import Game from '@/scenes/GameView/GameView';
+import GameCreate from '@/scenes/GameCreate/GameCreate';
+import NotFound from '@/scenes/NotFound/NotFound';
 import LoginModal from '@/components/Modal/components/LoginModal';
 import SignupModal from '@/components/Modal/components/SignupModal';
 import ConfirmModal from '@/components/Modal/components/ConfirmModal';
-import Overlay from '@/components/Overlay';
+import Overlay from '@/components/Overlay/Overlay';
 import { LogIn, LogOut, UserPlus } from 'react-feather';
-import './styles.scss';
+import './App.scss';
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class App extends Component {
   }
 
   logOut = () =>
-    post('/logout').then(data => {
+    post('/auth/logout').then(data => {
       const { authenticated } = data;
       eventhub.emit('authenticate', authenticated);
       this.setState({ logoutModal: false });
@@ -61,7 +61,7 @@ class App extends Component {
             <NavLink exact to="/">
               <span>Beight</span>
             </NavLink>
-            <NavLink to="/create-game">
+            <NavLink to="/games/create">
               <span>Create Game</span>
             </NavLink>
             <div class="pull-right">
@@ -75,7 +75,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
             <Route exact path="/game/:guid/:view?" component={Game} />
-            <Route exact path="/create-game" component={GameCreate} />
+            <Route exact path="/games/create" component={GameCreate} />
             <Route component={NotFound} />
           </Switch>
 

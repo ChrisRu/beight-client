@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { post } from '@/services/http';
-import './styles.scss';
+import './GameCreate.scss';
 
-class Dashboard extends Component {
+class GameCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,17 +70,13 @@ class Dashboard extends Component {
 
   createFileReader = (input, language) => {
     if (!window.FileReader) {
-      console.error('Browser does not support the FileReader API');
       return;
     }
 
     const reader = new FileReader();
     reader.onload = event => {
-      if (event.target.readyState !== 2) {
+      if (event.target.readyState !== 2 || event.target.error) {
         return;
-      }
-      if (event.target.error) {
-        console.error('Error while reading file');
       }
 
       this.setState(state => ({
@@ -101,7 +97,6 @@ class Dashboard extends Component {
       .pop()
       .toLowerCase();
     if (extensions.includes(extension) === false) {
-      console.error('Not a valid file format');
       return;
     }
 
@@ -128,12 +123,9 @@ class Dashboard extends Component {
       name: item.name
     }));
 
-    return post('/create', body)
+    return post('/games/create', body)
       .then(data => {
         this.props.history.push(`/game/${data.guid}`);
-      })
-      .catch(error => {
-        console.error(`Can't create game: ${error}`);
       });
   };
 
@@ -202,7 +194,7 @@ class Dashboard extends Component {
                     </button>
                   ))}
                 </div>
-                <button class="button pull-right margin-vertical" onClick={this.save}>
+                <button class="button create-button pull-right" onClick={this.save}>
                   Create Game
                 </button>
               </div>
@@ -214,4 +206,4 @@ class Dashboard extends Component {
   }
 }
 
-export default withRouter(Dashboard);
+export default withRouter(GameCreate);

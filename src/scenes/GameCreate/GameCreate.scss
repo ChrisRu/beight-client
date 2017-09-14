@@ -1,8 +1,12 @@
 .container {
-  padding: 0 3em;
+  padding: 0 1em;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.button.create-button {
+  margin: 2rem 1rem 0 0;
 }
 
 .create-buttons {
