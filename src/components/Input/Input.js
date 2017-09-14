@@ -10,7 +10,8 @@ class Input extends Component {
       isPassword: props.type && props.type.type === 'password',
       isValid: true,
       value: '',
-      focus: false
+      focus: false,
+      unmetRules: []
     };
 
     eventhub.on('input:verify', this.verify);
@@ -38,7 +39,14 @@ class Input extends Component {
     const results = await this.getRules();
 
     const isValid = results.every(result => !!result);
-    this.setState({ isValid, focus: false });
+    this.setState({
+      isValid,
+      focus: false,
+      unmetRules: results
+        .map((result, index) => (!result ? index : -1))
+        .filter(index => index > -1)
+        .map(index => this.props.rules[index])
+    });
 
     if (this.props.onVerify) {
       this.props.onVerify(isValid);
@@ -60,14 +68,11 @@ class Input extends Component {
           onFocus={() => this.setState({ focus: true })}
         />
         {!this.state.isValid &&
-          this.state.unmetRules.map(
-            rule =>
-              !rule.method(this.state.value) && (
-                <label htmlFor={this.props.id} class="input-message error">
-                  <p>{rule.rule}</p>
-                </label>
-              )
-          )}
+          this.state.unmetRules.map(rule => (
+            <label htmlFor={this.props.id} class="input-message error">
+              <p>{rule.rule}</p>
+            </label>
+          ))}
       </div>
     );
   }
