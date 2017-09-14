@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { post } from '@/services/http';
 import { handleEnter } from '@/services/accessibility';
+import eventhub from '@/services/eventhub';
+import ErrorModal from '@/components/Modal/components/ErrorModal';
 import Languages from './components/Languages/Languages';
 import Presets from './components/Presets/Presets';
 import './GameCreate.scss';
@@ -34,8 +36,15 @@ class GameCreate extends Component {
         }
       },
       type: '000',
-      hasSetType: false
+      hasSetType: false,
+      error: false
     };
+
+    eventhub.on('overlay:deactivated', this.toggleError);
+  }
+
+  componentWillUnmount() {
+    eventhub.remove('overlay:deactivated', this.toggleError);
   }
 
   setType = type => {
@@ -68,6 +77,17 @@ class GameCreate extends Component {
     Object.values(this.state.languages)
       .reduce((prev, language) => prev.concat(language.extensions), [])
       .join(', ');
+
+  toggleError = bool => {
+    const hasParameter = typeof bool === 'boolean';
+    const error = hasParameter ? bool : false;
+    this.setState({ error });
+    if (error) {
+      eventhub.emit('overlay:activate', true);
+    } else if (hasParameter) {
+      eventhub.emit('overlay:deactivate');
+    }
+  };
 
   toggleLanguage = index => {
     const { type } = this.state;
@@ -130,9 +150,13 @@ class GameCreate extends Component {
       name: item.name
     }));
 
-    return post('/games/create', body).then(data => {
-      this.props.history.push(`/game/${data.guid}`);
-    });
+    return post('/games/create', body)
+      .then(data => {
+        this.props.history.push(`/game/${data.guid}`);
+      })
+      .catch(() => {
+        this.toggleError(true);
+      });
   };
 
   render() {
@@ -166,6 +190,11 @@ class GameCreate extends Component {
             )}
           </div>
         </div>
+        <ErrorModal
+          active={this.state.error}
+          title="Failed creating game"
+          description="Try again in a few seconds."
+        />
       </div>
     );
   }
