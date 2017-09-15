@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import parseHTML from '@/services/parseHtml';
 import rawHTML from './services/markup';
+import './Code.scss';
 
 class Code extends Component {
   constructor() {

@@ -4,6 +4,7 @@ import { get } from '@/services/http';
 import eventhub from '@/services/eventhub';
 import Ws from './components/WebSocket/WebSocket';
 import Editor from './components/Editor/Editor';
+import './GameView.scss';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -18,9 +19,9 @@ class Dashboard extends Component {
     this.resizeTimeout = null;
     this.editors = {};
 
-    this.fetchGames().then(streams => {
+    this.fetchGames().then(game => {
       this.createSocket();
-      this.setState({ streams: streams || [] });
+      this.setState({ streams: Object.values(game.streams) || [] });
     });
 
     window.addEventListener('resize', this.resize);
