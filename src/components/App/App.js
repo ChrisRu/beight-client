@@ -4,8 +4,9 @@ import eventhub from '@/services/eventhub';
 import { post } from '@/services/http';
 import { handleEnter } from '@/services/accessibility';
 import Home from '@/scenes/Home/Home';
-import Game from '@/scenes/GameView/GameView';
+import GameView from '@/scenes/GameView/GameView';
 import GameCreate from '@/scenes/GameCreate/GameCreate';
+import GameManage from '@/scenes/GameManage/GameManage';
 import NotFound from '@/scenes/NotFound/NotFound';
 import LoginModal from '@/components/Modal/components/LoginModal';
 import SignupModal from '@/components/Modal/components/SignupModal';
@@ -13,6 +14,67 @@ import ConfirmModal from '@/components/Modal/components/ConfirmModal';
 import Overlay from '@/components/Overlay/Overlay';
 import { LogIn, LogOut, UserPlus } from 'react-feather';
 import './App.scss';
+
+const LoggedInLinks = ({ toggleModal }) => (
+  <div class="navigation">
+    <NavLink tabIndex={0} role="link" exact to="/">
+      <span tabIndex={-1}>Beight</span>
+    </NavLink>
+    <NavLink tabIndex={0} role="link" to="/games/manage">
+      <span tabIndex={-1}>Manage Games</span>
+    </NavLink>
+    <NavLink tabIndex={0} role="link" to="/games/create">
+      <span tabIndex={-1}>Create Game</span>
+    </NavLink>
+    <div class="pull-right">
+      <a
+        role="link"
+        tabIndex={0}
+        onClick={() => toggleModal('logout')}
+        onKeyPress={handleEnter(() => toggleModal('logout'))}
+      >
+        <span tabIndex={-1}>
+          <LogOut class="icon" />
+          <span>Log Out</span>
+        </span>
+      </a>
+    </div>
+  </div>
+);
+
+const LoggedOutLinks = ({ toggleModal, loginModal, signupModal }) => (
+  <div class="navigation">
+    <NavLink exact to="/">
+      <span tabIndex={-1}>Beight</span>
+    </NavLink>
+    <div class="pull-right">
+      <a
+        role="button"
+        tabIndex={0}
+        onClick={() => toggleModal('login')}
+        onKeyPress={handleEnter(() => toggleModal('login'))}
+        class={loginModal && ' active'}
+      >
+        <span tabIndex={-1}>
+          <LogIn class="icon" />
+          <span>Log In</span>
+        </span>
+      </a>
+      <a
+        role="button"
+        tabIndex={0}
+        onClick={() => toggleModal('signup')}
+        onKeyPress={handleEnter(() => toggleModal('signup'))}
+        class={signupModal && ' active'}
+      >
+        <span tabIndex={-1}>
+          <UserPlus class="icon" />
+          <span>Sign Up</span>
+        </span>
+      </a>
+    </div>
+  </div>
+);
 
 class App extends Component {
   constructor(props) {
@@ -54,39 +116,31 @@ class App extends Component {
   };
 
   render() {
-    if (this.props.authenticated) {
-      return (
-        <div class="app">
-          <Overlay />
-          <div class="navigation">
-            <NavLink tabIndex={0} role="link" exact to="/">
-              <span tabIndex={-1}>Beight</span>
-            </NavLink>
-            <NavLink tabIndex={0} role="link" to="/games/create">
-              <span tabIndex={-1}>Create Game</span>
-            </NavLink>
-            <div class="pull-right">
-              <a
-                role="link"
-                tabIndex={0}
-                onClick={() => this.toggleModal('logout')}
-                onKeyPress={handleEnter(() => this.toggleModal('logout'))}
-              >
-                <span tabIndex={-1}>
-                  <LogOut class="icon" />
-                  <span>Log Out</span>
-                </span>
-              </a>
-            </div>
-          </div>
+    return (
+      <div class="app">
+        <Overlay />
 
-          <Switch>
-            <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-            <Route exact path="/game/:guid/:view?" component={Game} />
+        {this.props.authenticated ? (
+          <LoggedInLinks toggleModal={this.toggleModal} />
+        ) : (
+          <LoggedOutLinks
+            toggleModal={this.toggleModal}
+            loginModal={this.state.loginModal}
+            signupModal={this.state.signupModal}
+          />
+        )}
+
+        <Switch>
+          <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
+          <Route exact path="/game/:guid/:view?" component={GameView} />
+          {this.props.authenticated && [
+            <Route exact path="/games/manage" component={GameManage} />,
             <Route exact path="/games/create" component={GameCreate} />
-            <Route component={NotFound} />
-          </Switch>
+          ]}
+          <Route component={NotFound} />
+        </Switch>
 
+        {this.props.authenticated ? (
           <ConfirmModal
             icon={<LogOut class="icon" />}
             active={this.state.logoutModal}
@@ -95,52 +149,12 @@ class App extends Component {
             title="Log out"
             description="Are you sure you want to log out?"
           />
-        </div>
-      );
-    }
-    return (
-      <div class="app">
-        <Overlay />
-        <div class="navigation">
-          <NavLink exact to="/">
-            <span tabIndex={-1}>Beight</span>
-          </NavLink>
-          <div class="pull-right">
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={() => this.toggleModal('login')}
-              onKeyPress={handleEnter(() => this.toggleModal('login'))}
-              class={this.state.loginModal && ' active'}
-            >
-              <span tabIndex={-1}>
-                <LogIn class="icon" />
-                <span>Log In</span>
-              </span>
-            </a>
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={() => this.toggleModal('signup')}
-              onKeyPress={handleEnter(() => this.toggleModal('signup'))}
-              class={this.state.signupModal && ' active'}
-            >
-              <span tabIndex={-1}>
-                <UserPlus class="icon" />
-                <span>Sign Up</span>
-              </span>
-            </a>
-          </div>
-        </div>
-
-        <Switch>
-          <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
-          <Route exact path="/game/:guid/:view?" component={Game} />
-          <Route component={NotFound} />
-        </Switch>
-
-        <LoginModal active={this.state.loginModal} />
-        <SignupModal active={this.state.signupModal} />
+        ) : (
+        [
+          <LoginModal active={this.state.loginModal} />,
+          <SignupModal active={this.state.signupModal} />
+        ]
+        )}
       </div>
     );
   }
