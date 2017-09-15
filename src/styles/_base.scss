@@ -5,7 +5,6 @@ body {
   font-family: $font-body;
   font-size: 18px;
   color: $white;
-  overflow: hidden;
 }
 
 h1,
@@ -142,52 +141,6 @@ h6 {
     float: left;
     width: $i / 12 * 100%;
   }
-}
-
-.code-pink {
-  color: #F92672;
-}
-.code-orange {
-  color: #FD971F;
-}
-.code-light-orange {
-  color: #FFD569;
-}
-.code-yellow {
-  color: #E6DB74;
-}
-.code-green {
-  color: #A6E22E;
-}
-.code-dark-green {
-  color: #529B2F;
-}
-.code-blue {
-  color: #66D9EF;
-}
-.code-purple {
-  color: #AE81FF;
-}
-.code-brown {
-  color: #75715E;
-}
-.code-brown-gray {
-  color: #49483E;
-}
-.code-gray {
-  color: #888 !important;
-}
-.code-light-gray {
-  color: #CCC;
-}
-.code-dark-gray {
-  color: #282828;
-}
-.code-ghost-white {
-  color: #F8F8F0;
-}
-.code-light-ghost-white {
-  color: #F8F8F2;
 }
 
 .fade-out {

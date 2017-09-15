@@ -5,6 +5,7 @@
   align-items: center;
   margin-left: -10em;
   margin-right: 0;
+  overflow: hidden;
 }
 
 .home-inner {
@@ -38,24 +39,6 @@
       width: 10rem;
       vertical-align: middle;
       margin: 0 1.5rem 0 2.5rem;
-    }
-  }
-}
-
-.background-code {
-  white-space: pre;
-  z-index: -10;
-  opacity: 0.5;
-  width: 50%;
-  padding: 3em;
-
-  code {
-    tab-size: 3;
-
-    > span:last-child:after {
-      display: inline;
-      content: '|';
-      color: red;
     }
   }
 }
