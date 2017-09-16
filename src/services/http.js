@@ -18,7 +18,7 @@ export function get(partialUrl) {
     .then(data => data.json());
 }
 
-export function post(partialUrl, body) {
+export function post(partialUrl, body = {}) {
   const slash = partialUrl.startsWith('/') ? '' : '/';
   const url = `http://localhost:8080${slash}${partialUrl}`;
   return fetch(url, {
