@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { hideModals } from '@/actions/modals';
 import Modal from '@/components/Modal/Modal';
-import { handleEnter } from '@/services/accessibility';
+import Button from '@/components/Button/Button';
 import { AlertCircle } from 'react-feather';
 
 const ErrorModal = props => {
@@ -27,9 +27,9 @@ const ErrorModal = props => {
       </div>
       <div class="row">
         <div class="pull-right">
-          <button class="button error" onKeyPress={handleEnter(close)} onClick={close}>
+          <Button class="error" onClick={close}>
             {props.confirmText || 'Okay'}
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

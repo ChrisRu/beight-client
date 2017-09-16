@@ -9,6 +9,7 @@ import { post } from '@/services/http';
 import Modal from '@/components/Modal/Modal';
 import Checkbox from '@/components/Checkbox/Checkbox';
 import Input from '@/components/Input/Input';
+import Button from '@/components/Button/Button';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -150,9 +151,9 @@ class LoginModal extends Component {
             </label>
           </div>
           <div class="pull-right">
-            <button class={`button ${statusClass}`} type="submit" onClick={this.logIn}>
+            <Button class={statusClass} type="submit" onClick={this.logIn}>
               Log In
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>

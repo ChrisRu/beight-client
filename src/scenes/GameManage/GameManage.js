@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { get, post } from '@/services/http';
-import { handleEnter } from '@/services/accessibility';
+import Button from '@/components/Button/Button';
 
 const EditGame = ({ game }) => (
   <div>
@@ -46,8 +46,7 @@ class GameManage extends Component {
   }
 
   async editGame(guid) {
-    post(`/games/${guid}/edit`, {}).catch(error => {
-      console.log(error);
+    post(`/games/${guid}/edit`, {}).catch(() => {
       this.setState({ error: 'Failed updating game...' });
     });
   }
@@ -58,14 +57,9 @@ class GameManage extends Component {
         <h1>Manage Games</h1>
         <div class="big-buttons">
           {this.state.games.map(({ guid }, index) => (
-            <button
-              tabIndex={0}
-              onKeyPress={handleEnter(() => this.setActive(index))}
-              onClick={() => this.setActive(index)}
-              class="button margin-right margin-bottom"
-            >
+            <Button onClick={() => this.setActive(index)} class="margin-right margin-bottom">
               {guid}
-            </button>
+            </Button>
           ))}
         </div>
         {this.state.error && <div>{this.state.error}</div>}

@@ -1,5 +1,5 @@
 export const handleEnter = onClick => ({ key }) => {
-  if (key === 'Enter') {
+  if (key === 'Enter' && onClick) {
     onClick();
   }
 };

@@ -1,13 +1,14 @@
 import React from 'react';
+import Button from '@/components/Button/Button';
 
 const Languages = ({ languages, toggleLanguage, createFileReader, removeFile }) => (
   <div>
     <h2>Languages</h2>
     <div class="create-buttons">
       {Object.keys(languages).map((language, index) => (
-        <button
+        <Button
           onClick={() => toggleLanguage(index)}
-          class={`button ${languages[language].active ? 'active' : ''}`}
+          class={languages[language].active ? 'active' : ''}
         >
           <h2>{languages[language].name}</h2>
           <input
@@ -22,11 +23,11 @@ const Languages = ({ languages, toggleLanguage, createFileReader, removeFile }) 
               Choose File
             </label>
           ) : (
-            <button class="file-input-button" onClick={() => removeFile(language)}>
+            <Button class="file-input-button" onClick={() => removeFile(language)}>
               Remove <span class="code">{languages[language].filename}</span>
-            </button>
+            </Button>
           )}
-        </button>
+        </Button>
       ))}
     </div>
   </div>

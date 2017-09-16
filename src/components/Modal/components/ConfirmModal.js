@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { hideModals } from '@/actions/modals';
 import Modal from '@/components/Modal/Modal';
-import { handleEnter } from '@/services/accessibility';
+import Button from '@/components/Button/Button';
 
 const ConfirmModal = props => {
   const confirm = () => {
@@ -33,16 +33,10 @@ const ConfirmModal = props => {
       </div>
       <div class="row">
         <div class="pull-right">
-          <button class="button" onKeyPress={handleEnter(confirm)} onClick={confirm}>
-            {props.confirmText}
-          </button>
-          <button
-            class="button outline margin-right"
-            onKeyPress={handleEnter(cancel)}
-            onClick={cancel}
-          >
+          <Button onClick={confirm}>{props.confirmText}</Button>
+          <Button class="outline margin-right" onClick={cancel}>
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

@@ -7,6 +7,7 @@ import { hideModals } from '@/actions/modals';
 import { post, get } from '@/services/http';
 import Modal from '@/components/Modal/Modal';
 import Input from '@/components/Input/Input';
+import Button from '@/components/Button/Button';
 
 class SignupModal extends Component {
   constructor(props) {
@@ -162,9 +163,9 @@ class SignupModal extends Component {
         </div>
         <div class="row modal-bottom">
           <div class="pull-right">
-            <button class="button" type="submit" onClick={this.signUp}>
+            <Button type="submit" onClick={this.signUp}>
               Sign Up
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>

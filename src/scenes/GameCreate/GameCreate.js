@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { showErrorModal, hideModals } from '@/actions/modals';
 import { post } from '@/services/http';
-import { handleEnter } from '@/services/accessibility';
+import Button from '@/components/Button/Button';
 import Languages from './components/Languages/Languages';
 import Presets from './components/Presets/Presets';
 import './GameCreate.scss';
@@ -172,14 +172,12 @@ class GameCreate extends Component {
                   createFileReader={this.createFileReader}
                   removeFile={this.removeFile}
                 />
-                <button
-                  class="button create-button pull-right"
-                  tabIndex={0}
-                  onKeyPress={handleEnter(this.save)}
+                <Button
+                  class="create-button pull-right"
                   onClick={this.save}
                 >
                   Create Game
-                </button>
+                </Button>
               </div>
             )}
           </div>
