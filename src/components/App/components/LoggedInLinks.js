@@ -12,10 +12,10 @@ const LoggedInLinks = ({ showLogoutModal }) => (
       <span tabIndex={-1}>Beight</span>
     </NavLink>
     <NavLink tabIndex={0} role="link" to="/games/manage">
-      <span tabIndex={-1}>Manage Games</span>
+      <span tabIndex={-1}>Manage</span>
     </NavLink>
     <NavLink tabIndex={0} role="link" to="/games/create">
-      <span tabIndex={-1}>Create Game</span>
+      <span tabIndex={-1}>Create</span>
     </NavLink>
     <div class="pull-right">
       <a

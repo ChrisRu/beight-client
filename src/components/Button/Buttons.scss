@@ -1,0 +1,67 @@
+.button {
+  outline: none;
+  border: 0;
+  color: $white;
+  text-decoration: none;
+  display: block;
+  background-color: rgba($white, 0.05);
+  cursor: pointer;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  transition: transform 0.1s, background-color 0.1s, border-color 0.1s;
+  will-change: transform;
+  margin: 0;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+
+  > span {
+    display: block;
+    box-sizing: border-box;
+    padding: 1rem;
+    outline: none;
+  }
+
+  &:focus {
+    border: 1px solid $blue;
+  }
+
+  &:hover {
+    background-color: rgba($white, 0.1);
+    transform: translateY(-2px);
+    box-shadow: $shadow-hover;
+  }
+
+  &:active {
+    box-shadow: $shadow-active !important;
+  }
+
+  &.save {
+    margin: 2rem 1rem 0 0;
+    font-family: $font-body;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 0.25em 1em;
+    background-color: $blue;
+
+    &:focus,
+    &:hover {
+      background-color: darken($blue, 10%);
+    }
+
+    &:active {
+      background-color: darken($blue, 15%);
+    }
+  }
+
+  &.big {
+    display: inline-block;
+    width: 8em;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    outline: none;
+    padding: 0;
+  }
+}

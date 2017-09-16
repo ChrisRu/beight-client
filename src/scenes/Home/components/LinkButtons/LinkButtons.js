@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { get } from '@/services/http';
-import Button from './components/Button/Button';
+import LinkButton from './components/LinkButton';
 
 class Buttons extends Component {
   constructor() {
@@ -25,9 +25,9 @@ class Buttons extends Component {
 
   render() {
     return (
-      <div class="big-buttons">
+      <div>
         {this.state.items.length ? (
-          this.state.items.map(row => <Button row={row} />)
+          this.state.items.map(row => <LinkButton class="big" row={row} />)
         ) : (
           <p>{this.state.notFoundText}</p>
         )}

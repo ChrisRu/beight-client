@@ -1,6 +1,6 @@
 import React from 'react';
 import Code from './components/Code/Code';
-import Buttons from './components/Buttons/Buttons';
+import Buttons from './components/LinkButtons/LinkButtons';
 import './Home.scss';
 
 const Home = () => (

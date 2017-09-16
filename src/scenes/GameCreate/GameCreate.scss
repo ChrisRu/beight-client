@@ -1,29 +1,3 @@
-.container {
-  padding: 0 1em;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.button.create-button {
-  margin: 2rem 1rem 0 0;
-  font-family: $font-body;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  padding: 0.75em 1em;
-  background-color: $blue;
-
-  &:focus,
-  &:hover {
-    background-color: darken($blue, 5%);
-  }
-
-  &:active {
-    background-color: darken($blue, 10%);
-  }
-}
-
 .create-buttons {
   display: flex;
   flex-flow: row nowrap;
@@ -31,6 +5,7 @@
   .button {
     flex-basis: 100%;
     margin: 0 1em;
+    border: 3px solid transparent;
 
     &.active {
       border: 3px solid $blue;
@@ -47,6 +22,10 @@
     a {
       color: $white;
       text-decoration: none;
+    }
+
+    &:focus:not(.active) {
+      border: 3px solid transparent;
     }
 
     &:focus {

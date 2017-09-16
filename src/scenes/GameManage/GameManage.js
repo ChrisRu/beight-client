@@ -55,9 +55,9 @@ class GameManage extends Component {
     return (
       <div class="container">
         <h1>Manage Games</h1>
-        <div class="big-buttons">
+        <div>
           {this.state.games.map(({ guid }, index) => (
-            <Button onClick={() => this.setActive(index)} class="margin-right margin-bottom">
+            <Button onClick={() => this.setActive(index)} class="big margin-right margin-bottom">
               {guid}
             </Button>
           ))}

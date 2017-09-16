@@ -173,7 +173,7 @@ class GameCreate extends Component {
                   removeFile={this.removeFile}
                 />
                 <Button
-                  class="create-button pull-right"
+                  class="save pull-right no-border"
                   onClick={this.save}
                 >
                   Create Game

@@ -1,5 +1,6 @@
 import React from 'react';
 import { handleEnter } from '@/services/accessibility';
+import './Buttons.scss';
 
 const Button = props => (
   <button
@@ -8,7 +9,7 @@ const Button = props => (
     {...props}
     class={`button ${props.class}`}
   >
-    {props.children}
+    <span tabIndex={-1}>{props.children}</span>
   </button>
 );
 
