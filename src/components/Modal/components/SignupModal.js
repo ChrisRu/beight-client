@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { UserPlus } from 'react-feather';
 import eventhub from '@/services/eventhub';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hideModals } from '@/actions/modals';
 import { post, get } from '@/services/http';
 import Modal from '@/components/Modal/Modal';
 import Input from '@/components/Input/Input';
@@ -41,7 +44,7 @@ class SignupModal extends Component {
       .then(data => {
         if (data.success === true) {
           this.setState({ success: true });
-          eventhub.emit('overlay:deactivate');
+          this.props.hideModals();
         } else {
           throw new Error('Create account failed');
         }
@@ -146,7 +149,7 @@ class SignupModal extends Component {
               onKeyDown={this.keyDown}
               rules={[
                 {
-                  rule: 'Verify password can\'t be empty',
+                  rule: "Verify password can't be empty",
                   method: value => value
                 },
                 {
@@ -169,4 +172,6 @@ class SignupModal extends Component {
   }
 }
 
-export default SignupModal;
+const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+
+export default connect(null, mapDispatchToProps)(SignupModal);

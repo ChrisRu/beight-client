@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import eventhub from '@/services/eventhub';
 import './Editor.scss';
 
 class Editor extends Component {
@@ -13,13 +12,6 @@ class Editor extends Component {
       failed: false,
       noUpdate: false
     };
-
-    eventhub.on('editor-resize', this.resize);
-  }
-
-  componentWillUnmount() {
-    this.setState({ noUpdate: true, value: '' });
-    eventhub.remove('editor-resize', this.resize);
   }
 
   onChange = async (value, data) => {

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { LogIn } from 'react-feather';
 import eventhub from '@/services/eventhub';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { authenticate } from '@/actions/auth';
+import { hideModals } from '@/actions/modals';
 import { post } from '@/services/http';
 import Modal from '@/components/Modal/Modal';
 import Checkbox from '@/components/Checkbox/Checkbox';
@@ -58,8 +62,8 @@ class LoginModal extends Component {
       .then(data => {
         if (data.success === true) {
           this.setState({ success: true });
-          eventhub.emit('authenticate', true);
-          eventhub.emit('overlay:deactivate');
+          this.props.authenticate(true);
+          this.props.hideModals();
         } else {
           throw new Error('Login failed');
         }
@@ -156,4 +160,6 @@ class LoginModal extends Component {
   }
 }
 
-export default LoginModal;
+const mapDispatchToProps = dispatch => bindActionCreators({ hideModals, authenticate }, dispatch);
+
+export default connect(null, mapDispatchToProps)(LoginModal);

@@ -12,7 +12,7 @@ class NotFound extends Component {
 
   render() {
     return (
-      <div class="container">
+      <div class="notfound container">
         <div class="notfound-title">
           <h1 class="title-margin-top">404 - Not Found</h1>
           <p>Oops! Something went wrong :(</p>

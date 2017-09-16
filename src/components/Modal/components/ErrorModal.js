@@ -1,5 +1,7 @@
 import React from 'react';
-import eventhub from '@/services/eventhub';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hideModals } from '@/actions/modals';
 import Modal from '@/components/Modal/Modal';
 import { handleEnter } from '@/services/accessibility';
 import { AlertCircle } from 'react-feather';
@@ -9,7 +11,7 @@ const ErrorModal = props => {
     if (props.onClose) {
       props.onClose();
     }
-    eventhub.emit('overlay:deactivate');
+    props.hideModals();
   };
 
   return (
@@ -34,4 +36,6 @@ const ErrorModal = props => {
   );
 };
 
-export default ErrorModal;
+const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+
+export default connect(null, mapDispatchToProps)(ErrorModal);

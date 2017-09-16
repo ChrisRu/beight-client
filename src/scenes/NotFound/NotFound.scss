@@ -8,12 +8,27 @@ $mountain-color: #563f31;
 $cloud-color: $white;
 $sun-color: #fcee56;
 
+.notfound.container {
+  overflow: hidden;
+  max-width: none;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .notfound-title {
   display: block;
-  transform: translateX(40%);
+  transform: translate(-50%, -50%);
   z-index: 1000;
   position: relative;
   text-align: center;
+  left: 45%;
+  top: 40%;
 }
 
 .dead-bush {

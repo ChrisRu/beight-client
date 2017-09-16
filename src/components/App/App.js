@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Route, Switch, NavLink, withRouter } from 'react-router-dom';
-import eventhub from '@/services/eventhub';
-import { post } from '@/services/http';
-import { handleEnter } from '@/services/accessibility';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { authenticate } from '@/actions/auth';
+import { post, get } from '@/services/http';
 import Home from '@/scenes/Home/Home';
 import GameView from '@/scenes/GameView/GameView';
 import GameCreate from '@/scenes/GameCreate/GameCreate';
@@ -11,139 +12,59 @@ import NotFound from '@/scenes/NotFound/NotFound';
 import LoginModal from '@/components/Modal/components/LoginModal';
 import SignupModal from '@/components/Modal/components/SignupModal';
 import ConfirmModal from '@/components/Modal/components/ConfirmModal';
+import ErrorModal from '@/components/Modal/components/ErrorModal';
 import Overlay from '@/components/Overlay/Overlay';
-import { LogIn, LogOut, UserPlus } from 'react-feather';
+import { LogOut } from 'react-feather';
+import LoggedInLinks from './components/LoggedInLinks';
+import LoggedOutLinks from './components/LoggedOutLinks';
 import './App.scss';
 
-const LoggedInLinks = ({ toggleModal }) => (
-  <div class="navigation">
-    <NavLink tabIndex={0} role="link" exact to="/">
-      <span tabIndex={-1}>Beight</span>
-    </NavLink>
-    <NavLink tabIndex={0} role="link" to="/games/manage">
-      <span tabIndex={-1}>Manage Games</span>
-    </NavLink>
-    <NavLink tabIndex={0} role="link" to="/games/create">
-      <span tabIndex={-1}>Create Game</span>
-    </NavLink>
-    <div class="pull-right">
-      <a
-        role="link"
-        tabIndex={0}
-        onClick={() => toggleModal('logout')}
-        onKeyPress={handleEnter(() => toggleModal('logout'))}
-      >
-        <span tabIndex={-1}>
-          <LogOut class="icon" />
-          <span>Log Out</span>
-        </span>
-      </a>
-    </div>
-  </div>
-);
-
-const LoggedOutLinks = ({ toggleModal, loginModal, signupModal }) => (
-  <div class="navigation">
-    <NavLink exact to="/">
-      <span tabIndex={-1}>Beight</span>
-    </NavLink>
-    <div class="pull-right">
-      <a
-        role="button"
-        tabIndex={0}
-        onClick={() => toggleModal('login')}
-        onKeyPress={handleEnter(() => toggleModal('login'))}
-        class={loginModal && ' active'}
-      >
-        <span tabIndex={-1}>
-          <LogIn class="icon" />
-          <span>Log In</span>
-        </span>
-      </a>
-      <a
-        role="button"
-        tabIndex={0}
-        onClick={() => toggleModal('signup')}
-        onKeyPress={handleEnter(() => toggleModal('signup'))}
-        class={signupModal && ' active'}
-      >
-        <span tabIndex={-1}>
-          <UserPlus class="icon" />
-          <span>Sign Up</span>
-        </span>
-      </a>
-    </div>
-  </div>
-);
-
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      stream: null,
-      loginModal: false,
-      signupModal: false,
-      logoutModal: false,
-      overlay: false
-    };
-    eventhub.on('overlay:deactivated', this.hideModal);
-  }
-
-  componentWillUnmount() {
-    eventhub.remove('overlay:deactivated', this.hideModal);
+  componentWillMount() {
+    return get('/auth/loggedin')
+      .then(({ success, authenticated }) => {
+        if (success) {
+          this.props.authenticate(authenticated);
+        }
+      })
+      .catch(() => this.props.authenticate(false));
   }
 
   logOut = () =>
-    post('/auth/logout').then(data => {
-      const { authenticated } = data;
-      eventhub.emit('authenticate', authenticated);
-      this.setState({ logoutModal: false });
-      this.props.history.push('/');
+    post('/auth/logout').then(({ success, authenticated }) => {
+      if (success) {
+        this.props.authenticate(authenticated);
+        this.props.history.push('/');
+      }
     });
-
-  hideModal = () => {
-    this.setState({ loginModal: false, signupModal: false, logoutModal: false });
-  };
-
-  toggleModal = name => {
-    const modalName = `${name}Modal`;
-    this.setState(state => ({ [modalName]: !state[modalName] }));
-    if (this.state[modalName]) {
-      eventhub.emit('overlay:activate');
-    } else {
-      eventhub.emit('overlay:deactivate');
-    }
-  };
 
   render() {
     return (
       <div class="app">
         <Overlay />
 
-        {this.props.authenticated ? (
-          <LoggedInLinks toggleModal={this.toggleModal} />
-        ) : (
-          <LoggedOutLinks
-            toggleModal={this.toggleModal}
-            loginModal={this.state.loginModal}
-            signupModal={this.state.signupModal}
-          />
-        )}
+        {this.props.auth.authenticated ? <LoggedInLinks /> : <LoggedOutLinks />}
 
         <Switch>
           <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
           <Route exact path="/game/:guid/:view?" component={GameView} />
-          {this.props.authenticated && [
-            <Route exact path="/games/manage" component={GameManage} />,
-            <Route exact path="/games/create" component={GameCreate} />
-          ]}
+          <Route
+            exact
+            path="/games/manage"
+            render={() => (this.props.auth.authenticated ? <GameManage /> : null)}
+          />,
+          <Route
+            exact
+            path="/games/create"
+            render={() => (this.props.auth.authenticated ? <GameCreate /> : null)}
+          />
           <Route component={NotFound} />
         </Switch>
 
-        {this.props.authenticated ? (
+        {this.props.auth.authenticated ? (
           <ConfirmModal
             icon={<LogOut class="icon" />}
-            active={this.state.logoutModal}
+            active={this.props.modals.logoutModal}
             confirm={this.logOut}
             confirmText="Log Out"
             title="Log out"
@@ -151,13 +72,18 @@ class App extends Component {
           />
         ) : (
         [
-          <LoginModal active={this.state.loginModal} />,
-          <SignupModal active={this.state.signupModal} />
+          <LoginModal active={this.props.modals.loginModal} />,
+          <SignupModal active={this.props.modals.signupModal} />
         ]
         )}
+
+        <ErrorModal {...this.props.modals.errorModal} />
       </div>
     );
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = ({ modals, auth }) => ({ modals, auth });
+const mapDispatchToProps = dispatch => bindActionCreators({ authenticate }, dispatch);
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

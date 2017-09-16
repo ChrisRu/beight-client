@@ -2,10 +2,7 @@
 A collaborative web editor built with Preact and Monaco Editor.
 This is the frontend for the Beight application. If you want the full experience, go to https://github.com/ChrisRu/beight-core and install the backend/API.
 
-# License
-This application is MIT licensed
-
-# Setup
+## Setup
 
 1. Install the node modules
 
@@ -13,7 +10,7 @@ This application is MIT licensed
 
 2. Done :)
 
-# Running
+## Running
 
 1. Start the development server
 
@@ -21,39 +18,25 @@ This application is MIT licensed
 
 2. The application should start after a few seconds. Press CTRL+C to exit.
 
-# Collaboration
+## Collaboration
 
-## Inner Workings
+### Folder Structure
 
-The components communicate by a simple Eventhub.
-
-<b>!!! IMPORTANT !!!</b>
-Always remove an event listener when the component is destroyed
-
-```javascript
-// Listen to an action
-eventhub.on('action:executed', this.method);
-
-// Fire an action
-eventhub.emit('action:executed', ...args);
-
-// Remove a listener
-eventhub.remove('action:executed', this.method);
-```
-
-## Folder Structure
-
-### The root should look like this:
+#### The root should look like this:
 
 ```
 /
+    /actions
     /components
     /scenes
     /services
     /styles
+    /reducers
 
     index.js
 ```
+
+`/actions` contains the redux actions
 
 `/components` contains one or more 'components' (see below)
 
@@ -63,9 +46,11 @@ eventhub.remove('action:executed', this.method);
 
 `/styles` contains the global styles used all over the application
 
+`/reducers` contains the redux reducers
+
 `index.js` is the starting point of the application
 
-### A component should look like this
+#### A component should look like this
 
 ```
 /
@@ -83,3 +68,6 @@ eventhub.remove('action:executed', this.method);
 `index.js` is the component itself
 
 `styles.scss` <i>(optional)</i> is the styles only used in this component
+
+## License
+This application is MIT licensed

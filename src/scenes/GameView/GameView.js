@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { get } from '@/services/http';
-import eventhub from '@/services/eventhub';
 import Ws from './components/WebSocket/WebSocket';
 import Editor from './components/Editor/Editor';
 import './GameView.scss';
@@ -40,10 +39,12 @@ class Dashboard extends Component {
     }
   }
 
-  resize() {
+  resize = () => {
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => {
-      eventhub.emit('editor-resize');
+      Object.values(this.editors || []).forEach(editor => {
+        editor.resize();
+      });
     }, 500);
   }
 

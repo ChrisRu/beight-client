@@ -1,5 +1,7 @@
 import React from 'react';
-import eventhub from '@/services/eventhub';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hideModals } from '@/actions/modals';
 import Modal from '@/components/Modal/Modal';
 import { handleEnter } from '@/services/accessibility';
 
@@ -8,14 +10,14 @@ const ConfirmModal = props => {
     if (props.confirm) {
       props.confirm();
     }
-    eventhub.emit('overlay:deactivate');
+    props.hideModals();
   };
 
   const cancel = () => {
     if (props.cancel) {
       props.cancel();
     }
-    eventhub.emit('overlay:deactivate');
+    props.hideModals();
   };
 
   return (
@@ -47,4 +49,6 @@ const ConfirmModal = props => {
   );
 };
 
-export default ConfirmModal;
+const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+
+export default connect(null, mapDispatchToProps)(ConfirmModal);

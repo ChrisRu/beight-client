@@ -1,30 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { get } from '@/services/http';
-import eventhub from '@/services/eventhub';
+import { Provider } from 'react-redux';
+import createHistory from 'history/createBrowserHistory';
+import { ConnectedRouter } from 'react-router-redux';
 import App from '@/components/App/App';
+import store from '@/store';
 import './styles/index.scss';
 
-let authenticated = false;
-
-function renderApp() {
-  render(
-    <BrowserRouter>
-      <App authenticated={authenticated} />
-    </BrowserRouter>,
-    document.getElementById('root')
-  );
-}
-
-function authenticate(bool) {
-  if (typeof bool === 'boolean' && bool !== authenticated) {
-    authenticated = bool;
-    renderApp();
-  }
-}
-
-get('/auth/loggedin').then(result => authenticate(result.authenticated));
-eventhub.on('authenticate', authenticate);
-
-renderApp();
+const history = createHistory();
+render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+);

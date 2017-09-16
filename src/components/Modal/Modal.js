@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hideModals } from '@/actions/modals';
 import { X } from 'react-feather';
-import eventhub from '@/services/eventhub';
 import './Modal.scss';
 
 class Modal extends Component {
@@ -26,16 +28,12 @@ class Modal extends Component {
     }
   }
 
-  hideOverlay = () => {
-    eventhub.emit('overlay:deactivate');
-  };
-
   render() {
     if (this.state.active) {
       return (
         <div class={`${this.props.class} ${this.state.class} modal-wrapper`}>
           <div class="modal">
-            <X class="icon-button pull-right" onClick={this.hideOverlay} />
+            <X class="icon-button pull-right" onClick={this.props.hideModals} />
             {this.props.children}
           </div>
         </div>
@@ -45,4 +43,6 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+
+export default connect(null, mapDispatchToProps)(Modal);
