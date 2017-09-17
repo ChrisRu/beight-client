@@ -63,7 +63,7 @@ class LoginModal extends Component {
       .then(data => {
         if (data.success === true) {
           this.setState({ success: true });
-          this.props.authenticate(true);
+          this.props.authenticate(true, username);
           this.props.hideModals();
         } else {
           throw new Error('Login failed');

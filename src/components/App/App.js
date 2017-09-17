@@ -22,9 +22,9 @@ import './App.scss';
 class App extends Component {
   componentWillMount() {
     return get('/auth/loggedin')
-      .then(({ success, authenticated }) => {
+      .then(({ success, authenticated, username }) => {
         if (success) {
-          this.props.authenticate(authenticated);
+          this.props.authenticate(authenticated, username);
         }
       })
       .catch(() => this.props.authenticate(false));

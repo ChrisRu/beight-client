@@ -1,8 +1,11 @@
 import { AUTHENTICATE } from '@/constants';
 
-export function authenticate(bool) {
+export function authenticate(bool, username) {
   return {
     type: AUTHENTICATE,
-    payload: bool
+    payload: {
+      success: bool,
+      username
+    }
   };
 }

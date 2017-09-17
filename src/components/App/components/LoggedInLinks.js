@@ -6,7 +6,7 @@ import { LogOut } from 'react-feather';
 import { showLogoutModal } from '@/actions/modals';
 import { handleEnter } from '@/services/accessibility';
 
-const LoggedInLinks = ({ showLogoutModal }) => (
+const LoggedInLinks = ({ showLogoutModal, auth }) => (
   <div class="navigation">
     <NavLink tabIndex={0} role="link" exact to="/">
       <span tabIndex={-1}>Beight</span>
@@ -26,14 +26,15 @@ const LoggedInLinks = ({ showLogoutModal }) => (
       >
         <span tabIndex={-1}>
           <LogOut class="icon" />
-          <span>Log Out</span>
+          <span>{auth.username}</span>
         </span>
       </a>
     </div>
   </div>
 );
 
+const mapStateToProps = ({ auth }) => ({ auth });
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ showLogoutModal }, dispatch);
 
-export default connect(null, mapDispatchToProps)(LoggedInLinks);
+export default connect(mapStateToProps, mapDispatchToProps)(LoggedInLinks);

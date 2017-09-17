@@ -1,7 +1,8 @@
 import { AUTHENTICATE } from '@/constants';
 
 const initialState = {
-  authenticated: false
+  authenticated: false,
+  username: '-'
 };
 
 export default function (state = initialState, action) {
@@ -9,7 +10,8 @@ export default function (state = initialState, action) {
     case AUTHENTICATE:
       return {
         ...state,
-        authenticated: action.payload
+        authenticated: action.payload.success,
+        username: action.payload.username || '-'
       };
     default:
       return state;
