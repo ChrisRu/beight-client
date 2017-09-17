@@ -14,21 +14,23 @@ const ErrorModal = props => {
     props.hideModals();
   };
 
+  const { active, title, description, confirmText } = props.modals;
+
   return (
-    <Modal active={props.active} class="error">
+    <Modal active={active} class="error">
       <div class="row">
         <h3 class="modal-title">
           <AlertCircle class="icon" />
-          {props.title}
+          {title}
         </h3>
       </div>
       <div class="row">
-        <p>{props.description}</p>
+        <p>{description}</p>
       </div>
       <div class="row">
         <div class="pull-right">
           <Button class="error" onClick={close}>
-            {props.confirmText || 'Okay'}
+            {confirmText || 'Okay'}
           </Button>
         </div>
       </div>
@@ -36,6 +38,7 @@ const ErrorModal = props => {
   );
 };
 
+const mapStateToProps = ({ modals }) => ({ modals });
 const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
 
-export default connect(null, mapDispatchToProps)(ErrorModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorModal);

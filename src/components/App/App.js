@@ -64,26 +64,22 @@ class App extends Component {
         {this.props.auth.authenticated ? (
           <ConfirmModal
             icon={<LogOut class="icon" />}
-            active={this.props.modals.logoutModal}
             confirm={this.logOut}
             confirmText="Log Out"
             title="Log out"
             description="Are you sure you want to log out?"
           />
         ) : (
-        [
-          <LoginModal active={this.props.modals.loginModal} />,
-          <SignupModal active={this.props.modals.signupModal} />
-        ]
+          [<LoginModal />, <SignupModal />]
         )}
 
-        <ErrorModal {...this.props.modals.errorModal} />
+        <ErrorModal />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ modals, auth }) => ({ modals, auth });
+const mapStateToProps = ({ auth }) => ({ auth });
 const mapDispatchToProps = dispatch => bindActionCreators({ authenticate }, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

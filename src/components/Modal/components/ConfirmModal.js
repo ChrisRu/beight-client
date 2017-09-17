@@ -21,7 +21,7 @@ const ConfirmModal = props => {
   };
 
   return (
-    <Modal active={props.active}>
+    <Modal active={props.modals.logoutModal}>
       <div class="row">
         <h3 class="modal-title">
           {props.icon}
@@ -43,6 +43,7 @@ const ConfirmModal = props => {
   );
 };
 
+const mapStateToProps = ({ modals }) => ({ modals });
 const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
 
-export default connect(null, mapDispatchToProps)(ConfirmModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmModal);
