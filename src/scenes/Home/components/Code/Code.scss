@@ -4,21 +4,42 @@
   right: 0;
   white-space: pre;
   z-index: -10;
-  opacity: 0.5;
   width: 50%;
   padding: 3em;
   overflow: hidden !important;
   max-height: calc(100vh - 9em);
 
+  .code-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba($primary-background, 0.3);
+  }
+
   code {
     tab-size: 3;
     width: 100%;
 
-    > span:last-child:after {
+    &:after {
       display: inline;
-      content: '|';
-      color: red;
+      content: '';
+      border-left: 2px solid white;
+      font-size: 0.9rem;
+      margin-left: 1px;
+      vertical-align: middle;
+      opacity: 1;
+      animation: blink 1.2s infinite;
+      font-weight: bold;
     }
+  }
+}
+
+@keyframes blink {
+	0%, 49%, 100% {
+    opacity: 1;
+  }
+  50%, 99% {
+    opacity: 0;
   }
 }
 

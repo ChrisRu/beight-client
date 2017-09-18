@@ -9,40 +9,56 @@ class Code extends Component {
     this.state = {
       markup: '',
       completed: false,
-      interval: null
+      current: 0,
+      intervals: []
     };
   }
 
-  async componentDidMount() {
-    const markup = rawHTML.replace(/\t/gm, ' ');
+  componentDidMount() {
+    const markup = parseHTML(rawHTML.replace(/\t/gm, ' '));
 
-    const markupLength = markup.length;
-    this.setState({
-      interval: setInterval(() => {
-        if (this.state.markup.length === markupLength) {
-          clearTimeout(this.state.interval);
-          this.setState({ completed: true, interval: null });
-        }
+    const intervals = [];
+    let pause = false;
+    for (let i = 0; i < markup.length; i++) {
+      if (markup[i] === '<' || markup[i] === '&') {
+        pause = true;
+      } else if (markup[i] === '>' || markup[i] === ';') {
+        pause = false;
+      }
 
-        this.setState(state => ({
-          markup: markup.slice(0, state.markup.length + 1)
-        }));
-      }, 50)
-    });
+      if (pause === false) {
+        intervals.push(i);
+      }
+    }
+
+    this.setState({ markup, intervals });
+
+    this.loop();
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
-  }
+  loop = (current = 0) => {
+    setTimeout(() => {
+      const next = current + 1;
+      this.setState({ current: next });
+      if (next < this.state.intervals.length) {
+        this.loop(next);
+      }
+    }, (Math.random() * 80) + 20);
+  };
 
   render() {
+    const { completed, markup, intervals, current } = this.state;
+    const html = markup.slice(0, intervals[current]);
     return (
-      <code
-        class={this.state.completed ? 'completed' : ''}
-        dangerouslySetInnerHTML={{ // eslint-disable-line react/no-danger
-          __html: parseHTML(this.state.markup)
-        }}
-      />
+      <div>
+        <div class="code-overlay" />
+        <code
+          class={completed ? 'completed' : ''}
+          dangerouslySetInnerHTML={{ // eslint-disable-line react/no-danger
+            __html: html
+          }}
+        />
+      </div>
     );
   }
 }
