@@ -21,18 +21,20 @@
     outline: none;
   }
 
-  &:focus {
-    border: 1px solid $blue;
-  }
+  &.big {
+    display: inline-block;
+    width: 8em;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    outline: none;
+    padding: 0;
+    border: 3px solid transparent;
 
-  &:hover {
-    background-color: rgba($white, 0.1);
-    transform: translateY(-2px);
-    box-shadow: $shadow-hover;
-  }
-
-  &:active {
-    box-shadow: $shadow-active !important;
+    &.active {
+      border: 3px solid $blue;
+    }
   }
 
   &.save {
@@ -54,14 +56,17 @@
     }
   }
 
-  &.big {
-    display: inline-block;
-    width: 8em;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-    outline: none;
-    padding: 0;
+  &:focus {
+    border: 1px solid $blue;
+  }
+
+  &:hover {
+    background-color: rgba($white, 0.1);
+    transform: translateY(-2px);
+    box-shadow: $shadow-hover;
+  }
+
+  &:active {
+    box-shadow: $shadow-active !important;
   }
 }

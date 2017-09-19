@@ -1,24 +1,7 @@
 import React, { Component } from 'react';
 import { get, post } from '@/services/http';
 import Button from '@/components/Button/Button';
-
-const EditGame = ({ game }) => (
-  <div>
-    <label class="label" htmlFor="guid">
-      URL
-    </label>
-    <input id="guid" class="input uppercase" value={game.guid} />
-    <div>
-      {Object.values(game.streams).map(stream => (
-        <div class="button">
-          <h2>{stream.language.name}</h2>
-          <p>{stream.player ? stream.player : 'No player'}</p>
-        </div>
-      ))}
-    </div>
-    <pre>{JSON.stringify(game, null, 2)}</pre>
-  </div>
-);
+import EditGame from './components/EditGame';
 
 class GameManage extends Component {
   constructor(props) {
@@ -32,8 +15,8 @@ class GameManage extends Component {
     this.getGames();
   }
 
-  setActive(gameIndex) {
-    this.setState({ active: gameIndex });
+  setActive(game) {
+    this.setState({ active: game });
   }
 
   async getGames() {
@@ -57,7 +40,12 @@ class GameManage extends Component {
         <h1>Manage Games</h1>
         <div>
           {this.state.games.map(({ guid }, index) => (
-            <Button onClick={() => this.setActive(index)} class="big margin-right margin-bottom">
+            <Button
+              onClick={() => this.setActive(index)}
+              class={`big margin-right margin-bottom ${this.state.active === index
+                ? 'active'
+                : ''}`}
+            >
               {guid}
             </Button>
           ))}
