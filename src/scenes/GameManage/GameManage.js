@@ -40,22 +40,34 @@ class GameManage extends Component {
     return (
       <div class="manage container">
         <h1>Manage Games</h1>
-        <div>
-          {this.state.games.map(({ guid }, index) => (
-            <Button
-              onClick={() => this.setActive(index)}
-              class={`big margin-right margin-bottom ${this.state.active === index
-                ? 'active'
-                : ''}`}
-            >
-              {guid}
-            </Button>
-          ))}
-        </div>
-        {this.state.error && <div>{this.state.error}</div>}
+        <div class="container">
+          <div>
+            {this.state.games.map(({ guid }, index) => (
+              <Button
+                onClick={() => this.setActive(index)}
+                class={`big margin-right margin-bottom ${this.state.active === index
+                  ? 'active'
+                  : ''}`}
+              >
+                {guid}
+              </Button>
+            ))}
+          </div>
+          {this.state.error && <div>{this.state.error}</div>}
 
-        <div>
-          {this.state.active > -1 && <EditGame game={this.state.games[this.state.active]} />}
+          <hr class="hr" />
+
+          <div>
+            {this.state.active > -1 && <EditGame game={this.state.games[this.state.active]} />}
+          </div>
+
+          <div class="row">
+            <Button class="button remove inline">Delete</Button>
+            <span class="pull-right">
+              <Button class="button cancel inline">Cancel</Button>
+              <Button class="button save inline">Save</Button>
+            </span>
+          </div>
         </div>
       </div>
     );

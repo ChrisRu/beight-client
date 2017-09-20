@@ -8,6 +8,10 @@
 .manage {
   flex: 1;
 
+  .save {
+    margin-right: 0;
+  }
+
   pre:not(:empty) {
     background-color: rgba($white, 0.1);
     padding: 0.5em;

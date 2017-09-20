@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from '@/components/Input/Input';
-import LanguageEdit from './LanguageEdit';
+import EditGameLanguage from './EditGameLanguage';
 
 const EditGame = ({ game }) => (
   <div class="edit-game">
@@ -22,7 +22,7 @@ const EditGame = ({ game }) => (
       ]}
     />
     <div class="language-edits">
-      {Object.values(game.streams).map(stream => <LanguageEdit stream={stream} />)}
+      {Object.values(game.streams).map(stream => <EditGameLanguage stream={stream} />)}
     </div>
   </div>
 );

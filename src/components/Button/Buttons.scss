@@ -37,13 +37,35 @@
     }
   }
 
+  &.remove,
+  &.cancel,
   &.save {
-    margin: 2rem 1rem 0 0;
+    margin: 1rem 1rem 1rem 0;
     font-family: $font-body;
     text-transform: uppercase;
     font-weight: bold;
+    font-size: 1rem;
     letter-spacing: 0.5px;
-    padding: 0.25em 1em;
+  }
+
+  &.remove {
+    background-color: $dark-red;
+
+    &:focus,
+    &:hover {
+      background-color: darken($dark-red, 5%);
+    }
+
+    &:active {
+      background-color: darken($dark-red, 10%);
+    }
+
+    &:focus {
+      border: 1px solid $white;
+    }
+  }
+
+  &.save {
     background-color: $blue;
 
     &:focus,
@@ -68,5 +90,17 @@
 
   &:active {
     box-shadow: $shadow-active !important;
+  }
+
+  &.button-icon {
+    padding: 0;
+
+    span {
+      padding: 0.5em;
+    }
+
+    .icon {
+      margin: 0;
+    }
   }
 }

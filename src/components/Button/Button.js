@@ -7,7 +7,7 @@ const Button = props => (
     tabIndex={0}
     onKeyPress={handleEnter(props.onClick)}
     {...props}
-    class={`button ${props.class}`}
+    class={`button ${props.class || ''}`}
   >
     <span tabIndex={-1}>{props.children}</span>
   </button>
