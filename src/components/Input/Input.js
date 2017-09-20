@@ -9,7 +9,7 @@ class Input extends Component {
     this.state = {
       isPassword: props.type && props.type.type === 'password',
       isValid: true,
-      value: '',
+      value: this.props.value || '',
       focus: false,
       unmetRules: [],
       debounceVerify: null
