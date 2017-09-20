@@ -1,26 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Input from '@/components/Input/Input';
 import LanguageEdit from './LanguageEdit';
 
-class EditGame extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      game: props.game
-    };
-  }
-
-  render() {
-    const { game } = this.state;
-    return (
-      <div>
-        <label class="label" htmlFor="guid">
-          URL
-        </label>
-        <input id="guid" class="input uppercase" value={game.guid} />
-        <div>{Object.values(game.streams).map(stream => <LanguageEdit stream={stream} />)}</div>
-      </div>
-    );
-  }
-}
+const EditGame = ({ game }) => (
+  <div class="edit-game">
+    <label class="label" htmlFor="guid">
+      URL
+    </label>
+    <Input
+      id="guid"
+      name="guid"
+      type="text"
+      class="uppercase"
+      placeholder="url"
+      value={game.guid}
+      rules={[
+        {
+          rule: 'URL should be 4 or more characters',
+          method: value => value.length >= 4
+        }
+      ]}
+    />
+    <div class="language-edits">
+      {Object.values(game.streams).map(stream => <LanguageEdit stream={stream} />)}
+    </div>
+  </div>
+);
 
 export default EditGame;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { get, post } from '@/services/http';
 import Button from '@/components/Button/Button';
 import EditGame from './components/EditGame';
+import './GameManage.scss';
 
 class GameManage extends Component {
   constructor(props) {
@@ -15,14 +16,15 @@ class GameManage extends Component {
     this.getGames();
   }
 
-  setActive(game) {
-    this.setState({ active: game });
+  setActive(gameIndex) {
+    this.setState({ active: gameIndex });
   }
 
   async getGames() {
     const games = await get('/games/manage').catch(() => {
       this.setState({ error: 'Failed fetching games...' });
     });
+
     if (games) {
       this.setState({ loading: true, games, active: 0 });
     }
@@ -36,7 +38,7 @@ class GameManage extends Component {
 
   render() {
     return (
-      <div class="container">
+      <div class="manage container">
         <h1>Manage Games</h1>
         <div>
           {this.state.games.map(({ guid }, index) => (

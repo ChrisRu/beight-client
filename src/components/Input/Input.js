@@ -18,6 +18,13 @@ class Input extends Component {
     eventhub.on('input:verify', this.verify);
   }
 
+  componentWillReceiveProps(props) {
+    const { value } = props;
+    if (value && this.state.value !== value) {
+      this.setState({ value });
+    }
+  }
+
   componentWillUnmount() {
     eventhub.remove('input:verify', this.verify);
   }

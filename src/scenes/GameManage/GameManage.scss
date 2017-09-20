@@ -1,0 +1,39 @@
+.edit-game {
+  .input-wrapper {
+    width: auto;
+    display: inline-block;
+  }
+}
+
+.manage {
+  flex: 1;
+
+  pre:not(:empty) {
+    background-color: rgba($white, 0.1);
+    padding: 0.5em;
+    border-radius: $radius;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  .language-edits {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .language-edit {
+    flex: 1;
+    margin: 1em 1em 0 0;
+    padding: 0 1em;
+    background-color: rgba($white, 0.05);
+    border-radius: $radius;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

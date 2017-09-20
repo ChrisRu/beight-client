@@ -5,24 +5,30 @@ class LanguageEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stream: props.stream,
       checked: props.stream.active
     };
   }
 
+  componentWillReceiveProps(props) {
+    const { checked } = props;
+    if (this.state.checked !== checked) {
+      this.setState({ checked });
+    }
+  }
+
   toggleCheck = () => {
-    console.log('ah');
     this.setState(state => ({ checked: !state.checked }));
   };
 
   render() {
-    const { stream, checked } = this.state;
+    const { stream } = this.props;
+    const { checked } = this.state;
     return (
-      <div>
+      <div class="language-edit">
         <h2>{stream.language.name}</h2>
         <p>{stream.player ? stream.player : 'No player'}</p>
         <p>
-          Active:{' '}
+          Active:
           <Checkbox
             id={`checkbox-${stream.id}`}
             name={`active-${stream.id}`}
