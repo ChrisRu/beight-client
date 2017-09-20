@@ -11,7 +11,8 @@ class Input extends Component {
       isValid: true,
       value: '',
       focus: false,
-      unmetRules: []
+      unmetRules: [],
+      debounceVerify: null
     };
 
     eventhub.on('input:verify', this.verify);
@@ -28,7 +29,23 @@ class Input extends Component {
 
   handleChange = event => {
     const { value } = event.target;
-    this.setState({ value, isValid: true });
+
+    if (this.state.debounceVerify !== null) {
+      clearTimeout(this.state.debounceVerify);
+    }
+
+    const debounceVerify = setTimeout(() => {
+      if (this.state.value) {
+        this.verify();
+      }
+      this.setState({ debounceVerify: null });
+    }, 500);
+
+    this.setState({
+      value,
+      isValid: true,
+      debounceVerify
+    });
 
     if (this.props.onChange) {
       this.props.onChange(event);
@@ -64,15 +81,16 @@ class Input extends Component {
           value={this.state.value}
           onKeyDown={this.props.onKeyDown}
           onChange={this.handleChange}
-          onBlur={this.verify}
           onFocus={() => this.setState({ focus: true })}
         />
-        {!this.state.isValid &&
-          this.state.unmetRules.map(rule => (
-            <label htmlFor={this.props.id} class="input-message error">
-              <p>{rule.rule}</p>
-            </label>
-          ))}
+        <div class="input-messages">
+          {!this.state.isValid &&
+            this.state.unmetRules.map(rule => (
+              <label htmlFor={this.props.id} class="input-message error">
+                <p>{rule.rule}</p>
+              </label>
+            ))}
+        </div>
       </div>
     );
   }

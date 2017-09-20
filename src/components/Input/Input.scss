@@ -13,8 +13,17 @@
     border: 1px solid $dark-red;
   }
 
-  &-message {
+  &-messages {
     position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+  }
+
+  &-message {
+    position: relative;
+    display: block;
+    top: 0;
     left: calc(100% + 0.5rem);
     width: 15em;
     background-color: $dark-red;
@@ -24,9 +33,10 @@
     margin: 0;
     box-shadow: $shadow;
     z-index: 5;
+    pointer-events: auto;
 
     p {
-      margin: 0;
+      margin: 0 0 0.5em;
       padding: 0.7em;
     }
   }
