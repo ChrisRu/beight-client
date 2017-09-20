@@ -71,7 +71,7 @@ class Input extends Component {
   };
 
   render() {
-    const inputClass = `input ${this.state.isValid ? '' : ' error'}`;
+    const inputClass = `input ${this.state.isValid ? '' : ' error'} ${this.props.class}`;
     return (
       <div class="input-wrapper">
         <input
