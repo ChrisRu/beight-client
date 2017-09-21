@@ -43,7 +43,7 @@ class Code extends Component {
       if (next < this.state.intervals.length) {
         this.loop(next);
       }
-    }, (Math.random() * 80) + 20);
+    }, Math.random() * 80 + 20);
   };
 
   render() {
@@ -54,7 +54,8 @@ class Code extends Component {
         <div class="code-overlay" />
         <code
           class={completed ? 'completed' : ''}
-          dangerouslySetInnerHTML={{ // eslint-disable-line react/no-danger
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
             __html: html
           }}
         />

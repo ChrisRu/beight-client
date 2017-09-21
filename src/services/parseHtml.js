@@ -43,7 +43,10 @@ export function colorizeXML(xml) {
   const parsedCode = xml
     // Hightlight HTML comments
     // Between '<!--' and '-->'
-    .replace(/&lt;!--(.+?)--&gt;/gm, '<span class="code-gray">&lt;!--$1--&gt;</span>')
+    .replace(
+      /&lt;!--(.+?)--&gt;/gm,
+      '<span class="code-gray">&lt;!--$1--&gt;</span>'
+    )
     // Highlight HTML properties
     // After ' ' and until '=',
     .replace(
@@ -52,10 +55,16 @@ export function colorizeXML(xml) {
     )
     // Highlight HTML quotes
     // Between quotes
-    .replace(/&#61;&quot;(.+?)&quot;/gm, '&#61;<span class="code-yellow">&quot;$1&quot;</span>')
+    .replace(
+      /&#61;&quot;(.+?)&quot;/gm,
+      '&#61;<span class="code-yellow">&quot;$1&quot;</span>'
+    )
     // Highlight HTML tags
     // Between html tags
-    .replace(/&lt;(\/)?(\w+)(?=&gt;|\s)/gm, '&lt;$1<span class="code-pink">$2</span>');
+    .replace(
+      /&lt;(\/)?(\w+)(?=&gt;|\s)/gm,
+      '&lt;$1<span class="code-pink">$2</span>'
+    );
 
   return `<span class="code-ghost-white">${parsedCode}</span>`;
 }

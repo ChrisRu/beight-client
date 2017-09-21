@@ -1,7 +1,12 @@
 import React from 'react';
 import Button from '@/components/Button/Button';
 
-const Languages = ({ languages, toggleLanguage, createFileReader, removeFile }) => (
+const Languages = ({
+  languages,
+  toggleLanguage,
+  createFileReader,
+  removeFile
+}) => (
   <div>
     <h2>Languages</h2>
     <div class="create-buttons">
@@ -23,7 +28,10 @@ const Languages = ({ languages, toggleLanguage, createFileReader, removeFile }) 
               Choose File
             </label>
           ) : (
-            <Button class="file-input-button" onClick={() => removeFile(language)}>
+            <Button
+              class="file-input-button"
+              onClick={() => removeFile(language)}
+            >
               Remove <span class="code">{languages[language].filename}</span>
             </Button>
           )}

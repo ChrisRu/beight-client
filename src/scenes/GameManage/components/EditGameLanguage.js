@@ -19,9 +19,13 @@ class EditGameLanguage extends Component {
       <div class="language-edit">
         <h2>{stream.language.name}</h2>
         <p class="row">
-          <span class="col-xs-10">{stream.player ? stream.player : 'No player'}</span>
+          <span class="col-xs-10">
+            {stream.player ? stream.player : 'No player'}
+          </span>
           <span class="col-xs-2">
-            <Button class="button-icon"><Edit class="icon" /></Button>
+            <Button class="button-icon">
+              <Edit class="icon" />
+            </Button>
           </span>
         </p>
         <p>

@@ -32,11 +32,17 @@ class Editor extends Component {
     if (data.full !== undefined) {
       if (this.props.stream === data.streams[0]) {
         this.execute(() => {
-          this.setState({ lastChangeId: data.number, noUpdate: this.state.lastChangeId !== null });
+          this.setState({
+            lastChangeId: data.number,
+            noUpdate: this.state.lastChangeId !== null
+          });
           this.monaco.editor.setValue(data.full);
         });
       }
-    } else if (data.number != null && data.number - 1 !== this.state.lastChangeId) {
+    } else if (
+      data.number != null &&
+      data.number - 1 !== this.state.lastChangeId
+    ) {
       this.props.socket.post({
         type: 'fetch',
         game: this.props.game,

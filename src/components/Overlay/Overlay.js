@@ -21,11 +21,19 @@ class Overlay extends Component {
 
   render() {
     const className = `overlay ${this.props.modals.overlay ? '' : 'hidden'}`;
-    return <div role="button" tabIndex={-1} class={className} onClick={this.props.hideModals} />;
+    return (
+      <div
+        role="button"
+        tabIndex={-1}
+        class={className}
+        onClick={this.props.hideModals}
+      />
+    );
   }
 }
 
 const mapStateToProps = ({ modals }) => ({ modals });
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideModals }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overlay);

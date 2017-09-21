@@ -43,6 +43,7 @@ class Modal extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideModals }, dispatch);
 
 export default connect(null, mapDispatchToProps)(Modal);

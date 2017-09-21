@@ -39,6 +39,7 @@ const ErrorModal = props => {
 };
 
 const mapStateToProps = ({ modals }) => ({ modals });
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideModals }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorModal);

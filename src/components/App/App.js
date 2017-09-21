@@ -46,17 +46,23 @@ class App extends Component {
         {this.props.auth.authenticated ? <LoggedInLinks /> : <LoggedOutLinks />}
 
         <Switch>
-          <Route exact path="/" render={props => <Home {...props} update={this.updateValue} />} />
+          <Route
+            exact
+            path="/"
+            render={props => <Home {...props} update={this.updateValue} />}
+          />
           <Route exact path="/game/:guid/:view?" component={GameView} />
           <Route
             exact
             path="/games/manage"
-            render={() => (this.props.auth.authenticated ? <GameManage /> : null)}
+            render={() =>
+              this.props.auth.authenticated ? <GameManage /> : null}
           />,
           <Route
             exact
             path="/games/create"
-            render={() => (this.props.auth.authenticated ? <GameCreate /> : null)}
+            render={() =>
+              this.props.auth.authenticated ? <GameCreate /> : null}
           />
           <Route component={NotFound} />
         </Switch>
@@ -80,6 +86,7 @@ class App extends Component {
 }
 
 const mapStateToProps = ({ auth }) => ({ auth });
-const mapDispatchToProps = dispatch => bindActionCreators({ authenticate }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ authenticate }, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

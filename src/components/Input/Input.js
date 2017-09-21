@@ -31,7 +31,8 @@ class Input extends Component {
 
   getRules = () =>
     Promise.all(
-      (this.props.rules || []).map(rule => Promise.resolve(rule.method(this.state.value)))
+      (this.props.rules || [])
+        .map(rule => Promise.resolve(rule.method(this.state.value)))
     );
 
   handleChange = event => {
@@ -78,7 +79,8 @@ class Input extends Component {
   };
 
   render() {
-    const inputClass = `input ${this.state.isValid ? '' : ' error'} ${this.props.class}`;
+    const inputClass = `input ${this.state.isValid ? '' : ' error'} ${this.props
+      .class}`;
     return (
       <div class="input-wrapper">
         <input

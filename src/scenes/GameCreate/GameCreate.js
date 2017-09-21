@@ -149,7 +149,10 @@ class GameCreate extends Component {
         this.props.history.push(`/game/${data.guid}`);
       })
       .catch(() => {
-        this.props.showErrorModal('Failed creating game', 'Try again in a few seconds.');
+        this.props.showErrorModal(
+          'Failed creating game',
+          'Try again in a few seconds.'
+        );
       });
   };
 
@@ -172,10 +175,7 @@ class GameCreate extends Component {
                   createFileReader={this.createFileReader}
                   removeFile={this.removeFile}
                 />
-                <Button
-                  class="save pull-right no-border"
-                  onClick={this.save}
-                >
+                <Button class="save pull-right no-border" onClick={this.save}>
                   Create Game
                 </Button>
               </div>
@@ -188,6 +188,9 @@ class GameCreate extends Component {
 }
 
 const mapStateToProps = ({ modals }) => ({ modals });
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModals, showErrorModal }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideModals, showErrorModal }, dispatch);
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GameCreate));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(GameCreate)
+);

@@ -76,7 +76,9 @@ class LoginModal extends Component {
 
   render() {
     const { error, success } = this.state;
-    const statusClass = `${error ? 'error' : ''} ${success ? 'success fade-out' : ''}`;
+    const statusClass = `${error ? 'error' : ''} ${success
+      ? 'success fade-out'
+      : ''}`;
 
     return (
       <Modal active={this.props.modals.loginModal} class={statusClass}>
@@ -161,6 +163,7 @@ class LoginModal extends Component {
   }
 }
 const mapStateToProps = ({ modals }) => ({ modals });
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModals, authenticate }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideModals, authenticate }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);

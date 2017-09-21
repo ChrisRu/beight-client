@@ -22,7 +22,9 @@ const EditGame = ({ game }) => (
       ]}
     />
     <div class="language-edits">
-      {Object.values(game.streams).map(stream => <EditGameLanguage stream={stream} />)}
+      {Object.values(game.streams).map(stream => (
+        <EditGameLanguage stream={stream} />
+      ))}
     </div>
   </div>
 );

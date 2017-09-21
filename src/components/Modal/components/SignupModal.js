@@ -63,7 +63,9 @@ class SignupModal extends Component {
 
   render() {
     const { error, success } = this.state;
-    const statusClass = `${error ? 'error' : ''} ${success ? 'success fade-out' : ''}`;
+    const statusClass = `${error ? 'error' : ''} ${success
+      ? 'success fade-out'
+      : ''}`;
 
     return (
       <Modal active={this.props.modals.signupModal} class={statusClass}>
@@ -174,6 +176,7 @@ class SignupModal extends Component {
 }
 
 const mapStateToProps = ({ modals }) => ({ modals });
-const mapDispatchToProps = dispatch => bindActionCreators({ hideModals }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideModals }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupModal);

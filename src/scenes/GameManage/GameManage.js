@@ -45,7 +45,8 @@ class GameManage extends Component {
             {this.state.games.map(({ guid }, index) => (
               <Button
                 onClick={() => this.setActive(index)}
-                class={`big margin-right margin-bottom ${this.state.active === index
+                class={`big margin-right margin-bottom ${this.state.active ===
+                index
                   ? 'active'
                   : ''}`}
               >
@@ -58,7 +59,9 @@ class GameManage extends Component {
           <hr class="hr" />
 
           <div>
-            {this.state.active > -1 && <EditGame game={this.state.games[this.state.active]} />}
+            {this.state.active > -1 && (
+              <EditGame game={this.state.games[this.state.active]} />
+            )}
           </div>
 
           <div class="row">
