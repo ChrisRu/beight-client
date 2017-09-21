@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { showErrorModal, hideModals } from '@/actions/modals';
 import { post } from '@/services/http';
 import Button from '@/components/Button/Button';
-import Languages from './components/Languages/Languages';
-import Presets from './components/Presets/Presets';
+import Languages from './components/Languages';
+import Presets from './components/Presets';
 import './GameCreate.scss';
 
 /*
