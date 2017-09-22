@@ -38,36 +38,59 @@ h6 {
   position: relative;
 }
 
+.absolute {
+  position: absolute;
+}
+
+.static {
+  position: static;
+}
+
 .inline {
   display: inline-block;
+}
+
+.block {
+  display: block;
 }
 
 .no-margin {
   margin: 0 !important;
 }
 
-.margin-vertical {
-  margin: 2rem 0 !important;
+$default-size: 1rem;
+$spacers: 'margin' 'padding';
+$axes: vertical horizontal;
+$directions: top bottom left right;
+
+@each $spacer in $spacers {
+  .#{$spacer} {
+    #{$spacer}: $default-size !important;
+  }
 }
 
-.margin-horizontal {
-  margin: 0 2rem !important;
+@for $i from 1 through length($axes) {
+  $axis: nth($axes, $i);
+
+  @each $spacer in $spacers {
+    .#{$spacer}-#{$axis} {
+      @for $j from ($i - 1) * 2 + 1 through ($i * 2) {
+        #{$spacer}-#{nth($directions, $j)}: $default-size !important;
+      }
+    }
+  }
 }
 
-.margin-right {
-  margin-right: 1rem !important;
+@each $direction in $directions {
+  @each $spacer in $spacers {
+    .#{$spacer}-#{$direction} {
+      #{$spacer}-#{$direction}: $default-size !important;
+    }
+  }
 }
 
-.margin-left {
-  margin-left: 1rem !important;
-}
-
-.margin-top {
-  margin-top: 1rem !important;
-}
-
-.margin-bottom {
-  margin-bottom: 1rem !important;
+.pull-left {
+  float: left;
 }
 
 .pull-right {
@@ -75,7 +98,7 @@ h6 {
 }
 
 .no-border {
-  border-width: 0 !important;
+  border: none !important;
 }
 
 .icon-button {
@@ -111,6 +134,17 @@ h6 {
   letter-spacing: 2px;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
+.icon {
+  height: 1.2em;
+  vertical-align: middle;
+  margin-top: -0.15em;
+  margin-right: 0.5em;
+}
+
 .row {
   display: block;
   width: 100%;
@@ -129,17 +163,6 @@ h6 {
     display: table;
     clear: both;
   }
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
-
-.icon {
-  height: 1.2em;
-  vertical-align: middle;
-  margin-top: -0.15em;
-  margin-right: 0.5em;
 }
 
 @for $i from 1 through 12 {
@@ -162,9 +185,11 @@ h6 {
     opacity: 1;
     transform: scale(1);
   }
+
   90% {
     opacity: 0;
   }
+
   100% {
     opacity: 0;
     transform: scale(0.4);

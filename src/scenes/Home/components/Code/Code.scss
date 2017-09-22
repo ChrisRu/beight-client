@@ -35,56 +35,74 @@
 }
 
 @keyframes blink {
-	0%, 49%, 100% {
+  0%,
+  49%,
+  100% {
     opacity: 1;
   }
-  50%, 99% {
+
+  50%,
+  99% {
     opacity: 0;
   }
 }
 
 .code-pink {
-  color: #F92672;
+  color: #f92672;
 }
+
 .code-orange {
-  color: #FD971F;
+  color: #fd971f;
 }
+
 .code-light-orange {
-  color: #FFD569;
+  color: #ffd569;
 }
+
 .code-yellow {
-  color: #E6DB74;
+  color: #e6db74;
 }
+
 .code-green {
-  color: #A6E22E;
+  color: #a6e22e;
 }
+
 .code-dark-green {
-  color: #529B2F;
+  color: #529b2f;
 }
+
 .code-blue {
-  color: #66D9EF;
+  color: #66d9ef;
 }
+
 .code-purple {
-  color: #AE81FF;
+  color: #ae81ff;
 }
+
 .code-brown {
-  color: #75715E;
+  color: #75715e;
 }
+
 .code-brown-gray {
-  color: #49483E;
+  color: #49483e;
 }
+
 .code-gray {
   color: #888 !important;
 }
+
 .code-light-gray {
-  color: #CCC;
+  color: #ccc;
 }
+
 .code-dark-gray {
   color: #282828;
 }
+
 .code-ghost-white {
-  color: #F8F8F0;
+  color: #f8f8f0;
 }
+
 .code-light-ghost-white {
-  color: #F8F8F2;
+  color: #f8f8f2;
 }
